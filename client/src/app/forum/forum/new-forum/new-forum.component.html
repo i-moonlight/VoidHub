@@ -1,0 +1,49 @@
+<div class="flex flex-col items-start max-w-min">
+  <div class="bg-base-200 rounded-2xl">
+    <form #newForumForm="ngForm" (ngSubmit)="onSubmit(newForumForm)" >
+      <div class="flex flex-col items-center p-5">
+        <div class="select-none pt-3 text-2xl text-secondary-content">
+          New Forum
+        </div>
+        <app-error-message-list [messages]="errorMessages"></app-error-message-list>
+        <div class="form-control">
+          <input
+            type="text"
+            class="input-sm bg-neutral mt-2 input input-bordered "
+            id="title"
+            name="title"
+            placeholder="Title"
+            [ngClass]="{
+              'input-error': newForumForm.controls['title']?.touched && newForumForm.controls['title'].errors?.['required']
+            }"
+            ngModel
+            required
+            minlength="3"
+            maxlength="255"
+          >
+          <label class="flex flex-col items-start label pt-0.5">
+            <span
+              class="label-text-alt text-error"
+              *ngIf="newForumForm.controls['title']?.touched && newForumForm.controls['title'].errors?.['required']">
+              Title is required
+            </span>
+            <span
+              class="label-text-alt text-error"
+              *ngIf="newForumForm.controls['title']?.touched &&
+                (newForumForm.controls['title'].value.length < 3 || newForumForm.controls['title'].value.length > 255)">
+              Title length must be between 3 and 255 characters
+            </span>
+          </label>
+        </div>
+
+        <div class="form-control hidden">
+          <input type="number" name="sectionId" [ngModel]="sectionId">
+        </div>
+        <button
+          class="my-3 btn btn-accent text-base-100 min-h-fit h-8">
+          Create
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="flex flex-col items-start max-w-min">
+  <div class="bg-base-200 rounded-2xl">
+    <form #newSectionForm="ngForm" (ngSubmit)="onSubmit(newSectionForm)" >
+      <div class="flex flex-col items-center p-5">
+        <div class="select-none pt-3 text-2xl text-secondary-content">
+          New section
+        </div>
+        <app-error-message-list [messages]="errorMessages"></app-error-message-list>
+        <div class="form-control">
+          <input
+            type="text"
+            class="input-sm bg-neutral mt-2 input input-bordered "
+            id="title"
+            name="title"
+            placeholder="Title"
+            [ngClass]="{
+              'input-error': newSectionForm.controls['title']?.touched && newSectionForm.controls['title'].errors?.['required']
+            }"
+            ngModel
+            required
+            minlength="3"
+            maxlength="255"
+          >
+          <label class="flex flex-col items-start label pt-0.5">
+            <span
+              class="label-text-alt text-error"
+              *ngIf="newSectionForm.controls['title']?.touched && newSectionForm.controls['title'].errors?.['required']">
+              Title is required
+            </span>
+            <span
+              class="label-text-alt text-error"
+              *ngIf="newSectionForm.controls['title']?.touched &&
+                (newSectionForm.controls['title'].value.length < 3 || newSectionForm.controls['title'].value.length > 255)">
+              Title length must be between 3 and 255 characters
+            </span>
+          </label>
+        </div>
+
+        <div class="form-control">
+          <input
+            type="number"
+            class="input-sm bg-neutral mt-2 input input-bordered "
+            id="orderPosition"
+            name="orderPosition"
+            placeholder="order pisition"
+            required
+            ngModel="0"
+            min="0"
+            >
+          <label class="flex flex-col items-start label pt-0.5">
+            <span class="label-text-alt">Order position on main page</span>
+            <span class="label-text-alt">0 - on the top</span>
+          </label>
+        </div>
+        <button
+          class="mb-3 mt-5 btn btn-accent text-base-100 min-h-fit h-8">
+          Create
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<div class="flex flex-col items-start">
+  <div class="bg-base-200 rounded-2xl w-full">
+    <form #newTopicForm="ngForm" (ngSubmit)="onSubmit(newTopicForm)" >
+      <div class="flex flex-col items-start p-5">
+        <div class="select-none pt-3 text-2xl text-secondary-content">
+          New Topic
+        </div>
+        <app-error-message-list [messages]="errorMessages"></app-error-message-list>
+        <div class="form-control w-1/2">
+          <input
+            type="text"
+            class="input-sm bg-neutral mt-2 input input-bordered"
+            id="title"
+            name="title"
+            placeholder="Title"
+            [ngClass]="{
+              'input-error': newTopicForm.controls['title']?.touched && newTopicForm.controls['title'].errors?.['required']
+            }"
+            ngModel
+            required
+            minlength="3"
+            maxlength="255"
+          >
+          <label class="flex flex-col items-start label pt-0.5">
+            <span
+              class="label-text-alt text-error"
+              *ngIf="newTopicForm.controls['title']?.touched && newTopicForm.controls['title'].errors?.['required']">
+              Title is required
+            </span>
+            <span
+              class="label-text-alt text-error"
+              *ngIf="newTopicForm.controls['title']?.touched &&
+                (newTopicForm.controls['title'].value.length < 3 || newTopicForm.controls['title'].value.length > 255)">
+              Title length must be between 3 and 255 characters
+            </span>
+          </label>
+        </div>
+
+        <div class="form-control w-full">
+          <textarea
+            name="content"
+            id="content"
+            class="textarea bg-neutral"
+            placeholder="Topic message"
+            rows="4"
+            maxlength="3000"
+            [(ngModel)]="content"
+            >
+          </textarea>
+          <label class="label">
+            <span class="label-text-alt">{{content.length}}/3000</span>
+          </label>
+        </div>
+
+
+        <div class="form-control hidden">
+          <input type="number" name="sectionId" [ngModel]="forumId">
+        </div>
+        <div class="my-3">
+          <button
+            class=" btn btn-accent text-base-100 min-h-fit h-8">
+            Create
+          </button>
+          <button type="button" (click)="onCancel()"
+            class=" btn btn-error ms-3 text-base-100 min-h-fit h-8">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

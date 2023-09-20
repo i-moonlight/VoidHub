@@ -1,0 +1,30 @@
+<div *ngIf="pages.length > 0" class="flex flex-row">
+  <div class="flex flex-row"*ngIf="currentPage > min+range">
+    <div
+      (click)="changePageClick(min)"
+      class="px-2 mx-0.5 btn bg-neutral min-h-min h-6">
+      {{min}}
+    </div>
+    <div>
+      . . .
+    </div>
+  </div>
+
+  <div *ngFor="let page of pages"
+    class="px-2 mx-0.5 btn bg-neutral min-h-min h-6"
+    [ngClass] = "{'bg-base-content text-neutral': page == currentPage}"
+    (click)="changePageClick(page)">
+      {{page}}
+  </div>
+
+  <div class="flex flex-row"*ngIf="currentPage < max-range">
+    <div>
+      . . .
+    </div>
+    <div
+      (click)="changePageClick(max)"
+      class="px-2 mx-0.5 btn bg-neutral min-h-min h-6">
+      {{max}}
+    </div>
+  </div>
+</div>

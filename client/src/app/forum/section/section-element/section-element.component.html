@@ -1,0 +1,22 @@
+<div class="collapse collapse-arrow bg-base-200">
+  <input type="checkbox" [name]="section.title" checked="checked" />
+  <div class="collapse-title text-xl font-medium text-accent">
+    {{section.title}}
+  </div>
+  <div class="collapse-content">
+    <div class="flex flex-col">
+      <button class="btn btn-neutral w-fit min-h-fit h-8"
+        [routerLink]="['/forum/section', section.id, 'new-forum']"
+        >
+        New forum
+      </button>
+      <div class="flex flex-row items-center text-secondary-content">
+        <div class="basis-8/12"></div>
+        <div class="basis-1/12 text-center">msgs</div>
+        <div class="basis-1/12 text-center">topics</div>
+        <div class="basis-3/12"></div>
+      </div>
+        <app-forum-list [forums]="section.forums"></app-forum-list>
+      </div>
+    </div>
+</div>
