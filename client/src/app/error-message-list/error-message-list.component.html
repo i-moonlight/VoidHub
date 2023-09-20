@@ -1,0 +1,5 @@
+<div *ngIf="errorMessages.length > 0" class="text-error text-center py-5">
+  <div *ngFor="let errorMessage of errorMessages">
+    {{errorMessage}}
+  </div>
+</div>
