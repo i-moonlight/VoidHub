@@ -1,0 +1,134 @@
+<div class="flex flex-col items-center">
+  <div class="bg-base-200 rounded-2xl">
+    <div class="text-lg text-center pt-12">Sign up</div>
+    <app-error-message-list [messages]="errorMessages"></app-error-message-list>
+    <form class="px-12 pb-5" #regForm="ngForm" (ngSubmit)="onSubmit(regForm)">
+      <div class="flex flex-col">
+        <div class="form-control">
+          <input
+            type="text"
+            name="username"
+            placeholder="username"
+            class="input-sm bg-neutral mt-2 input input-bordered"
+            [ngClass]="{
+              'input-error': regForm.controls['username']?.touched && regForm.controls['username']?.invalid
+            }"
+            required
+            ngModel
+            minlength="3"
+            maxlength="32"
+            autocomplete="username"
+          />
+          <label class="flex flex-col items-start label pt-0.5">
+            <span class="label-text-alt">Shown to other users</span>
+            <span
+              class="label-text-alt text-error"
+              *ngIf="regForm.controls['username']?.touched && regForm.controls['username']?.invalid">
+              Username must be at least 3 and max 32 characters long
+            </span>
+          </label>
+        </div>
+        <div class="form-control">
+          <input
+            type="text"
+            placeholder="login"
+            id="loginName"
+            name="loginName"
+            class="input-sm bg-neutral mt-2 input input-bordered"
+            ngModel
+            minlength="3"
+            maxlength="32"
+            required
+            autocomplete="username"
+            />
+          <label class="flex flex-col items-start label pt-0.5">
+            <span class="label-text-alt">Used for login into account</span>
+            <span
+              class="label-text-alt text-error"
+              *ngIf="regForm.controls['loginName']?.touched && regForm.controls['loginName']?.invalid">
+              Username must be at least 3 and max 32 characters long
+            </span>
+          </label>
+        </div>
+        <div class="form-control">
+          <input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="email"
+            class="input-sm bg-neutral mt-2 input input-bordered"
+            [ngClass]="{
+              'input-error': regForm.controls['email']?.touched && regForm.controls['email']?.invalid
+            }"
+            ngModel
+            required
+            email
+            autocomplete="email"
+            />
+        </div>
+        <div class="form-control">
+          <input
+            type="password"
+            placeholder="password"
+            id="password"
+            name="password"
+            class="input-sm bg-neutral mt-2 input input-bordered w-full max-w-xs"
+            [ngClass]="{
+              'input-error': regForm.controls['password']?.touched && regForm.controls['password']?.invalid
+            }"
+            required
+            ngModel
+            minlength="8"
+            autocomplete="new-password"
+            />
+        </div>
+        <div class="form-control">
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="confirm password"
+            class="input-sm bg-neutral mt-2 input input-bordered w-full max-w-xs"
+            [ngClass]="{
+              'input-error': regForm.controls['confirmPassword']?.touched && (regForm.controls['confirmPassword']?.invalid || regForm.controls['password']?.value != regForm.controls['confirmPassword']?.value)
+            }"
+            required
+            ngModel
+            minlength="8"
+            autocomplete="off"
+            />
+            <label
+              class="flex flex-col items-start label pt-0.5">
+              <span
+                class="label-text-alt text-error"
+                *ngIf="regForm.controls['confirmPassword']?.touched && regForm.controls['password']?.value != regForm.controls['confirmPassword']?.value">
+                Passwords not equal
+              </span>
+              <span
+                class="label-text-alt text-error"
+                *ngIf="regForm.controls['password']?.touched && regForm.controls['password']?.value?.length < 8">
+                Password must be at least 8 characters
+              </span>
+            </label>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center pb-12 pt-4">
+        <button class="btn btn-accent text-base-100 min-h-fit h-8">
+          Create account
+          <svg class="fill-none stroke-base-100 stroke-2" xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 14.414 12.162">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.333 1.415 13 6.081m0 0-4.667 4.667M13 6.081H1">
+            </path>
+          </svg>
+        </button>
+
+        <div class="flex flex-row pt-2">
+          <div class="text-secondary-content">
+            Already have an account?
+          </div>
+          <a class="ps-2 link link-hover text-cyan-400 hover:text-cyan-200" routerLink="/login">Sign in</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
