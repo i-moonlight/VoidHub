@@ -15,7 +15,11 @@ namespace ForumApi.Data.Models
         public DateTime LastLoggedAt {get;set;}
         public DateTime? DeletedAt {get;set;}
 
+        [JsonIgnore]
         public List<Token> Tokens {get;set;} = new();
-        public List<Post> Posts { get; set; } = new();
+        [JsonIgnore]
+        public List<Post> Posts {get;set;} = new();
+        [JsonIgnore]
+        public List<Topic> Topics {get;set;} = new();
     }
 }

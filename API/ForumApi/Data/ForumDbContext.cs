@@ -106,6 +106,10 @@ namespace ForumApi.Data
                 t.Property(t => t.DeletedAt)
                     .HasDefaultValue(null); 
 
+                t.HasOne(t => t.Author)
+                    .WithMany(a => a.Topics)
+                    .HasForeignKey(t => t.AccountId);
+
                 t.HasOne(t => t.Forum)
                     .WithMany(f => f.Topics)
                     .HasForeignKey(t => t.ForumId);
