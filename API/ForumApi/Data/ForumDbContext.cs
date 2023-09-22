@@ -108,7 +108,8 @@ namespace ForumApi.Data
 
                 t.HasOne(t => t.Author)
                     .WithMany(a => a.Topics)
-                    .HasForeignKey(t => t.AccountId);
+                    .HasForeignKey(t => t.AccountId)
+                    .OnDelete(DeleteBehavior.NoAction);
 
                 t.HasOne(t => t.Forum)
                     .WithMany(f => f.Topics)
@@ -133,7 +134,7 @@ namespace ForumApi.Data
                     .WithMany(t => t.Posts)
                     .HasForeignKey(p => p.TopicId);
 
-                p.HasOne(p => p.Account)
+                p.HasOne(p => p.Author)
                     .WithMany(a => a.Posts)
                     .HasForeignKey(p => p.AccountId);
             });

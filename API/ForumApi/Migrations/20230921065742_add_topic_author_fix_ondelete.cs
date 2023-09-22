@@ -5,7 +5,7 @@
 namespace ForumApi.Migrations
 {
     /// <inheritdoc />
-    public partial class add_topic_author : Migration
+    public partial class add_topic_author_fix_ondelete : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,8 +27,7 @@ namespace ForumApi.Migrations
                 table: "Topics",
                 column: "AccountId",
                 principalTable: "Accounts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />

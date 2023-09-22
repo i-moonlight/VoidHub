@@ -234,7 +234,7 @@ namespace ForumApi.Migrations
 
             modelBuilder.Entity("ForumApi.Data.Models.Post", b =>
                 {
-                    b.HasOne("ForumApi.Data.Models.Account", "Account")
+                    b.HasOne("ForumApi.Data.Models.Account", "Author")
                         .WithMany("Posts")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -246,7 +246,7 @@ namespace ForumApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.Navigation("Author");
 
                     b.Navigation("Topic");
                 });
@@ -267,7 +267,7 @@ namespace ForumApi.Migrations
                     b.HasOne("ForumApi.Data.Models.Account", "Author")
                         .WithMany("Topics")
                         .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ForumApi.Data.Models.Forum", "Forum")

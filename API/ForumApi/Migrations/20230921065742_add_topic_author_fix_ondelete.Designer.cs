@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForumApi.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    [Migration("20230921062926_add_topic_author")]
-    partial class add_topic_author
+    [Migration("20230921065742_add_topic_author_fix_ondelete")]
+    partial class add_topic_author_fix_ondelete
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -237,7 +237,7 @@ namespace ForumApi.Migrations
 
             modelBuilder.Entity("ForumApi.Data.Models.Post", b =>
                 {
-                    b.HasOne("ForumApi.Data.Models.Account", "Account")
+                    b.HasOne("ForumApi.Data.Models.Account", "Author")
                         .WithMany("Posts")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -249,7 +249,7 @@ namespace ForumApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.Navigation("Author");
 
                     b.Navigation("Topic");
                 });
@@ -270,7 +270,7 @@ namespace ForumApi.Migrations
                     b.HasOne("ForumApi.Data.Models.Account", "Author")
                         .WithMany("Topics")
                         .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ForumApi.Data.Models.Forum", "Forum")

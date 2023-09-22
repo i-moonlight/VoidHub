@@ -14,6 +14,6 @@ namespace ForumApi.Data.Models
         [JsonIgnore]
         public Topic Topic {get;set;} = null!;
         [JsonIgnore]
-        public Account Account {get;set;} = null!;        
+        public Account Author {get;set;} = null!;        
     }
 }

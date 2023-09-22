@@ -18,8 +18,8 @@ namespace ForumApi.Data.Models
         [JsonIgnore]
         public List<Token> Tokens {get;set;} = new();
         [JsonIgnore]
-        public List<Post> Posts {get;set;} = new();
+        public List<Post>? Posts {get;set;}
         [JsonIgnore]
-        public List<Topic> Topics {get;set;} = new();
+        public List<Topic>? Topics {get;set;}
     }
 }
