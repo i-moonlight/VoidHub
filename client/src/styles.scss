@@ -1,0 +1,34 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'daisyui/dist/full.css';
+
+@import '~quill/dist/quill.core.css';
+@import '~/../shared/quill/quill.custom.css';
+
+.ql-editor.ql-blank::before {
+  @apply text-secondary-content;
+}
+
+.ql-toolbar {
+  @apply border-secondary-content;
+}
+
+.ql-toolbar .ql-stroke {
+  @apply stroke-base-content
+}
+
+.ql-picker .ql-picker-label {
+  @apply text-base-content;
+}
+
+.ql-toolbar .ql-fill {
+  @apply fill-none stroke-base-content
+}
+
+.ql-clean,
+.ql-clean .ql-stroke,
+.ql-clean .ql-fill {
+  @apply stroke-red-600
+}
+
