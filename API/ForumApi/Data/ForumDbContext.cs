@@ -1,3 +1,4 @@
+using System.Text;
 using ForumApi.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +37,8 @@ namespace ForumApi.Data
                     .IsRequired();
                 a.Property(a => a.PasswordHash)
                     .IsRequired();
+                a.Property(a => a.LastLoggedAt)
+                    .HasDefaultValueSql("GETUTCDATE()");
 
                 a.Property(a => a.DeletedAt)
                     .HasDefaultValue(null);
@@ -98,7 +101,8 @@ namespace ForumApi.Data
                     .HasColumnType("nvarchar(256)");
 
                 t.Property(t => t.CreatedAt)
-                    .IsRequired();
+                    .IsRequired()
+                    .HasDefaultValueSql("GETUTCDATE()");
 
                 t.Property(t => t.IsClosed)
                     .HasDefaultValue(false);
@@ -125,7 +129,8 @@ namespace ForumApi.Data
                     .HasColumnType("nvarchar(4000)");
 
                 p.Property(p => p.CreatedAt)
-                    .IsRequired();
+                    .IsRequired()
+                    .HasDefaultValueSql("GETUTCDATE()");
 
                 p.Property(p => p.DeletedAt)
                     .HasDefaultValue(null);

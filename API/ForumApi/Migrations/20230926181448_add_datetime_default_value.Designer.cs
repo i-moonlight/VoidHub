@@ -4,6 +4,7 @@ using ForumApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ForumApi.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    partial class ForumDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230926181448_add_datetime_default_value")]
+    partial class add_datetime_default_value
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +69,7 @@ namespace ForumApi.Migrations
                     b.HasIndex("LoginName")
                         .IsUnique();
 
-                    b.ToTable("Accounts", (string)null);
+                    b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Forum", b =>
@@ -96,7 +99,7 @@ namespace ForumApi.Migrations
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("Forums", (string)null);
+                    b.ToTable("Forums");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Post", b =>
@@ -131,7 +134,7 @@ namespace ForumApi.Migrations
 
                     b.HasIndex("TopicId");
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Section", b =>
@@ -156,7 +159,7 @@ namespace ForumApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sections", (string)null);
+                    b.ToTable("Sections");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Token", b =>
@@ -184,7 +187,7 @@ namespace ForumApi.Migrations
                     b.HasIndex("RefreshToken")
                         .IsUnique();
 
-                    b.ToTable("Tokens", (string)null);
+                    b.ToTable("Tokens");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Topic", b =>
@@ -224,7 +227,7 @@ namespace ForumApi.Migrations
 
                     b.HasIndex("ForumId");
 
-                    b.ToTable("Topics", (string)null);
+                    b.ToTable("Topics");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Forum", b =>
