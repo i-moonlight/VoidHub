@@ -1,10 +1,12 @@
 using ForumApi.Data.Models;
 using ForumApi.DTO.DTopic;
+using ForumApi.DTO.Page;
 
 namespace ForumApi.Services.Interfaces
 {
     public interface ITopicService
     {
-        Task<Topic> Create(TopicDto topicDto);
+        Task<Topic> Create(int authorId, TopicDto topicDto);
+        Task<List<TopicListElement>> GetTopics(int forumId, Page page);
     }
 }

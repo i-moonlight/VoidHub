@@ -1,4 +1,5 @@
 using ForumApi.DTO.DForum;
+using ForumApi.DTO.Page;
 using ForumApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,26 @@ namespace ForumApi.Controllers
     public class ForumController : ControllerBase
     {
         private readonly IForumService _forumService;
+        private readonly ITopicService _topicService;
 
         public ForumController(
-            IForumService forumService)
+            IForumService forumService,
+            ITopicService topicService)
         {
             _forumService = forumService;
+            _topicService = topicService;
+        }
+
+        [HttpGet("{forumId}")]
+        public async Task<IActionResult> GetForum(int forumId)
+        {
+            return Ok(await _forumService.Get(forumId));
+        }
+
+        [HttpGet("{forumId}/topics")]
+        public async Task<IActionResult> GetTopicsPage(int forumId, [FromQuery] Page page)
+        {
+            return Ok(await _topicService.GetTopics(forumId, page));
         }
 
         [HttpPost, Authorize]

@@ -9,8 +9,8 @@ namespace ForumApi.DTO.DPost
             RuleFor(p => p.Content)
             .NotEmpty()
             .WithMessage("Content is required")
-            .Length(1, 3000)
-            .WithMessage("Content must be between 1 and 3000 characters");   
+            .Length(1, 24000)
+            .WithMessage("Content must be between 1 and 24000 characters");   
         }
     }
 }

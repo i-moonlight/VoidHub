@@ -8,6 +8,7 @@ namespace ForumApi.DTO.DPost
         public PostProfile()
         {
             CreateMap<PostDto, Post>();
+            CreateMap<Post, LastPost>();
         }        
     }
 }

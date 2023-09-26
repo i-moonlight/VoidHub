@@ -31,7 +31,7 @@ namespace ForumApi.Services
                 .Include(s => s.Forums.Where(f => f.DeletedAt == null))
                 .ThenInclude(f => f.Topics.Where(t => t.DeletedAt == null))
                 .ThenInclude(t => t.Posts.Where(p => p.DeletedAt == null))
-                .ThenInclude(p => p.Account)
+                .ThenInclude(p => p.Author)
                 .Select(s => new SectionResponse {
                     Id = s.Id,
                     Title = s.Title,
@@ -51,7 +51,7 @@ namespace ForumApi.Services
                                     CreatedAt = t.CreatedAt,
                                     User = _mapper.Map<User>(t.Posts
                                         .OrderByDescending(p => p.CreatedAt)
-                                        .Select(p => p.Account)
+                                        .Select(p => p.Author)
                                         .FirstOrDefault())
                                 }).FirstOrDefault()
                         }).ToList()

@@ -1,5 +1,7 @@
 using ForumApi.DTO.DTopic;
+using ForumApi.Extensions;
 using ForumApi.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForumApi.Controllers
@@ -15,10 +17,10 @@ namespace ForumApi.Controllers
             _topicService = topicService;
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public async Task<IActionResult> Create(TopicDto topicDto)
         {
-            var topic = await _topicService.Create(topicDto);
+            var topic = await _topicService.Create(User.Id(), topicDto);
             return Ok(topic);
         }
     }
