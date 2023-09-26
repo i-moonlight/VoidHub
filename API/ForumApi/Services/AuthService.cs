@@ -118,6 +118,9 @@ namespace ForumApi.Services
             await _rep.BeginTransaction();
             try 
             {
+                _rep.Account.Create(account);
+                await _rep.Save();
+
                 var pair = _tokenService.CreatePair(account);
 
                 account.Tokens.Add(new Token
@@ -126,8 +129,6 @@ namespace ForumApi.Services
                     RefreshToken = pair.RefreshToken,
                     ExpiresAt = DateTime.UtcNow.AddMinutes(_jwtOptions.RefreshLifetimeInMinutes)
                 });
-
-                _rep.Account.Create(account);
 
                 await _rep.Save();
                 await _rep.Commit();
