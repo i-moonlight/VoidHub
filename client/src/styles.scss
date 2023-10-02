@@ -32,3 +32,10 @@
   @apply stroke-red-600
 }
 
+.link {
+  @apply text-cyan-100 hover:text-accent-focus
+}
+
+.min-h-32 {
+  min-height: 8rem;
+}

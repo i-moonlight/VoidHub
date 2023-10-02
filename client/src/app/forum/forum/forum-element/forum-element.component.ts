@@ -3,8 +3,8 @@ import { Forum } from '../../models/forum.model';
 
 @Component({
   selector: 'app-forum',
-  templateUrl: './forum.component.html',
-  styleUrls: ['./forum.component.css']
+  templateUrl: './forum-element.component.html',
+  styleUrls: ['./forum-element.component.css']
 })
 export class ForumComponent {
   @Input()

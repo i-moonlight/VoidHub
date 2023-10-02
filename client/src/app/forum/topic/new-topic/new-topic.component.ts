@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgFormExtension } from 'src/shared/ng-form.extension';
 import { TopicService } from '../../services/topic.service';
+import { quillToolbarModules } from 'src/shared/quill/qiull-toolbar.modules';
 
 @Component({
   selector: 'app-new-topic',
@@ -15,8 +16,13 @@ export class NewTopicComponent {
   errorMessages: string[] = [];
   content = '';
 
+  modules = {toolbar: quillToolbarModules};
+
   @Output()
   close = new EventEmitter();
+
+  @Output()
+  created = new EventEmitter();
 
   constructor(
     route: ActivatedRoute,
@@ -32,13 +38,12 @@ export class NewTopicComponent {
 
     if(form.invalid) {
       NgFormExtension.markAllAsTouched(form);
-
       return;
     }
 
     this.topicService.createTopic(form.value).subscribe({
       next: _ => {
-        this.close.emit();
+        this.created.emit();
       },
       error: errs => {
         this.errorMessages = errs

@@ -1,12 +1,16 @@
 <div class="group">
   <div class="flex flex-row items-center my-2">
     <div class="basis-8/12 h-full">
-      <div routerLink="/forum/forum/{{forum.id}}" class="text-cyan-100 hover:text-accent-focus link link-hover font-semibold">
+      <div routerLink="/forum/{{forum.id}}" class="text-cyan-100 hover:text-accent-focus link link-hover font-semibold">
         {{forum.title}}
       </div>
     </div>
-    <div class="basis-1/12 text-center">0</div>
-    <div class="basis-1/12 text-center">0</div>
+    <div class="basis-1/12 text-center">
+      {{forum.postsCount}}
+    </div>
+    <div class="basis-1/12 text-center">
+      {{forum.topicsCount}}
+    </div>
     <div class="basis-3/12">
       <div class="flex flex-col text-xs">
         <a class="text-cyan-100 hover:text-accent-focus link link-hover font-semibold">

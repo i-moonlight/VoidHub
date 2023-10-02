@@ -3,6 +3,8 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
+import { QuillModule } from "ngx-quill";
+import { quillToolbarModules } from "./quill/qiull-toolbar.modules";
 
 @NgModule({
   declarations: [
@@ -11,12 +13,18 @@ import { RouterModule } from "@angular/router";
     FormsModule,
     CommonModule,
     BrowserModule,
-    RouterModule
+    RouterModule,
+    QuillModule.forRoot({
+      modules: {
+        toolbar: quillToolbarModules
+      }
+    })
   ],
   exports:[
     FormsModule,
     CommonModule,
-    RouterModule
+    RouterModule,
+    QuillModule
   ]
 })
 export class SharedModule{}

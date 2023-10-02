@@ -1,11 +1,11 @@
 <div class="flex flex-col items-center text-3xl">
-  <a class="link link-hover pt-2 text-cyan-400 hover:text-cyan-200" routerLink="/forum">
+  <a class="link link-hover pt-2" routerLink="/forum">
     Check forum page
   </a>
   <div class="flex flex-col items-center" *ngIf="!(authService.user$ | async)">
     <div class="text-3xl">OR</div>
-    <div>
-      <a class="link link-hover pt-2 text-cyan-400 hover:text-cyan-200">Sign in</a> to create topic
+    <div routerLink="/login">
+      <a class="link link-hover">Sign in</a> to create topic
     </div>
   </div>
 </div>

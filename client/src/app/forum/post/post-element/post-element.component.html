@@ -1,0 +1,35 @@
+<div class="flex flex-col">
+  <div class="flex flex-row bg-neutral border border-secondary-content rounded min-h-32"
+    [ngClass]="{
+      'hidden': editMode
+    }">
+    <div class="px-5 py-5 text-center border-e border-secondary-content">
+      <div class="flex flex-col">
+        <div class="link no-underline">
+          {{post?.author.username}}
+        </div>
+        <div class="text-xs">
+          {{post?.createdAt | date: 'dd.MM.yyyy HH:mm'}}
+        </div>
+        <div class="text-xs" *ngIf="user && user?.id == post?.author.id">
+          <div class="btn btn-neutral min-h-min h-8" (click)="setEditMode(true)">
+            Edit
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <quill-view [content]="post.content"></quill-view>
+    </div>
+  </div>
+  <div *ngIf="editMode">
+    <app-post-editor
+      *ngIf="user"
+      [topicId]="post.topicId"
+      [content]="post.content"
+      [submitPlaceholder]="'Save'"
+      (onCreate)="onPostEdit($event)"
+      (onCancel)="setEditMode(false)">
+    </app-post-editor>
+  </div>
+</div>

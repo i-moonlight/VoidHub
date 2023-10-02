@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Page } from "src/shared/page.model";
 
 @Injectable()
 export class ForumService {
@@ -12,4 +13,11 @@ export class ForumService {
     return this.http.post(this.baseUrl, data);
   }
 
+  getForum(forumId) {
+    return this.http.get(`${this.baseUrl}/${forumId}`);
+  }
+
+  getForumTopics(forumId, page: Page) {
+    return this.http.get(`${this.baseUrl}/${forumId}/topics`, {params: {...page}});
+  }
 }

@@ -8,5 +8,5 @@ import { Topic } from '../../models/topic.model';
 })
 export class TopicElementComponent {
   @Input()
-  topic: Topic;
+  topic;
 }

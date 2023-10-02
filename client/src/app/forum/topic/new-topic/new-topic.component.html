@@ -37,25 +37,33 @@
         </div>
 
         <div class="form-control w-full">
-          <textarea
-            name="content"
+          <quill-editor
+            class="bg-neutral"
+            classes="rounded-b bg-neutral min-h-24"
             id="content"
-            class="textarea bg-neutral"
-            placeholder="Topic message"
-            rows="4"
-            maxlength="3000"
-            [(ngModel)]="content"
-            >
-          </textarea>
+            name="content"
+            [placeholder]="'Topic message'"
+            [maxLength]="24000"
+            [minLength]="1"
+            [(ngModel)]="content">
+          </quill-editor>
           <label class="label">
-            <span class="label-text-alt">{{content.length}}/3000</span>
+            <span class="label-text-alt">
+              <span
+                [ngClass]="{
+                  'text-error': content?.length > 24000
+                }">
+                {{content?.length ?? 0}}
+              </span>
+              / 24000
+            </span>
           </label>
         </div>
 
-
         <div class="form-control hidden">
-          <input type="number" name="sectionId" [ngModel]="forumId">
+          <input type="number" name="forumId" [ngModel]="forumId">
         </div>
+
         <div class="my-3">
           <button
             class=" btn btn-accent text-base-100 min-h-fit h-8">
@@ -69,5 +77,6 @@
       </div>
     </form>
   </div>
+
 </div>
 

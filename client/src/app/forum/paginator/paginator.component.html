@@ -11,8 +11,8 @@
   </div>
 
   <div *ngFor="let page of pages"
-    class="px-2 mx-0.5 btn bg-neutral min-h-min h-6"
-    [ngClass] = "{'bg-base-content text-neutral': page == currentPage}"
+    class="px-2 mx-0.5 btn min-h-min h-6 text-content-base"
+    [ngClass] = "{'bg-base-content text-neutral': page == currentPage, 'bg-neutral': page != currentPage}"
     (click)="changePageClick(page)">
       {{page}}
   </div>

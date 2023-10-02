@@ -11,8 +11,7 @@ import { ForumModule } from './forum/forum.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { HttpExceptionInterceptor } from 'src/shared/error/http-exception.interceptor';
-import { ErrorMessageListComponent } from './error-message-list/error-message-list.component';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
