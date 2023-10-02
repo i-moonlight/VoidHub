@@ -9,6 +9,8 @@ namespace ForumApi.DTO.DPost
         {
             CreateMap<PostDto, Post>();
             CreateMap<Post, LastPost>();
+
+            CreateMap<Post, PostResponse>();
         }        
     }
 }

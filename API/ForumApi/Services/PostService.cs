@@ -1,8 +1,11 @@
 using AutoMapper;
 using ForumApi.Data.Models;
+using ForumApi.Data.Repository.Extensions;
 using ForumApi.Data.Repository.Interfaces;
 using ForumApi.DTO.DPost;
+using ForumApi.DTO.Page;
 using ForumApi.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ForumApi.Services
 {
@@ -28,6 +31,36 @@ namespace ForumApi.Services
             await _rep.Save();
 
             return post;
+        }
+
+        public async Task<List<PostResponse>> GetPostPage(int topicId, Page page)
+        {
+            //skip(1) for not including main post
+            var posts = await _rep.Post
+                .FindByCondition(p => p.TopicId == topicId && p.DeletedAt == null)
+                .OrderBy(p => p.CreatedAt)
+                .Include(p => p.Author)
+                .Skip(1)
+                .TakePage(page)
+                .ToListAsync();
+
+            return _mapper.Map<List<PostResponse>>(posts);
+        }
+
+        public async Task<Post> Update(int postId, PostDto postDto)
+        {
+            var entity = await _rep.Post
+                .FindByCondition(p => p.Id == postId && p.DeletedAt == null, true)
+                .FirstOrDefaultAsync();
+
+            if (entity == null)
+                throw new Exception("Post not found");
+
+            entity.Content = postDto.Content;
+
+            await _rep.Save();
+
+            return entity;
         }
     }
 }

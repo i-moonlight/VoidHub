@@ -33,6 +33,12 @@ namespace ForumApi.Middlewares
                 context.Response.ContentType = "text/plain";
                 await context.Response.WriteAsync(ex.Message);
             }
+            catch(ForbiddenException ex)
+            {
+                context.Response.StatusCode = 403;
+                context.Response.ContentType = "text/plain";
+                await context.Response.WriteAsync(ex.Message);
+            }
             catch(NotFoundException ex)
             {
                 context.Response.StatusCode = 404;

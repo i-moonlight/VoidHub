@@ -40,20 +40,43 @@ namespace ForumApi.Services
             return topic;
         }
 
-        public async Task<List<TopicListElement>> GetTopics(int forumId, Page page)
+        public async Task<TopicResponse?> GetTopic(int id)
         {
             return await _rep.Topic
-                .FindByCondition(t => t.DeletedAt == null)
-                .Include(t => t.Author)
-                .Include(t => t.Posts.Where(p => p.DeletedAt == null).OrderBy(p => p.CreatedAt))
+                .FindByCondition(t => t.Id == id && t.DeletedAt == null)
+                .Include(
+                    t => t.Posts
+                    .Where(p => p.DeletedAt == null)
+                    .OrderBy(p => p.CreatedAt)
+                )
                 .ThenInclude(p => p.Author)
-                .Select(p => new TopicListElement
+                .Select(p => new TopicResponse
                 {
                     Id = p.Id,
                     Title = p.Title,
                     CreatedAt = p.CreatedAt,
-                    Content = p.Posts.FirstOrDefault() == null ? "" : p.Posts.FirstOrDefault().Content,
-                    msgsCount = p.Posts.Count,
+                    IsClosed = p.IsClosed,
+                    Post = _mapper.Map<PostResponse>(p.Posts.FirstOrDefault()),
+                    PostsCount = p.Posts.Count,
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<TopicElement>> GetTopics(int forumId, Page page)
+        {
+            return await _rep.Topic
+                .FindByCondition(t => t.DeletedAt == null && t.ForumId == forumId)
+                .Include(t => t.Author)
+                .Include(t => t.Posts.Where(p => p.DeletedAt == null))
+                .ThenInclude(p => p.Author)
+                .OrderByDescending(t => t.CreatedAt)
+                .Select(p => new TopicElement
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    CreatedAt = p.CreatedAt,
+                    IsClosed = p.IsClosed,
+                    PostsCount = p.Posts.Count,
                     Author = _mapper.Map<User>(p.Author),
                     LastPost = _mapper.Map<LastPost>(p.Posts.OrderByDescending(p => p.CreatedAt).FirstOrDefault())
                 })

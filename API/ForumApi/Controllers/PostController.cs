@@ -1,5 +1,7 @@
+using ForumApi.Data.Models;
 using ForumApi.DTO.DPost;
 using ForumApi.Extensions;
+using ForumApi.Filters;
 using ForumApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +22,15 @@ namespace ForumApi.Controllers
         [HttpPost, Authorize]
         public async Task<IActionResult> Create(PostDto postDto)
         {
-            var post = await _postService.Create(User.Id(),postDto);
+            var post = await _postService.Create(User.GetId(), postDto);
+            return Ok(post);
+        }
+
+        [HttpPut("{id}"), Authorize]
+        [PermissionActionFilter<Post>]
+        public async Task<IActionResult> Update(int id, PostDto postDto)
+        {
+            var post = await _postService.Update(id, postDto);
             return Ok(post);
         }
     }
