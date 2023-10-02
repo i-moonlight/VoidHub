@@ -82,6 +82,11 @@ export class TopicComponent implements OnDestroy {
       });
   }
 
+  onPostDelete() {
+    this.topic.postsCount--;
+    this.loadNewPostsPage();
+  }
+
   onPostCreate(data) {;
     this.postService.createPost(data).subscribe({
       next: data => {
@@ -89,6 +94,7 @@ export class TopicComponent implements OnDestroy {
         //because one-way binding
         this.newPostContent = '';
         this.newPostContent = null;
+        console.log(this.newPostContent)
 
         let page = this.topic.postsCount / this.postsOnPage;
         page = page % 1 > 0 ? Math.floor(page + 1) : page;

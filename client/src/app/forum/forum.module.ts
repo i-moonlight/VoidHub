@@ -20,6 +20,7 @@ import { TopicService } from "./services/topic.service";
 import { PaginatorComponent } from './paginator/paginator.component';
 import { PostService } from "./services/post.service";
 import { NewPostComponent } from './post/post-editor/post-editor.component';
+import { DeleteComponent } from './delete/delete.component';
 
 @NgModule({
   providers: [
@@ -43,6 +44,7 @@ import { NewPostComponent } from './post/post-editor/post-editor.component';
     NewTopicComponent,
     PaginatorComponent,
     NewPostComponent,
+    DeleteComponent,
   ],
   imports: [
     SharedModule,

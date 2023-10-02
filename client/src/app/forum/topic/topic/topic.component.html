@@ -21,7 +21,8 @@
       <div *ngFor="let post of posts" class="my-2">
         <app-post
           [post]="post"
-          [user]="user">
+          [user]="user"
+          (deleted)="onPostDelete()">
         </app-post>
       </div>
     </div>

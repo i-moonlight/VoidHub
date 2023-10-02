@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from 'src/shared/models/user.model';
 import { PostService } from '../../services/post.service';
+import { Roles } from 'src/shared/roles.enum';
 
 @Component({
   selector: 'app-post',
@@ -13,6 +14,10 @@ export class PostElementComponent {
 
   @Input()
   user: User;
+  roles = Roles;
+
+  @Output()
+  onDelete = new EventEmitter();
 
   editMode = false;
 
@@ -30,5 +35,21 @@ export class PostElementComponent {
 
   setEditMode(value: boolean) {
     this.editMode = value;
+  }
+
+  deleteClick() {
+    this.postService.deletePost(this.post.id).subscribe({
+      next: this.handleDelete,
+    });
+  }
+
+  onAdminDelete() {
+    this.postService.deletePostByAdmin(this.post.id).subscribe({
+      next: this.handleDelete,
+    });
+  }
+
+  handleDelete() {
+    this.onDelete.emit();
   }
 }

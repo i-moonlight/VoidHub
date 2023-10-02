@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Page } from "src/shared/page.model";
 
 
 @Injectable()
@@ -16,5 +15,13 @@ export class PostService {
 
   updatePost(postId, data) {
     return this.http.put(`${this.baseURL}/${postId}`, data);
+  }
+
+  deletePost(postId) {
+    return this.http.delete(`${this.baseURL}/${postId}`);
+  }
+
+  deletePostByAdmin(postId) {
+    return this.http.delete(`${this.baseURL}/${postId}/admin`);
   }
 }
