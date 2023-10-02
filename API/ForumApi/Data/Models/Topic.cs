@@ -13,10 +13,10 @@ namespace ForumApi.Data.Models
         public bool IsClosed {get;set;}
 
         [JsonIgnore]
-        public Forum Forum {get;set;} = null!;
+        public virtual Forum Forum {get;set;} = null!;
         [JsonIgnore]
-        public List<Post> Posts {get;set;} = new();      
+        public virtual List<Post> Posts {get;set;} = new();      
         [JsonIgnore]
-        public Account Author {get;set;} = null!;  
+        public virtual Account Author {get;set;} = null!;  
     }
 }

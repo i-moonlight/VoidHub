@@ -23,6 +23,55 @@ namespace ForumApi.Services
             _rep = rep;
         }
 
+        public async Task<TopicResponse?> GetTopic(int id)
+        {
+            return await _rep.Topic
+                .FindByCondition(t => t.Id == id && t.DeletedAt == null)
+                .Select(p => new TopicResponse
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    CreatedAt = p.CreatedAt,
+                    IsClosed = p.IsClosed,
+                    Post = new PostResponse
+                    {
+                        Id = p.Posts.First().Id,
+                        Content = p.Posts.First().Content ?? "",
+                        CreatedAt = p.Posts.First().CreatedAt,
+                        Author = _mapper.Map<User>(p.Posts.First().Author)
+                    },
+                    PostsCount = p.Posts.Where(p => p.DeletedAt == null).Count(),
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<TopicElement>> GetTopics(int forumId, Page page)
+        {
+            return await _rep.Topic
+                .FindByCondition(t => t.DeletedAt == null && t.ForumId == forumId)
+                .OrderByDescending(t => t.CreatedAt)
+                .Select(p => new TopicElement
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    CreatedAt = p.CreatedAt,
+                    IsClosed = p.IsClosed,
+                    PostsCount = p.Posts.Where(p => p.DeletedAt == null).Count(),
+                    Author = _mapper.Map<User>(p.Author),
+                    LastPost = p.Posts
+                        .Where(p => p.DeletedAt == null)
+                        .OrderByDescending(p => p.CreatedAt)
+                        .Select(p => new LastPost
+                        {
+                            Id = p.Id,
+                            CreatedAt = p.CreatedAt,
+                            Author = _mapper.Map<User>(p.Author)
+                        }).FirstOrDefault()
+                })
+                .TakePage(page)
+                .ToListAsync();
+        }
+
         public async Task<Topic> Create(int authorId, TopicDto topicDto)
         {
             var topic = _mapper.Map<Topic>(topicDto);
@@ -49,50 +98,6 @@ namespace ForumApi.Services
 
             _rep.Topic.Delete(entity);
             await _rep.Save();
-        }
-
-        public async Task<TopicResponse?> GetTopic(int id)
-        {
-            return await _rep.Topic
-                .FindByCondition(t => t.Id == id && t.DeletedAt == null)
-                .Include(
-                    t => t.Posts
-                    .Where(p => p.DeletedAt == null)
-                    .OrderBy(p => p.CreatedAt)
-                )
-                .ThenInclude(p => p.Author)
-                .Select(p => new TopicResponse
-                {
-                    Id = p.Id,
-                    Title = p.Title,
-                    CreatedAt = p.CreatedAt,
-                    IsClosed = p.IsClosed,
-                    Post = _mapper.Map<PostResponse>(p.Posts.FirstOrDefault()),
-                    PostsCount = p.Posts.Count,
-                })
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task<List<TopicElement>> GetTopics(int forumId, Page page)
-        {
-            return await _rep.Topic
-                .FindByCondition(t => t.DeletedAt == null && t.ForumId == forumId)
-                .Include(t => t.Author)
-                .Include(t => t.Posts.Where(p => p.DeletedAt == null))
-                .ThenInclude(p => p.Author)
-                .OrderByDescending(t => t.CreatedAt)
-                .Select(p => new TopicElement
-                {
-                    Id = p.Id,
-                    Title = p.Title,
-                    CreatedAt = p.CreatedAt,
-                    IsClosed = p.IsClosed,
-                    PostsCount = p.Posts.Count,
-                    Author = _mapper.Map<User>(p.Author),
-                    LastPost = _mapper.Map<LastPost>(p.Posts.OrderByDescending(p => p.CreatedAt).FirstOrDefault())
-                })
-                .TakePage(page)
-                .ToListAsync();
         }
     }
 }

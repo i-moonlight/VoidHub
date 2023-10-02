@@ -41,6 +41,14 @@ namespace ForumApi.Services
                 .FindByCondition(p => p.Id == postId && p.DeletedAt == null, true)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Post not found");
 
+            var topicFirstPost = await _rep.Post
+                .FindByCondition(p => p.TopicId == entity.TopicId && p.DeletedAt == null)
+                .OrderBy(p => p.CreatedAt)
+                .FirstOrDefaultAsync() ?? throw new NotFoundException("Post not found");
+
+            if (entity.Id == topicFirstPost.Id)
+                throw new BadRequestException("You can't delete main post");            
+
             _rep.Post.Delete(entity);
             await _rep.Save();
         }

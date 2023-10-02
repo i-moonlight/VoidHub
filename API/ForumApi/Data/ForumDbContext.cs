@@ -16,7 +16,7 @@ namespace ForumApi.Data
         public ForumDbContext(DbContextOptions<ForumDbContext> options) 
             : base(options)
         {}
-
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Account>(a => 

@@ -12,8 +12,8 @@ namespace ForumApi.Data.Models
         public DateTime? DeletedAt {get;set;}
 
         [JsonIgnore]
-        public Topic Topic {get;set;} = null!;
+        public virtual Topic Topic {get;set;} = null!;
         [JsonIgnore]
-        public Account Author {get;set;} = null!;        
+        public virtual Account Author {get;set;} = null!;        
     }
 }

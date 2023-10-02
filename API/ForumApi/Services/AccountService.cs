@@ -27,7 +27,6 @@ namespace ForumApi.Services
         {
             var account = await _rep.Account
                 .FindByCondition(a => a.Id == id, true)
-                .Include(a => a.Tokens)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("User with such id doesn't exist");
 
             _rep.Account.Delete(account);

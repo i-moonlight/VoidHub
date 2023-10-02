@@ -11,8 +11,8 @@ namespace ForumApi.Data.Models
         public bool IsClosed {get;set;}
 
         [JsonIgnore]
-        public Section Section {get;set;} = null!;        
+        public virtual  Section Section {get;set;} = null!;        
         [JsonIgnore]
-        public List<Topic> Topics {get;set;} = new();
+        public virtual  List<Topic> Topics {get;set;} = new();
     }
 }

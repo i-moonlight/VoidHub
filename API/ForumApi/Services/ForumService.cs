@@ -21,6 +21,19 @@ namespace ForumApi.Services
             _mapper = mapper;
         }
 
+        public async Task<ForumResponse?> Get(int forumId)
+        {
+            return await _rep.Forum
+                .FindByCondition(f => f.Id == forumId && f.DeletedAt == null)
+                .Select(f => new ForumResponse
+                {
+                    Id = f.Id,
+                    Title = f.Title,
+                    PostsCount = f.Topics.SelectMany(t => t.Posts).Where(p => p.DeletedAt == null).Count(),
+                    TopicsCount = f.Topics.Where(t => t.DeletedAt == null).Count()
+                }).FirstOrDefaultAsync();
+        }
+
         public async Task<Forum> Create(ForumDto forumDto)
         {
             var forum = _rep.Forum.Create(_mapper.Map<Forum>(forumDto));
@@ -37,19 +50,6 @@ namespace ForumApi.Services
 
             _rep.Forum.Delete(entity);
             await _rep.Save();
-        }
-
-        public async Task<ForumResponse?> Get(int forumId)
-        {
-            return await _rep.Forum
-                .FindByCondition(f => f.Id == forumId && f.DeletedAt == null)
-                .Select(f => new ForumResponse
-                {
-                    Id = f.Id,
-                    Title = f.Title,
-                    PostsCount = f.Topics.SelectMany(t => t.Posts).Count(),
-                    TopicsCount = f.Topics.Where(t => t.DeletedAt == null).Count()
-                }).FirstOrDefaultAsync();
         }
     }
 }

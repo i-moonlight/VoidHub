@@ -16,10 +16,10 @@ namespace ForumApi.Data.Models
         public DateTime? DeletedAt {get;set;}
 
         [JsonIgnore]
-        public List<Token> Tokens {get;set;} = new();
+        public virtual List<Token> Tokens {get;set;} = new();
         [JsonIgnore]
-        public List<Post>? Posts {get;set;}
+        public virtual List<Post>? Posts {get;set;}
         [JsonIgnore]
-        public List<Topic>? Topics {get;set;}
+        public virtual List<Topic>? Topics {get;set;}
     }
 }

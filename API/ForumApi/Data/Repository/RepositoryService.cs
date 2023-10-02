@@ -9,7 +9,7 @@ namespace ForumApi.Data.Repository
         public static IServiceCollection AddRepository(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<ForumDbContext>(options =>
-                options.UseSqlServer(config.GetConnectionString("ForumDb")));
+                options.UseLazyLoadingProxies().UseSqlServer(config.GetConnectionString("ForumDb")));
 
             services.AddScoped<ITokenRepository, TokenRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();

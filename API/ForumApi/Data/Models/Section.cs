@@ -10,6 +10,6 @@ namespace ForumApi.Data.Models
         public bool IsHidden {get;set;}
 
         [JsonIgnore]
-        public List<Forum> Forums {get;set;} = new();
+        public virtual List<Forum> Forums {get;set;} = new();
     }
 }
