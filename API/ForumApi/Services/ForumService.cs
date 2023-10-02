@@ -32,14 +32,12 @@ namespace ForumApi.Services
         {
             return await _rep.Forum
                 .FindByCondition(f => f.Id == forumId && f.DeletedAt == null)
-                .Include(f => f.Topics.Where(t => t.DeletedAt == null))
-                .ThenInclude(t => t.Posts.Where(p => p.DeletedAt == null))
                 .Select(f => new ForumResponse
                 {
                     Id = f.Id,
                     Title = f.Title,
-                    MsgsCount = f.Topics.SelectMany(t => t.Posts).Count(),
-                    TopicsCount = f.Topics.Count
+                    PostsCount = f.Topics.SelectMany(t => t.Posts).Count(),
+                    TopicsCount = f.Topics.Where(t => t.DeletedAt == null).Count()
                 }).FirstOrDefaultAsync();
         }
     }

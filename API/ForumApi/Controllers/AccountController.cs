@@ -23,14 +23,14 @@ namespace ForumApi.Controllers
         [HttpDelete("{id}"), Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> DeleteAccount(int id) 
         {
-            await _accountService.Delete(User.Id());
+            await _accountService.Delete(User.GetId());
             return Ok();
         }
 
         [HttpDelete, Authorize]
         public async Task<IActionResult> DeleteSelf()
         {
-            await _accountService.Delete(User.Id());
+            await _accountService.Delete(User.GetId());
             return Ok();
         }
     }

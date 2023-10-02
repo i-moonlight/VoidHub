@@ -7,7 +7,7 @@ namespace ForumApi.DTO.DForum
         public int Id {get;set;}
         public string Title {get;set;} = null!;
 
-        public int MsgsCount {get;set;}
+        public int PostsCount {get;set;}
         public int TopicsCount {get;set;}
 
         public TopicLast? LastTopic {get;set;}

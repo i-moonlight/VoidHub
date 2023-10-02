@@ -28,10 +28,6 @@ namespace ForumApi.Services
             var sections = await _rep.Section
                 .FindByCondition(s => s.IsHidden == false)
                 .OrderBy(s => s.OrderPosition)
-                .Include(s => s.Forums.Where(f => f.DeletedAt == null))
-                .ThenInclude(f => f.Topics.Where(t => t.DeletedAt == null))
-                .ThenInclude(t => t.Posts.Where(p => p.DeletedAt == null))
-                .ThenInclude(p => p.Author)
                 .Select(s => new SectionResponse {
                     Id = s.Id,
                     Title = s.Title,
@@ -40,9 +36,11 @@ namespace ForumApi.Services
                         {
                             Id = ff.Id,
                             Title = ff.Title,
-                            TopicsCount = ff.Topics.Count(),
-                            MsgsCount = ff.Topics.SelectMany(t => t.Posts).Count(),
+                            TopicsCount = ff.Topics.Where(t => t.DeletedAt == null).Count(),
+                            PostsCount = ff.Topics
+                                .SelectMany(t => t.Posts.Where(p => p.DeletedAt == null)).Count(),
                             LastTopic = ff.Topics
+                                .Where(t => t.DeletedAt == null)
                                 .OrderByDescending(t => t.CreatedAt)
                                 .Select(t => new TopicLast
                                 {
@@ -50,13 +48,13 @@ namespace ForumApi.Services
                                     Title = t.Title,
                                     CreatedAt = t.CreatedAt,
                                     User = _mapper.Map<User>(t.Posts
+                                        .Where(p => p.DeletedAt == null)
                                         .OrderByDescending(p => p.CreatedAt)
                                         .Select(p => p.Author)
                                         .FirstOrDefault())
                                 }).FirstOrDefault()
                         }).ToList()
-                })
-                .ToListAsync();
+                }).ToListAsync();
 
             return sections;
         }
