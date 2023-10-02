@@ -6,6 +6,7 @@ using ForumApi.DTO.Auth;
 using ForumApi.DTO.DPost;
 using ForumApi.DTO.DTopic;
 using ForumApi.DTO.Page;
+using ForumApi.Exceptions;
 using ForumApi.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +39,16 @@ namespace ForumApi.Services
             _rep.Topic.Create(topic);
             await _rep.Save();
             return topic;
+        }
+
+        public async Task Delete(int topicId)
+        {
+            var entity = await _rep.Topic
+                .FindByCondition(t => t.Id == topicId && t.DeletedAt == null, true)
+                .FirstOrDefaultAsync() ?? throw new NotFoundException("Topic not found");
+
+            _rep.Topic.Delete(entity);
+            await _rep.Save();
         }
 
         public async Task<TopicResponse?> GetTopic(int id)

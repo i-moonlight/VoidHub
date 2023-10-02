@@ -4,7 +4,9 @@ using ForumApi.Data.Repository.Extensions;
 using ForumApi.Data.Repository.Interfaces;
 using ForumApi.DTO.DPost;
 using ForumApi.DTO.Page;
+using ForumApi.Exceptions;
 using ForumApi.Services.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForumApi.Services
@@ -31,6 +33,16 @@ namespace ForumApi.Services
             await _rep.Save();
 
             return post;
+        }
+
+        public async Task Delete(int postId)
+        {
+            var entity = await _rep.Post
+                .FindByCondition(p => p.Id == postId && p.DeletedAt == null, true)
+                .FirstOrDefaultAsync() ?? throw new NotFoundException("Post not found");
+
+            _rep.Post.Delete(entity);
+            await _rep.Save();
         }
 
         public async Task<List<PostResponse>> GetPostPage(int topicId, Page page)

@@ -2,6 +2,7 @@ using AutoMapper;
 using ForumApi.Data.Models;
 using ForumApi.Data.Repository.Interfaces;
 using ForumApi.DTO.DForum;
+using ForumApi.Exceptions;
 using ForumApi.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,16 @@ namespace ForumApi.Services
             await _rep.Save();
             
             return forum;
+        }
+
+        public async Task Delete(int forumId)
+        {
+            var entity = await _rep.Forum
+                .FindByCondition(f => f.DeletedAt == null && f.Id == forumId, true)
+                .FirstOrDefaultAsync() ?? throw new NotFoundException("Forum not found");
+
+            _rep.Forum.Delete(entity);
+            await _rep.Save();
         }
 
         public async Task<ForumResponse?> Get(int forumId)

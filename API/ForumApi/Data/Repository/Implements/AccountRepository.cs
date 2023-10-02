@@ -21,5 +21,13 @@ namespace ForumApi.Data.Repository.Implements
             entity.DeletedAt = System.DateTime.Now;
             entity.Email += "-deleted";
         }
+
+        public override void DeleteMany(System.Collections.Generic.IEnumerable<Account> entities)
+        {
+            foreach (var entity in entities)
+            {
+                Delete(entity);
+            }
+        }
     }
 }

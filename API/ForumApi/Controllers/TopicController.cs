@@ -1,6 +1,8 @@
+using ForumApi.Data.Models;
 using ForumApi.DTO.DTopic;
 using ForumApi.DTO.Page;
 using ForumApi.Extensions;
+using ForumApi.Filters;
 using ForumApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +41,21 @@ namespace ForumApi.Controllers
         {
             var topic = await _topicService.Create(User.GetId(), topicDto);
             return Ok(topic);
+        }
+
+        [HttpDelete("{id}"), Authorize]
+        [PermissionActionFilter<Topic>]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _topicService.Delete(id);
+            return Ok();
+        }
+
+        [HttpDelete("{id}/admin"), Authorize(Roles = $"{Role.Admin},{Role.Moder}")]
+        public async Task<IActionResult> DeleteAsDmin(int id)
+        {
+            await _topicService.Delete(id);
+            return Ok();
         }
     }
 }

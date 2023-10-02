@@ -33,5 +33,20 @@ namespace ForumApi.Controllers
             var post = await _postService.Update(id, postDto);
             return Ok(post);
         }
+
+        [HttpDelete("{id}"), Authorize]
+        [PermissionActionFilter<Post>]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _postService.Delete(id);
+            return Ok();
+        }
+
+        [HttpDelete("{id}/admin"), Authorize(Roles = $"{Role.Admin},{Role.Moder}")]
+        public async Task<IActionResult> DeleteAsDmin(int id)
+        {
+            await _postService.Delete(id);
+            return Ok();
+        }
     }
 }

@@ -8,5 +8,18 @@ namespace ForumApi.Data.Repository.Implements
         public TopicRepository(ForumDbContext context) : base(context)
         {
         }
+
+        public override void Delete(Topic entity)
+        {
+            entity.DeletedAt = DateTime.UtcNow;
+        }
+
+        public override void DeleteMany(IEnumerable<Topic> entities)
+        {
+            foreach (var entity in entities)
+            {
+                Delete(entity);
+            }
+        }
     }
 }

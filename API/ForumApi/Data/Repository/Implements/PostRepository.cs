@@ -8,5 +8,18 @@ namespace ForumApi.Data.Repository.Implements
         public PostRepository(ForumDbContext context) : base(context)
         {
         }
+
+        public override void Delete(Post entity)
+        {
+            entity.DeletedAt = DateTime.UtcNow;
+        }
+
+        public override void DeleteMany(IEnumerable<Post> entities)
+        {
+            foreach (var entity in entities)
+            {
+                Delete(entity);
+            }
+        }
     }
 }

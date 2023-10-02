@@ -9,5 +9,6 @@ namespace ForumApi.Services.Interfaces
         Task<List<PostResponse>> GetPostPage(int topicId, Page page);
         Task<Post> Create(int accountId, PostDto postDto);
         Task<Post> Update(int postId , PostDto postDto);
+        Task Delete(int postId);
     }
 }
