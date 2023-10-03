@@ -7,6 +7,7 @@ namespace ForumApi.Services.Interfaces
     {
         Task<ForumResponse?> Get(int forumId);
         Task<Forum> Create(ForumDto forumDto);
+        Task<Forum> Update(int forumId, ForumDto forumDto);
         Task Delete(int forumId);
     }
 }

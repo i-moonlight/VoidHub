@@ -8,6 +8,7 @@ namespace ForumApi.DTO.DForum
         public ForumProfile()
         {
             CreateMap<ForumDto, Forum>();
+            CreateMap<Forum, ForumDto>();
         }
     }
 }

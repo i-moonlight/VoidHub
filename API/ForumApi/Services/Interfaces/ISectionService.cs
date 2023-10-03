@@ -7,5 +7,6 @@ namespace ForumApi.Services.Interfaces
     {
         Task<List<SectionResponse>> GetSections();
         Task<Section> Create(SectionDto section);
+        Task<Section> Update(int sectionId, SectionDto section);
     }
 }

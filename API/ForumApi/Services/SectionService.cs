@@ -5,6 +5,7 @@ using ForumApi.DTO.Auth;
 using ForumApi.DTO.DForum;
 using ForumApi.DTO.DSection;
 using ForumApi.DTO.DTopic;
+using ForumApi.Exceptions;
 using ForumApi.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,14 +32,16 @@ namespace ForumApi.Services
                 .Select(s => new SectionResponse {
                     Id = s.Id,
                     Title = s.Title,
+                    IsHidden = s.IsHidden,
                     Forums = s.Forums
+                        .Where(f => f.DeletedAt == null)
                         .Select(ff => new ForumResponse
                         {
                             Id = ff.Id,
                             Title = ff.Title,
                             TopicsCount = ff.Topics.Where(t => t.DeletedAt == null).Count(),
                             PostsCount = ff.Topics
-                                .SelectMany(t => t.Posts.Where(p => p.DeletedAt == null)).Count(),
+                                .SelectMany(t => t.Posts).Where(p=> p.DeletedAt == null).Count(),
                             LastTopic = ff.Topics
                                 .Where(t => t.DeletedAt == null)
                                 .OrderByDescending(t => t.CreatedAt)
@@ -66,6 +69,18 @@ namespace ForumApi.Services
             await _rep.Save();
 
             return newSection;
+        }
+
+        public async Task<Section> Update(int sectionId, SectionDto section)
+        {
+            var entity = await _rep.Section
+                .FindByCondition(s => s.Id == sectionId, true)
+                .FirstOrDefaultAsync() ?? throw new NotFoundException("Section not found");
+
+            _mapper.Map(section, entity);
+            await _rep.Save();
+
+            return entity;
         }
     }
 }

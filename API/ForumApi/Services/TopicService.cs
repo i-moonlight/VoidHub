@@ -72,7 +72,7 @@ namespace ForumApi.Services
                 .ToListAsync();
         }
 
-        public async Task<Topic> Create(int authorId, TopicDto topicDto)
+        public async Task<Topic> Create(int authorId, TopicNew topicDto)
         {
             var topic = _mapper.Map<Topic>(topicDto);
             topic.AccountId = authorId;
@@ -88,6 +88,18 @@ namespace ForumApi.Services
             _rep.Topic.Create(topic);
             await _rep.Save();
             return topic;
+        }
+
+        public async Task<Topic> Update(int topicId, TopicDto topicDto)
+        {
+            var entity = await _rep.Topic
+                .FindByCondition(t => t.Id == topicId && t.DeletedAt == null, true)
+                .FirstOrDefaultAsync() ?? throw new NotFoundException("Topic not found");
+
+            _mapper.Map(topicDto, entity);
+            await _rep.Save();
+
+            return entity;
         }
 
         public async Task Delete(int topicId)

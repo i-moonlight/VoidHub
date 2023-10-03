@@ -8,7 +8,8 @@ namespace ForumApi.Services.Interfaces
     {
         Task<TopicResponse?> GetTopic(int id);
         Task<List<TopicElement>> GetTopics(int forumId, Page page);
-        Task<Topic> Create(int authorId, TopicDto topicDto);
+        Task<Topic> Create(int authorId, TopicNew topicDto);
+        Task<Topic> Update(int topicId, TopicDto topicDto);
         Task Delete(int topicId);
     }
 }

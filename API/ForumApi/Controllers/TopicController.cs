@@ -37,9 +37,16 @@ namespace ForumApi.Controllers
         }
 
         [HttpPost, Authorize]
-        public async Task<IActionResult> Create(TopicDto topicDto)
+        public async Task<IActionResult> Create(TopicNew topicDto)
         {
             var topic = await _topicService.Create(User.GetId(), topicDto);
+            return Ok(topic);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, TopicDto topicDto)
+        {
+            var topic = await _topicService.Update(id, topicDto);
             return Ok(topic);
         }
 

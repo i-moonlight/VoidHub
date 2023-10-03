@@ -29,5 +29,12 @@ namespace ForumApi.Controllers
             var section = await _sectionService.Create(sectionDto);
             return Ok(section);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, SectionDto sectionDto)
+        {
+            var section = await _sectionService.Update(id, sectionDto);
+            return Ok(section);
+        }
     }
 }

@@ -6,6 +6,7 @@ namespace ForumApi.DTO.DSection
     {
         public int Id {get;set;}
         public string Title {get;set;} = null!; 
+        public bool IsHidden {get;set;}
         public int OrderPosition {get;set;}
 
         public List<ForumResponse> Forums {get;set;} = new();

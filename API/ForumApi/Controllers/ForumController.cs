@@ -42,8 +42,14 @@ namespace ForumApi.Controllers
             return Ok(forum);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, ForumDto forumDto)
+        {
+            var forum = await _forumService.Update(id, forumDto);
+            return Ok(forum);
+        }
+
         [HttpDelete("{id}"), Authorize]
-        [PermissionActionFilter<Forum>]
         public async Task<IActionResult> Delete(int id)
         {
             await _forumService.Delete(id);

@@ -29,6 +29,7 @@ namespace ForumApi.Services
                 {
                     Id = f.Id,
                     Title = f.Title,
+                    SectionId = f.SectionId,
                     PostsCount = f.Topics.SelectMany(t => t.Posts).Where(p => p.DeletedAt == null).Count(),
                     TopicsCount = f.Topics.Where(t => t.DeletedAt == null).Count()
                 }).FirstOrDefaultAsync();
@@ -40,6 +41,18 @@ namespace ForumApi.Services
             await _rep.Save();
             
             return forum;
+        }
+
+        public async Task<Forum> Update(int forumId, ForumDto forumDto)
+        {
+            var entity = await _rep.Forum
+                .FindByCondition(f => f.Id == forumId && f.DeletedAt == null, true)
+                .FirstOrDefaultAsync() ?? throw new NotFoundException("Forum not found");
+
+            _mapper.Map(forumDto, entity);
+            await _rep.Save();
+
+            return entity;
         }
 
         public async Task Delete(int forumId)
