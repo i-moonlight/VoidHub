@@ -8,7 +8,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class PaginatorComponent {
 
   private _currentPage: number;
-  @Input() set currentPage(value: number) {
+  get currentPage(): number {
+    return this._currentPage
+  };
+
+  @Input()
+  set currentPage(value: number) {
     this._currentPage = +value;
 
     if(this._currentPage < this.min)
@@ -17,12 +22,17 @@ export class PaginatorComponent {
     this.updatePages();
   };
 
-  get currentPage(): number {
-    return this._currentPage
-  };
+  @Input()
+  range: number = 3;
+  min: number = 1;
 
   private _max: number = 0;
-  @Input() set max(value: number) {
+  get max(): number {
+    return this._max
+  };
+
+  @Input()
+  set max(value: number) {
     value = +value;
 
     if(value < this.min)
@@ -30,14 +40,6 @@ export class PaginatorComponent {
 
     this._max = value % 1 > 0 ? Math.floor(value + 1) : value;
   };
-
-  get max(): number {
-    return this._max
-  };
-
-  min: number = 1;
-  @Input()
-  range: number = 3;
 
   pages: number[] = [];
 

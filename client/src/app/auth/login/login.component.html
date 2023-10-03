@@ -12,7 +12,7 @@
             placeholder="login"
             class="input-sm bg-neutral mt-2 input input-bordered "
             [ngClass]="{
-              'input-error': loginForm.controls['loginName']?.touched && loginForm.controls['loginName'].errors?.['required']
+              'input-error': loginForm.controls['loginName']?.touched && loginForm.controls['loginName'].invalid
             }"
             ngModel
             required
