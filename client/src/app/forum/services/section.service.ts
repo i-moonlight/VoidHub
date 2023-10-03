@@ -16,4 +16,8 @@ export class SectionService {
   createSection(section) {
     return this.http.post(this.baseUrl, section);
   }
+
+  updateSection(sectionId, data) {
+    return this.http.put(`${this.baseUrl}/${sectionId}`, data);
+  }
 }

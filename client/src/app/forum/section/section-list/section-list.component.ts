@@ -30,10 +30,6 @@ export class SectionListComponent implements OnDestroy {
       next: (sections: Section[]) => {
         console.log(sections);
         this.sections = sections;
-        console.log(this.sections)
-      },
-      error: (err) => {
-        console.log(err);
       }
     })
   }

@@ -1,15 +1,58 @@
 <div class="collapse collapse-arrow bg-base-200">
   <input type="checkbox" [name]="section.title" checked="checked" />
-  <div class="collapse-title text-xl font-medium text-accent">
-    {{section.title}}
+  <div class="collapse-title">
+    <div class="text-xl font-medium text-accent">
+      {{section.title}}
+    </div>
   </div>
   <div class="collapse-content">
     <div class="flex flex-col">
-      <button class="btn btn-neutral w-fit min-h-fit h-8"
-        [routerLink]="['/forum/section', section.id, 'new-forum']"
+      <div class="flex flex-row">
+        <app-title-editor
+          class="grow"
+          [title]="section.title"
+          (onSave)="onEdit($event)"
         >
-        New forum
-      </button>
+          <div class="form-control w-fit">
+            <input
+              type="number"
+              class="input-sm bg-neutral mt-2 input input-bordered"
+              id="orderPosition"
+              name="orderPosition"
+              placeholder="order pisition"
+              required
+              [(ngModel)]="section.orderPosition"
+              min="0"
+              >
+            <label class="flex flex-col items-start label pt-0.5">
+              <span class="label-text-alt">Order position on main page</span>
+              <span class="label-text-alt">0 - on the top</span>
+            </label>
+          </div>
+
+          <div class="flex flex-row">
+            <input
+              type="checkbox"
+              class="toggle my-auto"
+              id="isHidden"
+              name="isHidden"
+              #isHiddenModel="ngModel"
+              [ngClass]="{
+                'input-error': isHiddenModel.touched && isHiddenModel.invalid
+              }"
+              [(ngModel)]="section.isHidden"
+            >
+            <label class="label">Hidden</label>
+          </div>
+        </app-title-editor>
+        <div>
+          <button class="btn btn-neutral w-fit min-h-fit h-8"
+          [routerLink]="['/forum/section', section.id, 'new-forum']"
+          >
+          New forum
+        </button>
+        </div>
+      </div>
       <div class="flex flex-row items-center text-secondary-content">
         <div class="basis-8/12"></div>
         <div class="basis-1/12 text-center">msgs</div>
