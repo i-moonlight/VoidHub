@@ -6,8 +6,30 @@
       <div class="ms-3 ">msgs: {{forum.postsCount}}</div>
     </div>
   </div>
-  <div (click)="toggleNewTopic()" *ngIf="user && !showNewTopic" class="mt-3 ms-6 btn btn-neutral w-fit min-h-fit h-8">
-    New topic
+  <div class="flex flex-row mt-3 ms-6" *ngIf="user">
+    <div class="grow">
+      <app-title-editor
+        [title]="forum.title"
+        (onSave)="onEdit($event)"
+        *ngIf="forum"
+      >
+        <div class="hidden">
+          <input
+            type="number"
+            id="sectionId"
+            name="sectionId"
+            [(ngModel)]="forum.sectionId"
+          >
+        </div>
+      </app-title-editor>
+
+      <app-delete
+        (onConfirm)="onDelete()"
+      ></app-delete>
+    </div>
+    <div (click)="toggleNewTopic()" *ngIf="!showNewTopic" class="me-6 btn btn-neutral w-fit min-h-fit h-8">
+      New topic
+    </div>
   </div>
 
   <app-new-topic *ngIf="user && showNewTopic" (close)="toggleNewTopic()" (created)="onCreated()"></app-new-topic>

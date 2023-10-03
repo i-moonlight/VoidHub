@@ -1,9 +1,8 @@
 import { NgModule } from "@angular/core";
 import { ForumListComponent } from "./forum/forum-list/forum-list.component";
-import { ForumComponent } from "./forum/forum-element/forum-element.component";
+import { ForumElementComponent } from "./forum/forum-element/forum-element.component";
 import { SectionListComponent } from "./section/section-list/section-list.component";
 import { SectionElementComponent } from "./section/section-element/section-element.component";
-import { TopicListComponent } from "./topic/topic-list/topic-list.component";
 import { TopicElementComponent } from "./topic/topic-element/topic-element.component";
 import { PostElementComponent } from "./post/post-element/post-element.component";
 import { RouterModule } from "@angular/router";
@@ -21,6 +20,8 @@ import { PaginatorComponent } from './paginator/paginator.component';
 import { PostService } from "./services/post.service";
 import { NewPostComponent } from './post/post-editor/post-editor.component';
 import { DeleteComponent } from './delete/delete.component';
+import { TitleEditorComponent } from './title-editor/title-editor.component';
+import { ForumComponent } from "./forum/forum/forum.component";
 
 @NgModule({
   providers: [
@@ -33,8 +34,6 @@ import { DeleteComponent } from './delete/delete.component';
     SectionListComponent,
     SectionElementComponent,
     ForumListComponent,
-    ForumComponent,
-    TopicListComponent,
     TopicElementComponent,
     PostElementComponent,
     MainComponent,
@@ -45,6 +44,9 @@ import { DeleteComponent } from './delete/delete.component';
     PaginatorComponent,
     NewPostComponent,
     DeleteComponent,
+    TitleEditorComponent,
+    ForumComponent,
+    ForumElementComponent
   ],
   imports: [
     SharedModule,
@@ -58,7 +60,7 @@ import { DeleteComponent } from './delete/delete.component';
         {path:'topic/:id/:page', component: TopicComponent},
         {path:'topic/:id', redirectTo: 'topic/:id/1', pathMatch: 'full'},
         {path:':id', redirectTo: ':id/1', pathMatch: 'full'},
-        {path:':id/:page', component: TopicListComponent},
+        {path:':id/:page', component: ForumComponent},
       ]},
     ])
   ],

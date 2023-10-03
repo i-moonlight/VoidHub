@@ -8,24 +8,16 @@ import { ForumService } from '../../services/forum.service';
 import { Forum } from '../../models/forum.model';
 
 @Component({
-  selector: 'app-topic-list',
-  templateUrl: './topic-list.component.html',
-  styleUrls: ['./topic-list.component.css']
+  selector: 'app-forum',
+  templateUrl: './forum.component.html',
+  styleUrls: ['./forum.component.css']
 })
-export class TopicListComponent implements OnDestroy {
-  topics: Topic[] = [
-    {id: 1, title: 'Topic 1',createdAt: new Date(), isClosed: false},
-    {id: 2, title: 'Topic 2',createdAt: new Date(), isClosed: true},
-    {id: 3, title: 'Topic 3',createdAt: new Date(), isClosed: false},
-    {id: 4, title: 'Topic 4',createdAt: new Date(), isClosed: true},
-    {id: 5, title: 'Topic 5',createdAt: new Date(), isClosed: false},
-  ];
-
+export class ForumComponent implements OnDestroy {
+  topics: Topic[] = [];
   forum: Forum = null;
 
   user: User = null;
   private destroy$ = new ReplaySubject<boolean>(1);
-
 
   forumId: number = 0;
   currentPage: number = 1;
@@ -89,6 +81,23 @@ export class TopicListComponent implements OnDestroy {
       .subscribe((topics: Topic[]) => {
         this.topics = topics;
       });
+  }
+
+  onEdit(data) {
+    this.forumService.updateForum(this.forum.id, data)
+      .subscribe({
+        next: (forum:any) => {
+          this.forum.title = forum.title;
+        }
+      })
+  }
+
+  onDelete() {
+    this.forumService.deleteForum(this.forum.id).subscribe({
+      next: () => {
+        this.router.navigate(['../../'], {relativeTo: this.route});
+      }
+    })
   }
 
   onCreated() {
