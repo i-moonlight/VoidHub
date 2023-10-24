@@ -28,7 +28,7 @@ export class NewSectionComponent {
 
     this.sectionService.createSection(form.value).subscribe({
       next: _ => {
-        this.router.navigate(['../']);
+        this.router.navigate(['/forum/sections']);
       },
       error: errs => {
         this.errorMessages = errs;

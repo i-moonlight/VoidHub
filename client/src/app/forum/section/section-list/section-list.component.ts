@@ -28,7 +28,6 @@ export class SectionListComponent implements OnDestroy {
     sectionService.getSections()
     .subscribe({
       next: (sections: Section[]) => {
-        console.log(sections);
         this.sections = sections;
       }
     })
