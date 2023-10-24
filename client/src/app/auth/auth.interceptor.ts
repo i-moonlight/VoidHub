@@ -45,7 +45,9 @@ export class AuthInterceptor {
               return next.handle(modifiedReq);
             }),
             catchError((err) => {
-              this.authService.logout();
+              if(err instanceof HttpErrorResponse && err.status == 401)
+                this.authService.logout();
+
               return throwError(err);
             })
           );
