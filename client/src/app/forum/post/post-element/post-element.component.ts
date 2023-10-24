@@ -14,6 +14,10 @@ export class PostElementComponent {
 
   @Input()
   user: User;
+
+  @Input()
+  enableDeliting: boolean = true;
+
   roles = Roles;
 
   @Output()

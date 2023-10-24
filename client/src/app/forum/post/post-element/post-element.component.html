@@ -11,13 +11,13 @@
         <div class="text-xs">
           {{post?.createdAt | date: 'dd.MM.yyyy HH:mm'}}
         </div>
-        <div class="flex flex-row">
+        <div class="flex flex-row mx-auto">
           <div class="text-xs" *ngIf="user && user?.id == post?.author.id">
             <div class="btn btn-neutral min-h-min h-8" (click)="setEditMode(true)">
               Edit
             </div>
           </div>
-          <div class="my-auto">
+          <div class="my-auto" *ngIf="enableDeliting">
             <div class="text-xs" *ngIf="user">
               <app-delete *ngIf="user?.id == post?.author.id" (onConfirm)="deleteClick()">
               </app-delete>
