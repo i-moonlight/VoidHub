@@ -25,11 +25,11 @@ namespace ForumApi.Services
 
         public async Task Delete(int id)
         {
-            var account = await _rep.Account
+            var account = await _rep.Account.Value
                 .FindByCondition(a => a.Id == id, true)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("User with such id doesn't exist");
 
-            _rep.Account.Delete(account);
+            _rep.Account.Value.Delete(account);
             account.Tokens.Clear();
 
             await _rep.Save();

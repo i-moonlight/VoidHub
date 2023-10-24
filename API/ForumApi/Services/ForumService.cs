@@ -23,7 +23,7 @@ namespace ForumApi.Services
 
         public async Task<ForumResponse?> Get(int forumId)
         {
-            return await _rep.Forum
+            return await _rep.Forum.Value
                 .FindByCondition(f => f.Id == forumId && f.DeletedAt == null)
                 .Select(f => new ForumResponse
                 {
@@ -37,7 +37,7 @@ namespace ForumApi.Services
 
         public async Task<Forum> Create(ForumDto forumDto)
         {
-            var forum = _rep.Forum.Create(_mapper.Map<Forum>(forumDto));
+            var forum = _rep.Forum.Value.Create(_mapper.Map<Forum>(forumDto));
             await _rep.Save();
             
             return forum;
@@ -45,7 +45,7 @@ namespace ForumApi.Services
 
         public async Task<Forum> Update(int forumId, ForumDto forumDto)
         {
-            var entity = await _rep.Forum
+            var entity = await _rep.Forum.Value
                 .FindByCondition(f => f.Id == forumId && f.DeletedAt == null, true)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Forum not found");
 
@@ -57,11 +57,11 @@ namespace ForumApi.Services
 
         public async Task Delete(int forumId)
         {
-            var entity = await _rep.Forum
+            var entity = await _rep.Forum.Value
                 .FindByCondition(f => f.DeletedAt == null && f.Id == forumId, true)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Forum not found");
 
-            _rep.Forum.Delete(entity);
+            _rep.Forum.Value.Delete(entity);
             await _rep.Save();
         }
     }

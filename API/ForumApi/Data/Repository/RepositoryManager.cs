@@ -6,22 +6,22 @@ namespace ForumApi.Data.Repository
     {
         private readonly ForumDbContext _context;
 
-        public IAccountRepository Account { get; }
-        public ITokenRepository Token { get; }
+        public Lazy<IAccountRepository> Account { get; }
+        public Lazy<ITokenRepository> Token { get; }
 
-        public ISectionRepository Section { get; }
-        public IForumRepository Forum { get; }
-        public ITopicRepository Topic { get; }
-        public IPostRepository Post { get; }
+        public Lazy<ISectionRepository> Section { get; }
+        public Lazy<IForumRepository> Forum { get; }
+        public Lazy<ITopicRepository> Topic { get; }
+        public Lazy<IPostRepository> Post { get; }
 
         public RepositoryManager(
             ForumDbContext context,
-            IAccountRepository account, 
-            ITokenRepository token,
-            ISectionRepository section,
-            IForumRepository forum,
-            ITopicRepository topic,
-            IPostRepository post)
+            Lazy<IAccountRepository> account, 
+            Lazy<ITokenRepository> token,
+            Lazy<ISectionRepository> section,
+            Lazy<IForumRepository> forum,
+            Lazy<ITopicRepository> topic,
+            Lazy<IPostRepository> post)
         {
             _context = context;
             Account = account;

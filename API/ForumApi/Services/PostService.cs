@@ -29,7 +29,7 @@ namespace ForumApi.Services
             var post = _mapper.Map<Post>(postDto);
             post.AccountId = accountId;
 
-            _rep.Post.Create(post);
+            _rep.Post.Value.Create(post);
             await _rep.Save();
 
             return post;
@@ -37,11 +37,11 @@ namespace ForumApi.Services
 
         public async Task Delete(int postId)
         {
-            var entity = await _rep.Post
+            var entity = await _rep.Post.Value
                 .FindByCondition(p => p.Id == postId && p.DeletedAt == null, true)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Post not found");
 
-            var topicFirstPost = await _rep.Post
+            var topicFirstPost = await _rep.Post.Value
                 .FindByCondition(p => p.TopicId == entity.TopicId && p.DeletedAt == null)
                 .OrderBy(p => p.CreatedAt)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Post not found");
@@ -49,14 +49,14 @@ namespace ForumApi.Services
             if (entity.Id == topicFirstPost.Id)
                 throw new BadRequestException("You can't delete main post");            
 
-            _rep.Post.Delete(entity);
+            _rep.Post.Value.Delete(entity);
             await _rep.Save();
         }
 
         public async Task<List<PostResponse>> GetPostPage(int topicId, Page page)
         {
             //skip(1) for not including main post
-            var posts = await _rep.Post
+            var posts = await _rep.Post.Value
                 .FindByCondition(p => p.TopicId == topicId && p.DeletedAt == null)
                 .OrderBy(p => p.CreatedAt)
                 .Include(p => p.Author)
@@ -69,7 +69,7 @@ namespace ForumApi.Services
 
         public async Task<Post> Update(int postId, PostDto postDto)
         {
-            var entity = await _rep.Post
+            var entity = await _rep.Post.Value
                 .FindByCondition(p => p.Id == postId && p.DeletedAt == null, true)
                 .FirstOrDefaultAsync();
 

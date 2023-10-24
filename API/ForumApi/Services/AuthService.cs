@@ -32,7 +32,7 @@ namespace ForumApi.Services
         
         public async Task<AuthResponse> RefreshPair(string refreshToken)
         {
-            var tokenEntity = await _rep.Token.FindByTokenWithAccount(refreshToken, true)
+            var tokenEntity = await _rep.Token.Value.FindByTokenWithAccount(refreshToken, true)
                 .FirstOrDefaultAsync() ??  throw new NotFoundException("Invalid refresh token");
 
             if(tokenEntity.Account.DeletedAt != null)
@@ -60,7 +60,7 @@ namespace ForumApi.Services
 
         public async Task<AuthResponse> Login(Login auth)
         {
-            var account = await _rep.Account
+            var account = await _rep.Account.Value
                 .FindByLoginWithTokens(auth.LoginName, true)
                 .FirstOrDefaultAsync() ?? throw new BadRequestException("User with such login doesn't exist");
 
@@ -74,7 +74,7 @@ namespace ForumApi.Services
             if(account.Tokens.Count > _jwtOptions.MaxTokenCount)
             {
                 var token = account.Tokens.OrderBy(t => t.ExpiresAt).First();
-                _rep.Token.Delete(token);
+                _rep.Token.Value.Delete(token);
             }
 
             var newPair = _tokenService.CreatePair(account);
@@ -99,10 +99,10 @@ namespace ForumApi.Services
 
         public async Task<AuthResponse> Register(Register auth)
         {
-            if(await _rep.Account.FindByLogin(auth.LoginName).AnyAsync())
+            if(await _rep.Account.Value.FindByLogin(auth.LoginName).AnyAsync())
                 throw new BadRequestException("User with such login already exists");
 
-            if(await _rep.Account.FindByCondition(a=>a.Email == auth.Email).AnyAsync())
+            if(await _rep.Account.Value.FindByCondition(a=>a.Email == auth.Email).AnyAsync())
                 throw new BadRequestException("User with such email already exists");
 
             var account = new Account()
@@ -118,7 +118,7 @@ namespace ForumApi.Services
             await _rep.BeginTransaction();
             try 
             {
-                _rep.Account.Create(account);
+                _rep.Account.Value.Create(account);
                 await _rep.Save();
 
                 var pair = _tokenService.CreatePair(account);

@@ -25,7 +25,7 @@ namespace ForumApi.Services
 
         public async Task<TopicResponse?> GetTopic(int id)
         {
-            return await _rep.Topic
+            return await _rep.Topic.Value
                 .FindByCondition(t => t.Id == id && t.DeletedAt == null)
                 .Select(p => new TopicResponse
                 {
@@ -49,7 +49,7 @@ namespace ForumApi.Services
 
         public async Task<List<TopicElement>> GetTopics(int forumId, Page page)
         {
-            return await _rep.Topic
+            return await _rep.Topic.Value
                 .FindByCondition(t => t.DeletedAt == null && t.ForumId == forumId)
                 .OrderByDescending(t => t.CreatedAt)
                 .Select(p => new TopicElement
@@ -88,14 +88,14 @@ namespace ForumApi.Services
 
             topic.Posts.Add(post);
 
-            _rep.Topic.Create(topic);
+            _rep.Topic.Value.Create(topic);
             await _rep.Save();
             return topic;
         }
 
         public async Task<Topic> Update(int topicId, TopicDto topicDto)
         {
-            var entity = await _rep.Topic
+            var entity = await _rep.Topic.Value
                 .FindByCondition(t => t.Id == topicId && t.DeletedAt == null, true)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Topic not found");
 
@@ -107,11 +107,11 @@ namespace ForumApi.Services
 
         public async Task Delete(int topicId)
         {
-            var entity = await _rep.Topic
+            var entity = await _rep.Topic.Value
                 .FindByCondition(t => t.Id == topicId && t.DeletedAt == null, true)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Topic not found");
 
-            _rep.Topic.Delete(entity);
+            _rep.Topic.Value.Delete(entity);
             await _rep.Save();
         }
     }

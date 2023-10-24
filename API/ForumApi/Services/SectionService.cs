@@ -26,7 +26,7 @@ namespace ForumApi.Services
         }
         public async Task<List<SectionResponse>> GetSections()
         {
-            var sections = await _rep.Section
+            var sections = await _rep.Section.Value
                 .FindByCondition(s => s.IsHidden == false)
                 .OrderBy(s => s.OrderPosition)
                 .Select(s => new SectionResponse {
@@ -64,7 +64,7 @@ namespace ForumApi.Services
 
         public async Task<Section> Create(SectionDto sectionDto)
         {
-            var newSection = _rep.Section.Create(_mapper.Map<Section>(sectionDto));
+            var newSection = _rep.Section.Value.Create(_mapper.Map<Section>(sectionDto));
 
             await _rep.Save();
 
@@ -73,7 +73,7 @@ namespace ForumApi.Services
 
         public async Task<Section> Update(int sectionId, SectionDto section)
         {
-            var entity = await _rep.Section
+            var entity = await _rep.Section.Value
                 .FindByCondition(s => s.Id == sectionId, true)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Section not found");
 

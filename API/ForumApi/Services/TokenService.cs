@@ -71,10 +71,10 @@ namespace ForumApi.Services
 
         public async Task Revoke(string refreshToken)
         {
-            var tokenEntity = await _rep.Token.FindByToken(refreshToken, false)
+            var tokenEntity = await _rep.Token.Value.FindByToken(refreshToken, false)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Invalid refresh token");
 
-            _rep.Token.Delete(tokenEntity);
+            _rep.Token.Value.Delete(tokenEntity);
 
             await _rep.Save();
         }

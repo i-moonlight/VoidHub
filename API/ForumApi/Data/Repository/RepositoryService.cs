@@ -11,13 +11,19 @@ namespace ForumApi.Data.Repository
             services.AddDbContext<ForumDbContext>(options =>
                 options.UseLazyLoadingProxies().UseNpgsql(config.GetConnectionString("ForumDb")));
 
-            services.AddScoped<ITokenRepository, TokenRepository>();
-            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<ITokenRepository, TokenRepository>()
+                .AddScoped(provider => new Lazy<ITokenRepository>(() => provider.GetRequiredService<ITokenRepository>()));
+            services.AddScoped<IAccountRepository, AccountRepository>()
+                .AddScoped(provider => new Lazy<IAccountRepository>(() => provider.GetRequiredService<IAccountRepository>()));
 
-            services.AddScoped<ISectionRepository, SectionRepository>();
-            services.AddScoped<ITopicRepository, TopicRepository>();
-            services.AddScoped<IPostRepository, PostRepository>();
-            services.AddScoped<IForumRepository, ForumRepository>();
+            services.AddScoped<ISectionRepository, SectionRepository>()
+                .AddScoped(provider => new Lazy<ISectionRepository>(() => provider.GetRequiredService<ISectionRepository>()));
+            services.AddScoped<ITopicRepository, TopicRepository>()
+                .AddScoped(provider => new Lazy<ITopicRepository>(() => provider.GetRequiredService<ITopicRepository>()));
+            services.AddScoped<IPostRepository, PostRepository>()
+                .AddScoped(provider => new Lazy<IPostRepository>(() => provider.GetRequiredService<IPostRepository>()));
+            services.AddScoped<IForumRepository, ForumRepository>()
+                .AddScoped(provider => new Lazy<IForumRepository>(() => provider.GetRequiredService<IForumRepository>()));
 
             services.AddScoped<IRepositoryManager, RepositoryManager>();
 

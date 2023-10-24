@@ -2,12 +2,12 @@ namespace ForumApi.Data.Repository.Interfaces
 {
     public interface IRepositoryManager
     {
-        IAccountRepository Account { get; }
-        ITokenRepository Token { get; }
-        ISectionRepository Section { get; }
-        IForumRepository Forum { get; }
-        ITopicRepository Topic { get; }
-        IPostRepository Post { get; }
+        Lazy<IAccountRepository> Account { get; }
+        Lazy<ITokenRepository> Token { get; }
+        Lazy<ISectionRepository> Section { get; }
+        Lazy<IForumRepository> Forum { get; }
+        Lazy<ITopicRepository> Topic { get; }
+        Lazy<IPostRepository> Post { get; }
 
         Task BeginTransaction();
         Task Commit();
