@@ -35,7 +35,7 @@ namespace ForumApi.Data
                 a.Property(a => a.PasswordHash)
                     .IsRequired();
                 a.Property(a => a.LastLoggedAt)
-                    .HasDefaultValue(DateTime.UtcNow);
+                    .HasDefaultValueSql("timezone('utc', now())");
 
                 a.Property(a => a.DeletedAt)
                     .HasDefaultValue(null);
@@ -95,7 +95,7 @@ namespace ForumApi.Data
 
                 t.Property(t => t.CreatedAt)
                     .IsRequired()
-                    .HasDefaultValue(DateTime.UtcNow);
+                    .HasDefaultValueSql("timezone('utc', now())");
 
                 t.Property(t => t.IsClosed)
                     .HasDefaultValue(false);
@@ -125,7 +125,7 @@ namespace ForumApi.Data
 
                 p.Property(p => p.CreatedAt)
                     .IsRequired()
-                    .HasDefaultValue(DateTime.UtcNow);
+                    .HasDefaultValueSql("timezone('utc', now())");
 
                 p.Property(p => p.DeletedAt)
                     .HasDefaultValue(null);
