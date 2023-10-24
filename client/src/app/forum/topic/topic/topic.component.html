@@ -5,6 +5,52 @@
       <div class="text-xs text-secondary-content flex flex-row">
         <div>posts: {{topic.postsCount}}</div>
       </div>
+
+      <div class="flex flex-row grow my-auto">
+        <div>
+          <app-title-editor
+            [title]="topic.title"
+            (onSave)="onTopicEdit($event)"
+            *ngIf="topic"
+          >
+            <div class="hidden">
+              <input
+                type="number"
+                id="forumId"
+                name="forumId"
+                [(ngModel)]="topic.forumId"
+              >
+            </div>
+
+            <div class="flex flex-row">
+              <input
+                type="checkbox"
+                class="toggle my-auto"
+                id="isClosed"
+                name="isClosed"
+                [(ngModel)]="topic.isClosed"
+              >
+              <label class="label">Closed</label>
+            </div>
+            <div class="flex flex-row">
+              <input
+                type="checkbox"
+                class="toggle my-auto"
+                id="isPinned"
+                name="isPinned"
+                [(ngModel)]="topic.isPinned"
+              >
+              <label class="label">Pinned</label>
+            </div>
+          </app-title-editor>
+        </div>
+
+        <div>
+          <app-delete (onConfirm)="onTopicDelete()">
+          </app-delete>
+        </div>
+      </div>
+
       <div class="mt-3">
         <app-post [post]="topic?.post" [user]="user"></app-post>
       </div>
@@ -35,7 +81,7 @@
       </app-paginator>
     </div>
     <app-post-editor
-      *ngIf="user"
+      *ngIf="user && !topic.isClosed"
       [topicId]="topic.id"
       [content]="newPostContent"
       [cancelPlaceholder]="'Clear'"

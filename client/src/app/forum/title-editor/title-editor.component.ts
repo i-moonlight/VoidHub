@@ -31,6 +31,7 @@ export class TitleEditorComponent {
     this._editMode = value;
 
     if(value) {
+      //create delay before loading all inputs
       setTimeout(() => {
         let ngContentModels = this.models.toArray();
         ngContentModels.forEach((model) => {

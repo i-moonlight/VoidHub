@@ -1,3 +1,4 @@
+import { Topic } from './../../models/topic.model';
 import { TopicService } from './../../services/topic.service';
 import { Component, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -82,6 +83,7 @@ export class TopicComponent implements OnDestroy {
       });
   }
 
+  //post methods
   onPostDelete() {
     this.topic.postsCount--;
     this.loadNewPostsPage();
@@ -104,6 +106,26 @@ export class TopicComponent implements OnDestroy {
           this.changePage(page);
       }
     })
+  }
+
+  //topic methods
+
+  onTopicEdit(data) {
+    this.topicService
+      .updateTopic(this.topic.id, data)
+      .subscribe({
+        next: topicResponse => {
+          //also save old values
+          this.topic = {
+            ...this.topic,
+            ...topicResponse
+          }
+        }
+      })
+  }
+
+  onTopicDelete() {
+
   }
 
   ngOnDestroy(): void {

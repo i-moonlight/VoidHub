@@ -22,4 +22,12 @@ export class TopicService {
   createTopic(topic) {
     return this.http.post(this.baseURL, topic);
   }
+
+  updateTopic(topicId, data) {
+    return this.http.put(this.baseURL + '/' + topicId, data);
+  }
+
+  deleteTopic(topicId) {
+    return this.http.delete(this.baseURL + '/' + topicId);
+  }
 }
