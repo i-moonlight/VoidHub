@@ -27,18 +27,15 @@ namespace ForumApi.Data
                 a.HasIndex(a => a.Email).IsUnique();
 
                 a.Property(a => a.Username)
-                    .HasColumnType("nvarchar(32)")
                     .IsRequired();
                 a.Property(a => a.LoginName)
-                    .HasColumnType("nvarchar(32)")
                     .IsRequired();
                 a.Property(a => a.Email)
-                    .HasColumnType("nvarchar(255)")
                     .IsRequired();
                 a.Property(a => a.PasswordHash)
                     .IsRequired();
                 a.Property(a => a.LastLoggedAt)
-                    .HasDefaultValueSql("GETUTCDATE()");
+                    .HasDefaultValue(DateTime.UtcNow);
 
                 a.Property(a => a.DeletedAt)
                     .HasDefaultValue(null);
@@ -51,7 +48,6 @@ namespace ForumApi.Data
                 t.HasIndex(t => t.RefreshToken).IsUnique();
 
                 t.Property(t => t.RefreshToken)
-                    .HasColumnType("nvarchar(1024)")
                     .IsRequired();
                 t.Property(t => t.ExpiresAt)
                     .IsRequired();
@@ -66,8 +62,7 @@ namespace ForumApi.Data
                 s.HasKey(s => s.Id);
 
                 s.Property(s => s.Title)
-                    .IsRequired()
-                    .HasColumnType("nvarchar(256)");
+                    .IsRequired();
 
                 s.Property(s => s.IsHidden)
                     .HasDefaultValue(false);
@@ -78,8 +73,7 @@ namespace ForumApi.Data
                 f.HasKey(f => f.Id);
 
                 f.Property(f => f.Title)
-                    .IsRequired()
-                    .HasColumnType("nvarchar(256)");
+                    .IsRequired();
 
                 f.Property(f => f.IsClosed)
                     .HasDefaultValue(false);
@@ -97,14 +91,16 @@ namespace ForumApi.Data
                 t.HasKey(t => t.Id);
 
                 t.Property(t => t.Title)
-                    .IsRequired()
-                    .HasColumnType("nvarchar(256)");
+                    .IsRequired();
 
                 t.Property(t => t.CreatedAt)
                     .IsRequired()
-                    .HasDefaultValueSql("GETUTCDATE()");
+                    .HasDefaultValue(DateTime.UtcNow);
 
                 t.Property(t => t.IsClosed)
+                    .HasDefaultValue(false);
+
+                t.Property(t => t.IsPinned)
                     .HasDefaultValue(false);
 
                 t.Property(t => t.DeletedAt)
@@ -125,12 +121,11 @@ namespace ForumApi.Data
                 p.HasKey(p => p.Id);
 
                 p.Property(p => p.Content)
-                    .IsRequired()
-                    .HasColumnType("nvarchar(4000)");
+                    .IsRequired();
 
                 p.Property(p => p.CreatedAt)
                     .IsRequired()
-                    .HasDefaultValueSql("GETUTCDATE()");
+                    .HasDefaultValue(DateTime.UtcNow);
 
                 p.Property(p => p.DeletedAt)
                     .HasDefaultValue(null);

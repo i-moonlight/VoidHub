@@ -30,9 +30,11 @@ namespace ForumApi.Services
                 .Select(p => new TopicResponse
                 {
                     Id = p.Id,
+                    ForumId = p.ForumId,
                     Title = p.Title,
                     CreatedAt = p.CreatedAt,
                     IsClosed = p.IsClosed,
+                    IsPinned = p.IsPinned,
                     Post = new PostResponse
                     {
                         Id = p.Posts.First().Id,
@@ -56,6 +58,7 @@ namespace ForumApi.Services
                     Title = p.Title,
                     CreatedAt = p.CreatedAt,
                     IsClosed = p.IsClosed,
+                    IsPinned = p.IsPinned,
                     PostsCount = p.Posts.Where(p => p.DeletedAt == null).Count(),
                     Author = _mapper.Map<User>(p.Author),
                     LastPost = p.Posts

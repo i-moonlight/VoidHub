@@ -10,6 +10,7 @@ namespace ForumApi.Data.Models
         public string Title {get;set;} = null!;
         public DateTime CreatedAt {get;set;}
         public DateTime? DeletedAt {get;set;}
+        public bool IsPinned {get;set;}
         public bool IsClosed {get;set;}
 
         [JsonIgnore]

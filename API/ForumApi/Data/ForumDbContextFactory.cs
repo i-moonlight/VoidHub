@@ -20,7 +20,7 @@ namespace ForumApi.Data
             IConfigurationRoot config = builder.Build();
 
             string? connectionString = config.GetConnectionString("ForumDb");
-            optionsBuilder.UseSqlServer(connectionString, opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds));
+            optionsBuilder.UseNpgsql(connectionString, opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds));
 
             return new ForumDbContext(optionsBuilder.Options);
         }
