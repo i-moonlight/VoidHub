@@ -125,7 +125,11 @@ export class TopicComponent implements OnDestroy {
   }
 
   onTopicDelete() {
-
+    this.topicService.deleteTopic(this.topic.id).subscribe({
+      next: () => {
+        this.router.navigate(['/', 'forum', this.topic.forumId]);
+      }
+    });
   }
 
   ngOnDestroy(): void {

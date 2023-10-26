@@ -1,11 +1,21 @@
 <div class="flex flex-col">
   <div class="flex flex-col" *ngIf="topic">
     <div>
-      <div class="text-3xl font-bold">{{topic.title}}</div>
+      <div class="link no-underline" routerLink="/forum/{{topic.forumId}}">Back to forum...</div>
+      <div class="flex flex-row my-auto">
+        <div class="text-3xl font-bold">{{topic.title}}</div>
+        <div class="flex flex-row ms-3">
+          <div *ngIf="topic.isClosed" class="my-auto">
+            <app-closed-icon></app-closed-icon>
+          </div>
+          <div *ngIf="topic.isClosed" class="my-auto ms-1">
+            <app-pinned-icon></app-pinned-icon>
+          </div>
+        </div>
+      </div>
       <div class="text-xs text-secondary-content flex flex-row">
         <div>posts: {{topic.postsCount}}</div>
       </div>
-
       <div class="flex flex-row grow my-auto">
         <div>
           <app-title-editor
@@ -40,13 +50,15 @@
                 name="isPinned"
                 [(ngModel)]="topic.isPinned"
               >
-              <label class="label">Pinned</label>
+            <label class="label">Pinned</label>
             </div>
           </app-title-editor>
         </div>
 
         <div>
-          <app-delete (onConfirm)="onTopicDelete()">
+          <app-delete
+            (onConfirm)="onTopicDelete()"
+          >
           </app-delete>
         </div>
       </div>

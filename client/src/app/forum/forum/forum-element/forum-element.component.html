@@ -12,12 +12,15 @@
       {{forum.topicsCount}}
     </div>
     <div class="basis-3/12">
-      <div class="flex flex-col text-xs">
-        <a class="text-cyan-100 hover:text-accent-focus link link-hover font-semibold">
-          lastTopicName
+      <div class="flex flex-col text-xs" *ngIf="forum.lastTopic">
+        <a
+          class="text-cyan-100 hover:text-accent-focus link link-hover font-semibold"
+          routerLink="/forum/topic/{{forum.lastTopic.id}}"
+        >
+          {{forum.lastTopic.title}}
         </a>
         <div class="text-secondary-content">
-          time: ...
+          {{forum.lastTopic.updatedAt | date: 'dd.MM.yyyy HH:mm'}}
         </div>
       </div>
     </div>

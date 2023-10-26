@@ -19,9 +19,11 @@ import { TopicService } from "./services/topic.service";
 import { PaginatorComponent } from './paginator/paginator.component';
 import { PostService } from "./services/post.service";
 import { NewPostComponent } from './post/post-editor/post-editor.component';
-import { DeleteComponent } from './delete/delete.component';
+import { DeleteComponent } from './shared/delete/delete.component';
 import { TitleEditorComponent } from './title-editor/title-editor.component';
 import { ForumComponent } from "./forum/forum/forum.component";
+import { PinnedIconComponent } from './shared/pinned-icon/pinned-icon.component';
+import { ClosedIconComponent } from './shared/closed-icon/closed-icon.component';
 
 @NgModule({
   providers: [
@@ -46,7 +48,9 @@ import { ForumComponent } from "./forum/forum/forum.component";
     DeleteComponent,
     TitleEditorComponent,
     ForumComponent,
-    ForumElementComponent
+    ForumElementComponent,
+    PinnedIconComponent,
+    ClosedIconComponent
   ],
   imports: [
     SharedModule,
