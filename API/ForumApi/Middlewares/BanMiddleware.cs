@@ -50,7 +50,7 @@ namespace ForumApi.Middlewares
             }
 
             var userBans = await banRepo.Value
-                .FindByCondition(b => b.AccountId == userId && ((b.IsActive && b.ExpiresAt > DateTime.UtcNow) || b.IsPermanent))
+                .FindByCondition(b => b.AccountId == userId && ((b.IsActive && b.ExpiresAt > DateTime.UtcNow) || (b.IsActive && b.IsPermanent)))
                 .OrderByDescending(b => b.IsPermanent)
                 .ThenByDescending(b => b.ExpiresAt)
                 .FirstOrDefaultAsync();
