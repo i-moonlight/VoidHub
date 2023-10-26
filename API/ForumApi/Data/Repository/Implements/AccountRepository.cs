@@ -9,6 +9,9 @@ namespace ForumApi.Data.Repository.Implements
         public AccountRepository(ForumDbContext context) : base(context)
         {
         }
+        
+        public IQueryable<Account> FindById(int id, bool asTracking = false) => 
+            FindByCondition(a => a.Id == id, asTracking);
 
         public IQueryable<Account> FindByLogin(string login, bool asTracking = false) =>
             FindByCondition(a => a.LoginName == login, asTracking);
@@ -28,6 +31,6 @@ namespace ForumApi.Data.Repository.Implements
             {
                 Delete(entity);
             }
-        }
+        } 
     }
 }

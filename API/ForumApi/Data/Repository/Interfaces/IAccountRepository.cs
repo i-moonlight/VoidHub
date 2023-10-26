@@ -4,6 +4,7 @@ namespace ForumApi.Data.Repository.Interfaces
 {
     public interface IAccountRepository : IRepositoryBase<Account>
     {
+        IQueryable<Account> FindById(int id, bool asTracking = false);
         IQueryable<Account> FindByLogin(string login, bool asTracking = false);
         IQueryable<Account> FindByLoginWithTokens(string login, bool asTracking = false);
         /// <summary>

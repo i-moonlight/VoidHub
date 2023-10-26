@@ -180,6 +180,10 @@ namespace ForumApi.Data
                 b.HasOne(b => b.Moderator)
                     .WithMany(a => a.GivenBans)
                     .HasForeignKey(b => b.ModeratorId);
+
+                b.HasOne(b => b.UpdatedBy)
+                    .WithMany(a => a.UpdatedBans)
+                    .HasForeignKey(b => b.UpdatedById);
             });
 
             base.OnModelCreating(builder);
