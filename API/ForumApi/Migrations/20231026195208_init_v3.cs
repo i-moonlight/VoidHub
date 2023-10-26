@@ -1,13 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using NpgsqlTypes;
 
 #nullable disable
 
 namespace ForumApi.Migrations
 {
     /// <inheritdoc />
-    public partial class init_pgsql : Migration
+    public partial class init_v3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,7 +24,7 @@ namespace ForumApi.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     PasswordHash = table.Column<string>(type: "text", nullable: false),
                     Role = table.Column<string>(type: "text", nullable: false),
-                    LastLoggedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 10, 23, 11, 49, 44, 650, DateTimeKind.Utc).AddTicks(9498)),
+                    LastLoggedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "timezone('utc', now())"),
                     DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
@@ -44,6 +45,37 @@ namespace ForumApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sections", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bans",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    AccountId = table.Column<int>(type: "integer", nullable: false),
+                    ModeratorId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "timezone('utc', now())"),
+                    ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Reason = table.Column<string>(type: "text", nullable: false),
+                    IsPermanent = table.Column<bool>(type: "boolean", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bans", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bans_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bans_Accounts_ModeratorId",
+                        column: x => x.ModeratorId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,10 +130,13 @@ namespace ForumApi.Migrations
                     ForumId = table.Column<int>(type: "integer", nullable: false),
                     AccountId = table.Column<int>(type: "integer", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 10, 23, 11, 49, 44, 651, DateTimeKind.Utc).AddTicks(9672)),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "timezone('utc', now())"),
                     DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsPinned = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
-                    IsClosed = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
+                    IsClosed = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    SearchVector = table.Column<NpgsqlTsVector>(type: "tsvector", nullable: false)
+                        .Annotation("Npgsql:TsVectorConfig", "english")
+                        .Annotation("Npgsql:TsVectorProperties", new[] { "Title" })
                 },
                 constraints: table =>
                 {
@@ -128,8 +163,11 @@ namespace ForumApi.Migrations
                     AccountId = table.Column<int>(type: "integer", nullable: false),
                     TopicId = table.Column<int>(type: "integer", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 10, 23, 11, 49, 44, 652, DateTimeKind.Utc).AddTicks(8162)),
-                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "timezone('utc', now())"),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    SearchVector = table.Column<NpgsqlTsVector>(type: "tsvector", nullable: false)
+                        .Annotation("Npgsql:TsVectorConfig", "english")
+                        .Annotation("Npgsql:TsVectorProperties", new[] { "Content" })
                 },
                 constraints: table =>
                 {
@@ -161,6 +199,16 @@ namespace ForumApi.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bans_AccountId",
+                table: "Bans",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bans_ModeratorId",
+                table: "Bans",
+                column: "ModeratorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Forums_SectionId",
                 table: "Forums",
                 column: "SectionId");
@@ -169,6 +217,12 @@ namespace ForumApi.Migrations
                 name: "IX_Posts_AccountId",
                 table: "Posts",
                 column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_SearchVector",
+                table: "Posts",
+                column: "SearchVector")
+                .Annotation("Npgsql:IndexMethod", "GIN");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_TopicId",
@@ -195,11 +249,20 @@ namespace ForumApi.Migrations
                 name: "IX_Topics_ForumId",
                 table: "Topics",
                 column: "ForumId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Topics_SearchVector",
+                table: "Topics",
+                column: "SearchVector")
+                .Annotation("Npgsql:IndexMethod", "GIN");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Bans");
+
             migrationBuilder.DropTable(
                 name: "Posts");
 

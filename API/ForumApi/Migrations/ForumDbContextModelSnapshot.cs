@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using NpgsqlTypes;
 
 #nullable disable
 
@@ -89,14 +90,10 @@ namespace ForumApi.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsPermanent")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
+                        .HasColumnType("boolean");
 
                     b.Property<int>("ModeratorId")
                         .HasColumnType("integer");
@@ -167,12 +164,23 @@ namespace ForumApi.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<NpgsqlTsVector>("SearchVector")
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("tsvector")
+                        .HasAnnotation("Npgsql:TsVectorConfig", "english")
+                        .HasAnnotation("Npgsql:TsVectorProperties", new[] { "Content" });
+
                     b.Property<int>("TopicId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
+
+                    b.HasIndex("SearchVector");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("SearchVector"), "GIN");
 
                     b.HasIndex("TopicId");
 
@@ -264,6 +272,13 @@ namespace ForumApi.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
+                    b.Property<NpgsqlTsVector>("SearchVector")
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("tsvector")
+                        .HasAnnotation("Npgsql:TsVectorConfig", "english")
+                        .HasAnnotation("Npgsql:TsVectorProperties", new[] { "Title" });
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -273,6 +288,10 @@ namespace ForumApi.Migrations
                     b.HasIndex("AccountId");
 
                     b.HasIndex("ForumId");
+
+                    b.HasIndex("SearchVector");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("SearchVector"), "GIN");
 
                     b.ToTable("Topics");
                 });

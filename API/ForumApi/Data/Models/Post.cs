@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using NpgsqlTypes;
 
 namespace ForumApi.Data.Models
 {
@@ -10,6 +11,9 @@ namespace ForumApi.Data.Models
         public string? Content {get;set;}
         public DateTime CreatedAt {get;set;}
         public DateTime? DeletedAt {get;set;}
+
+        [JsonIgnore]
+        public NpgsqlTsVector SearchVector {get;set;} = null!;
 
         [JsonIgnore]
         public virtual Topic Topic {get;set;} = null!;

@@ -107,6 +107,14 @@ namespace ForumApi.Data
                 t.Property(t => t.DeletedAt)
                     .HasDefaultValue(null); 
 
+                t.HasGeneratedTsVectorColumn(
+                        t => t.SearchVector,
+                        "english",
+                        t => new { t.Title }
+                    )
+                    .HasIndex(t => t.SearchVector)
+                    .HasMethod("GIN");
+
                 t.HasOne(t => t.Author)
                     .WithMany(a => a.Topics)
                     .HasForeignKey(t => t.AccountId)
@@ -131,6 +139,14 @@ namespace ForumApi.Data
                 p.Property(p => p.DeletedAt)
                     .HasDefaultValue(null);
 
+                p.HasGeneratedTsVectorColumn(
+                        p => p.SearchVector,
+                        "english",
+                        p => new { p.Content }
+                    )
+                    .HasIndex(t => t.SearchVector)
+                    .HasMethod("GIN");
+
                 p.HasOne(p => p.Topic)
                     .WithMany(t => t.Posts)
                     .HasForeignKey(p => p.TopicId);
@@ -153,11 +169,9 @@ namespace ForumApi.Data
                 b.Property(b => b.Reason)
                     .IsRequired();
 
-                b.Property(b => b.IsPermanent)
-                    .HasDefaultValue(false);
+                b.Property(b => b.IsPermanent);
 
-                b.Property(b => b.IsActive)
-                    .HasDefaultValue(true);
+                b.Property(b => b.IsActive);
 
                 b.HasOne(b => b.Account)
                     .WithMany(a => a.RecievedBans)

@@ -6,14 +6,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using NpgsqlTypes;
 
 #nullable disable
 
 namespace ForumApi.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    [Migration("20231023114944_init_pgsql")]
-    partial class init_pgsql
+    [Migration("20231026195208_init_v3")]
+    partial class init_v3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +44,7 @@ namespace ForumApi.Migrations
                     b.Property<DateTime>("LastLoggedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 10, 23, 11, 49, 44, 650, DateTimeKind.Utc).AddTicks(9498));
+                        .HasDefaultValueSql("timezone('utc', now())");
 
                     b.Property<string>("LoginName")
                         .IsRequired()
@@ -70,6 +71,47 @@ namespace ForumApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("ForumApi.Data.Models.Ban", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("timezone('utc', now())");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPermanent")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("ModeratorId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("ModeratorId");
+
+                    b.ToTable("Bans");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Forum", b =>
@@ -120,10 +162,17 @@ namespace ForumApi.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 10, 23, 11, 49, 44, 652, DateTimeKind.Utc).AddTicks(8162));
+                        .HasDefaultValueSql("timezone('utc', now())");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<NpgsqlTsVector>("SearchVector")
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("tsvector")
+                        .HasAnnotation("Npgsql:TsVectorConfig", "english")
+                        .HasAnnotation("Npgsql:TsVectorProperties", new[] { "Content" });
 
                     b.Property<int>("TopicId")
                         .HasColumnType("integer");
@@ -131,6 +180,10 @@ namespace ForumApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
+
+                    b.HasIndex("SearchVector");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("SearchVector"), "GIN");
 
                     b.HasIndex("TopicId");
 
@@ -204,7 +257,7 @@ namespace ForumApi.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 10, 23, 11, 49, 44, 651, DateTimeKind.Utc).AddTicks(9672));
+                        .HasDefaultValueSql("timezone('utc', now())");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
@@ -222,6 +275,13 @@ namespace ForumApi.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
+                    b.Property<NpgsqlTsVector>("SearchVector")
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("tsvector")
+                        .HasAnnotation("Npgsql:TsVectorConfig", "english")
+                        .HasAnnotation("Npgsql:TsVectorProperties", new[] { "Title" });
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -232,7 +292,30 @@ namespace ForumApi.Migrations
 
                     b.HasIndex("ForumId");
 
+                    b.HasIndex("SearchVector");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("SearchVector"), "GIN");
+
                     b.ToTable("Topics");
+                });
+
+            modelBuilder.Entity("ForumApi.Data.Models.Ban", b =>
+                {
+                    b.HasOne("ForumApi.Data.Models.Account", "Account")
+                        .WithMany("RecievedBans")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ForumApi.Data.Models.Account", "Moderator")
+                        .WithMany("GivenBans")
+                        .HasForeignKey("ModeratorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Moderator");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Forum", b =>
@@ -297,7 +380,11 @@ namespace ForumApi.Migrations
 
             modelBuilder.Entity("ForumApi.Data.Models.Account", b =>
                 {
+                    b.Navigation("GivenBans");
+
                     b.Navigation("Posts");
+
+                    b.Navigation("RecievedBans");
 
                     b.Navigation("Tokens");
 
