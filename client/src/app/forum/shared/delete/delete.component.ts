@@ -12,6 +12,12 @@ export class DeleteComponent {
   @Output()
   onConfirm = new EventEmitter();
 
+  @Input()
+  height: string = '30px';
+
+  @Input()
+  width: string = '20px';
+
   constructor() {}
 
   confirmClick() {
