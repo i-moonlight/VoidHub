@@ -21,6 +21,7 @@ builder.Services.AddScoped<ISectionService, SectionService>();
 builder.Services.AddScoped<IForumService, ForumService>();
 builder.Services.AddScoped<ITopicService, TopicService>();
 builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<IBanService, BanService>();
 
 builder.Services.AddControllers();
 
@@ -78,6 +79,7 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<BanMiddleware>();
 
 app.UseCors(frontCorsPolicy);
 
