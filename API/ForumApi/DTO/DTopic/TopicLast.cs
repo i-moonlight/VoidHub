@@ -6,7 +6,7 @@ namespace ForumApi.DTO.DTopic
     {        
         public int Id {get;set;}
         public string Title {get;set;} = null!;
-        public DateTime CreatedAt {get;set;}
+        public DateTime UpdatedAt {get;set;}
 
         public User User {get;set;} = null!;
     }

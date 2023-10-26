@@ -51,7 +51,8 @@ namespace ForumApi.Services
         {
             return await _rep.Topic.Value
                 .FindByCondition(t => t.DeletedAt == null && t.ForumId == forumId)
-                .OrderByDescending(t => t.CreatedAt)
+                .OrderByDescending(t => t.IsPinned)
+                .ThenByDescending(t => t.CreatedAt)
                 .Select(p => new TopicElement
                 {
                     Id = p.Id,

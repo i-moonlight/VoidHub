@@ -40,7 +40,7 @@ namespace ForumApi.Services
                             Id = ff.Id,
                             Title = ff.Title,
                             TopicsCount = ff.Topics.Where(t => t.DeletedAt == null).Count(),
-                            PostsCount = ff.Topics
+                            PostsCount = ff.Topics.Where(t => t.DeletedAt == null)
                                 .SelectMany(t => t.Posts).Where(p=> p.DeletedAt == null).Count(),
                             LastTopic = ff.Topics
                                 .Where(t => t.DeletedAt == null)
@@ -49,7 +49,10 @@ namespace ForumApi.Services
                                 {
                                     Id = t.Id,
                                     Title = t.Title,
-                                    CreatedAt = t.CreatedAt,
+                                    UpdatedAt = t.Posts
+                                        .Where(p => p.DeletedAt == null)
+                                        .OrderByDescending(p => p.CreatedAt)
+                                        .First().CreatedAt,
                                     User = _mapper.Map<User>(t.Posts
                                         .Where(p => p.DeletedAt == null)
                                         .OrderByDescending(p => p.CreatedAt)

@@ -30,7 +30,7 @@ namespace ForumApi.Services
                     Id = f.Id,
                     Title = f.Title,
                     SectionId = f.SectionId,
-                    PostsCount = f.Topics.SelectMany(t => t.Posts).Where(p => p.DeletedAt == null).Count(),
+                    PostsCount = f.Topics.Where(t => t.DeletedAt == null).SelectMany(t => t.Posts).Where(p => p.DeletedAt == null).Count(),
                     TopicsCount = f.Topics.Where(t => t.DeletedAt == null).Count()
                 }).FirstOrDefaultAsync();
         }
