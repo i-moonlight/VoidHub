@@ -26,6 +26,12 @@ export class TitleEditorComponent {
   @Input()
   svgClasses: string = 'stroke-base-content';
 
+  @Input()
+  height: string = '20px';
+
+  @Input()
+  width: string = '20px';
+
   private _editMode:boolean = false;
   set editMode(value: boolean) {
     this._editMode = value;

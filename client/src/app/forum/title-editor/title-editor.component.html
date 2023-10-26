@@ -1,9 +1,14 @@
 <div
-  class="btn btn-ghost min-h-min h-min p-0.5"
+  tabindex="0" class="btn btn-ghost min-h-fit p-1 min-w-fit h-fit w-fit rounded"
   (click)="setEditMode(true)"
   *ngIf="!editMode"
   >
-  <svg xmlns="http://www.w3.org/2000/svg" class="{{svgClasses}}" width="16px" height="16px" viewBox="0 0 24 24">
+  <svg xmlns="http://www.w3.org/2000/svg"
+      class="{{svgClasses}} icon"
+      [style.width]="width"
+      [style.height]="height"
+      viewBox="0 0 24 24"
+    >
     <g id="Complete">
       <g id="edit">
         <g>
