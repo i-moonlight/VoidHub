@@ -21,5 +21,9 @@ namespace ForumApi.Data.Models
         public virtual List<Post>? Posts {get;set;}
         [JsonIgnore]
         public virtual List<Topic>? Topics {get;set;}
+        [JsonIgnore]
+        public virtual List<Ban>? RecievedBans {get;set;}
+        [JsonIgnore]
+        public virtual List<Ban>? GivenBans {get;set;}
     }
 }

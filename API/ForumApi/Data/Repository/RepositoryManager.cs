@@ -13,6 +13,7 @@ namespace ForumApi.Data.Repository
         public Lazy<IForumRepository> Forum { get; }
         public Lazy<ITopicRepository> Topic { get; }
         public Lazy<IPostRepository> Post { get; }
+        public Lazy<IBanRepository> Ban { get; }
 
         public RepositoryManager(
             ForumDbContext context,
@@ -21,7 +22,8 @@ namespace ForumApi.Data.Repository
             Lazy<ISectionRepository> section,
             Lazy<IForumRepository> forum,
             Lazy<ITopicRepository> topic,
-            Lazy<IPostRepository> post)
+            Lazy<IPostRepository> post,
+            Lazy<IBanRepository> ban)
         {
             _context = context;
             Account = account;
@@ -31,6 +33,7 @@ namespace ForumApi.Data.Repository
             Forum = forum;
             Topic = topic;
             Post = post;
+            Ban = ban;
         }
 
         public async Task BeginTransaction() => 

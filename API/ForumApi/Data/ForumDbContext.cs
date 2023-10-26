@@ -6,12 +6,13 @@ namespace ForumApi.Data
 {
     public class ForumDbContext : DbContext
     {
-        public virtual DbSet<Token> Tokens {get;set;} = null!;
-        public virtual DbSet<Account> Accounts {get;set;} = null!;
-        public virtual DbSet<Section> Sections {get;set;} = null!;
-        public virtual DbSet<Forum> Forums {get;set;} = null!;
-        public virtual DbSet<Topic> Topics {get;set;} = null!;
-        public virtual DbSet<Post> Posts {get;set;} = null!;
+        public virtual DbSet<Token> Tokens { get; set; } = null!;
+        public virtual DbSet<Account> Accounts { get; set; } = null!;
+        public virtual DbSet<Section> Sections { get; set; } = null!;
+        public virtual DbSet<Forum> Forums { get; set; } = null!;
+        public virtual DbSet<Topic> Topics { get; set; } = null!;
+        public virtual DbSet<Post> Posts { get; set; } = null!;
+        public virtual DbSet<Ban> Bans { get; set; } = null!;
 
         public ForumDbContext(DbContextOptions<ForumDbContext> options) 
             : base(options)
@@ -137,6 +138,34 @@ namespace ForumApi.Data
                 p.HasOne(p => p.Author)
                     .WithMany(a => a.Posts)
                     .HasForeignKey(p => p.AccountId);
+            });
+
+            builder.Entity<Ban>(b => {
+                b.HasKey(b => b.Id);
+
+                b.Property(b => b.CreatedAt)
+                    .IsRequired()
+                    .HasDefaultValueSql("timezone('utc', now())");
+
+                b.Property(b => b.ExpiresAt)
+                    .IsRequired();
+
+                b.Property(b => b.Reason)
+                    .IsRequired();
+
+                b.Property(b => b.IsPermanent)
+                    .HasDefaultValue(false);
+
+                b.Property(b => b.IsActive)
+                    .HasDefaultValue(true);
+
+                b.HasOne(b => b.Account)
+                    .WithMany(a => a.RecievedBans)
+                    .HasForeignKey(b => b.AccountId);
+
+                b.HasOne(b => b.Moderator)
+                    .WithMany(a => a.GivenBans)
+                    .HasForeignKey(b => b.ModeratorId);
             });
 
             base.OnModelCreating(builder);
