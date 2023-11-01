@@ -11,7 +11,6 @@ namespace ForumApi.Data.Models
         public DateTime CreatedAt { get; set; }
         public DateTime ExpiresAt { get; set; }
         public string Reason { get; set; } = null!;
-        public bool IsPermanent { get; set; } = false;
         public bool IsActive { get; set; } = true;
 
         [JsonIgnore]

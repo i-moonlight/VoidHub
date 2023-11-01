@@ -169,8 +169,6 @@ namespace ForumApi.Data
                 b.Property(b => b.Reason)
                     .IsRequired();
 
-                b.Property(b => b.IsPermanent);
-
                 b.Property(b => b.IsActive);
 
                 b.HasOne(b => b.Account)
