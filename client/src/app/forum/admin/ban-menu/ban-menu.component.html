@@ -1,0 +1,54 @@
+<div class="flex flex-col">
+  <app-error-message-list [messages]="errorMessages"></app-error-message-list>
+  <form #banForm="ngForm" (ngSubmit)="onSubmit(banForm)">
+    <div class="form-control mt-2">
+      <input
+        type="text"
+        name="userId"
+        id="userId"
+        placeholder="user id"
+        class="input-sm bg-neutral input input-bordered"
+        [ngClass]="{
+          'input-error': banForm.controls['userId']?.touched && banForm.controls['userId'].invalid
+        }"
+        [ngModel]="userId"
+        required
+        autocomplete="id"
+      />
+    </div>
+    <div class="form-control mt-2">
+      <input
+        type="text"
+        name="reason"
+        id="reason"
+        placeholder="ban reason"
+        class="input-sm bg-neutral input input-bordered"
+        [ngClass]="{
+          'input-error': banForm.controls['userId']?.touched && banForm.controls['userId'].invalid
+        }"
+        [ngModel]="userId"
+        required
+        autocomplete="id"
+      />
+    </div>
+    <div class="form-control mt-2">
+      <input
+        type="datetime-local"
+        id="expiresAt"
+        name="expiresAt"
+        class="input input-bordered bg-neutral text-sm cursor-pointer"
+        [ngModel]="currentDate | date:'yyyy-MM-ddTHH:mm'"
+        required
+        autocomplete="bantime"
+      />
+    </div>
+    <div class="flex flex-row mt-2">
+      <button class="btn btn-success min-h-fit h-8 cursor-">
+        Ban
+      </button>
+      <button type="button" class="ms-3 btn btn-error min-h-fit h-8" (click)="onCancelClick()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
