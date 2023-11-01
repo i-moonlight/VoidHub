@@ -1,4 +1,6 @@
+using ForumApi.Data.Models;
 using ForumApi.DTO.DSection;
+using ForumApi.Filters;
 using ForumApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +25,9 @@ namespace ForumApi.Controllers
             return Ok(await _sectionService.GetSections());
         }
 
-        [HttpPost, Authorize]
+        [HttpPost]
+        [Authorize(Roles = Role.Admin)]
+        [BanFilter]
         public async Task<IActionResult> Create(SectionDto sectionDto)
         {
             var section = await _sectionService.Create(sectionDto);
@@ -31,6 +35,8 @@ namespace ForumApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = Role.Admin)]
+        [BanFilter]
         public async Task<IActionResult> Update(int id, SectionDto sectionDto)
         {
             var section = await _sectionService.Update(id, sectionDto);

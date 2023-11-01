@@ -1,4 +1,7 @@
+using ForumApi.Data.Models;
+using ForumApi.Filters;
 using ForumApi.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForumApi.Controllers
@@ -15,6 +18,8 @@ namespace ForumApi.Controllers
         }        
 
         [HttpDelete("{token}")]
+        [Authorize]
+        [PermissionActionFilter<Token>]
         public async Task<IActionResult> Revoke(string token)
         {
             await _tokenService.Revoke(token);

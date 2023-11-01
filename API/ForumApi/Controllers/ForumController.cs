@@ -35,7 +35,9 @@ namespace ForumApi.Controllers
             return Ok(await _topicService.GetTopics(forumId, page));
         }
 
-        [HttpPost, Authorize]
+        [HttpPost]
+        [Authorize(Roles = Role.Admin)]
+        [BanFilter]
         public async Task<IActionResult> Create(ForumDto forumDto)
         {
             var forum = await _forumService.Create(forumDto);
@@ -43,21 +45,18 @@ namespace ForumApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = Role.Admin)]
+        [BanFilter]
         public async Task<IActionResult> Update(int id, ForumDto forumDto)
         {
             var forum = await _forumService.Update(id, forumDto);
             return Ok(forum);
         }
 
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}")]
+        [Authorize(Roles = Role.Admin)]
+        [BanFilter]
         public async Task<IActionResult> Delete(int id)
-        {
-            await _forumService.Delete(id);
-            return Ok();
-        }
-
-        [HttpDelete("{id}/admin"), Authorize(Roles = $"{Role.Admin},{Role.Moder}")]
-        public async Task<IActionResult> DeleteAsDmin(int id)
         {
             await _forumService.Delete(id);
             return Ok();

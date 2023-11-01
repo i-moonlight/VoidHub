@@ -1,6 +1,7 @@
 using ForumApi.Data.Models;
 using ForumApi.DTO.Auth;
 using ForumApi.Extensions;
+using ForumApi.Filters;
 using ForumApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +21,17 @@ namespace ForumApi.Controllers
             _accountService = accountService;
         }
 
-        [HttpDelete("{id}"), Authorize(Roles = Role.Admin)]
+        [HttpDelete("{id}")]
+        [Authorize(Roles = Role.Admin)]
+        [BanFilter]
         public async Task<IActionResult> DeleteAccount(int id) 
         {
             await _accountService.Delete(User.GetId());
             return Ok();
         }
 
-        [HttpDelete, Authorize]
+        [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> DeleteSelf()
         {
             await _accountService.Delete(User.GetId());

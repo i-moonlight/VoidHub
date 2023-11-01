@@ -19,14 +19,18 @@ namespace ForumApi.Controllers
             _postService = postService;
         }
 
-        [HttpPost, Authorize]
+        [HttpPost]
+        [Authorize]
+        [BanFilter]
         public async Task<IActionResult> Create(PostDto postDto)
         {
             var post = await _postService.Create(User.GetId(), postDto);
             return Ok(post);
         }
 
-        [HttpPut("{id}"), Authorize]
+        [HttpPut("{id}")]
+        [Authorize]
+        [BanFilter]
         [PermissionActionFilter<Post>]
         public async Task<IActionResult> Update(int id, PostDto postDto)
         {
@@ -34,7 +38,9 @@ namespace ForumApi.Controllers
             return Ok(post);
         }
 
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}")]
+        [Authorize]
+        [BanFilter]
         [PermissionActionFilter<Post>]
         public async Task<IActionResult> Delete(int id)
         {
@@ -42,7 +48,9 @@ namespace ForumApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}/admin"), Authorize(Roles = $"{Role.Admin},{Role.Moder}")]
+        [HttpDelete("{id}/admin")]
+        [Authorize(Roles = $"{Role.Admin},{Role.Moder}")]
+        [BanFilter]
         public async Task<IActionResult> DeleteAsDmin(int id)
         {
             await _postService.Delete(id);
