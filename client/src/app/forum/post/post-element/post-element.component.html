@@ -3,7 +3,7 @@
     [ngClass]="{
       'hidden': editMode
     }">
-    <div class="px-5 py-5 text-center border-e border-secondary-content">
+    <div class="basis-2/12 px-5 py-5 text-center border-e border-secondary-content">
       <div class="flex flex-col">
         <div class="link no-underline">
           {{post?.author.username}}
@@ -19,15 +19,18 @@
           </div>
           <div class="my-auto" *ngIf="enableDeliting">
             <div class="text-xs" *ngIf="user">
-              <app-delete *ngIf="user?.id == post?.author.id" (onConfirm)="deleteClick()">
+              <app-delete *ngIf="user?.id == post?.author.id; else deleteAsAdmin" (onConfirm)="deleteClick()">
               </app-delete>
-              <app-delete *ngIf="user?.role == roles.ADMIN && user?.role == roles.MODER" (onConfirm)="onAdminDelete()">
-              </app-delete>
+              <ng-template #deleteAsAdmin>
+                <app-delete *ngIf="user?.role == roles.ADMIN || user?.role == roles.MODER" (onConfirm)="onAdminDelete()">
+                </app-delete>
+              </ng-template>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <div>
       <quill-view [content]="post.content"></quill-view>
     </div>

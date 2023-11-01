@@ -1,5 +1,5 @@
 <div class="flex flex-col">
-  <div routerLink="../new-section" *ngIf="user" class="my-3 btn btn-neutral w-fit min-h-fit h-8">
+  <div routerLink="../new-section" *ngIf="user" class="mb-3 btn btn-neutral w-fit min-h-fit h-8">
     Add new section
   </div>
   <app-section class="pb-5" *ngFor="let el of sections" [section]="el" [user]="user">

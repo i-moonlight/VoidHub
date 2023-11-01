@@ -24,13 +24,22 @@ import { TitleEditorComponent } from './title-editor/title-editor.component';
 import { ForumComponent } from "./forum/forum/forum.component";
 import { PinnedIconComponent } from './shared/pinned-icon/pinned-icon.component';
 import { ClosedIconComponent } from './shared/closed-icon/closed-icon.component';
+import { BanMenuComponent } from './admin/ban-menu/ban-menu.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { AdminService } from "./admin/admin.service";
+import { BanService } from "./services/ban.service";
+import { canActivateAdmin } from "./admin/admin.guard";
+
+
 
 @NgModule({
   providers: [
     SectionService,
     ForumService,
     TopicService,
-    PostService
+    PostService,
+    BanService,
+    AdminService,
   ],
   declarations: [
     SectionListComponent,
@@ -50,7 +59,9 @@ import { ClosedIconComponent } from './shared/closed-icon/closed-icon.component'
     ForumComponent,
     ForumElementComponent,
     PinnedIconComponent,
-    ClosedIconComponent
+    ClosedIconComponent,
+    BanMenuComponent,
+    AdminPanelComponent
   ],
   imports: [
     SharedModule,
@@ -63,6 +74,9 @@ import { ClosedIconComponent } from './shared/closed-icon/closed-icon.component'
         {path:'section/:id/new-forum', component: NewForumComponent},
         {path:'topic/:id/:page', component: TopicComponent},
         {path:'topic/:id', redirectTo: 'topic/:id/1', pathMatch: 'full'},
+        {path:'admin-panel', component: AdminPanelComponent, canActivate:[canActivateAdmin],  children: [
+          {path:'ban-menu', component: BanMenuComponent}
+        ]},
         {path:':id', redirectTo: ':id/1', pathMatch: 'full'},
         {path:':id/:page', component: ForumComponent},
       ]},

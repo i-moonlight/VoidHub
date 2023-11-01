@@ -8,7 +8,7 @@
           <div *ngIf="topic.isClosed" class="my-auto">
             <app-closed-icon></app-closed-icon>
           </div>
-          <div *ngIf="topic.isClosed" class="my-auto ms-1">
+          <div *ngIf="topic.isPinned" class="my-auto ms-1">
             <app-pinned-icon></app-pinned-icon>
           </div>
         </div>
@@ -100,10 +100,4 @@
       (onCreate)="onPostCreate($event)">
     </app-post-editor>
   </div>
-
-  <ng-template #topicClosed>
-    <div class="text-center text-3xl text-error">
-      Topic is closed
-    </div>
-  </ng-template>
 </div>

@@ -1,23 +1,16 @@
-<app-header></app-header>
+<div class="flex flex-col min-h-screen">
+  <div class="fixed inset-x-0 top-0 z-50">
+    <app-header></app-header>
+  </div>
 
-<router-outlet></router-outlet>
+  <div class="mt-16 pt-3 grow">
+    <router-outlet></router-outlet>
+  </div>
 
-<!--
-  <div class="flex flex-col md:flex-row pt-4">
-  <div class="flex basis-1/3 hover:basis-2/3 my-2 md:my-0 bg-primary md:mx-2">
-    <div class="m-auto hover:m-0">
-      data
-    </div>
-  </div>
-  <div class="flex basis-1/3 hover:basis-2/3 rounded bg-secondary h-32">
-    <div class="m-auto">
-      data2
-    </div>
-  </div>
-  <div class="flex basis-1/3 hover:basis-2/3 rounded my-2 bg-neutral md:my-0 md:mx-2 h-32">
-    <div class="m-auto">
-      data3
-    </div>
-  </div>
+
+  <footer class="footer bg-neutral text-neutral-content p-5 rounded-t mt-3">
+    <nav>
+      <header class="footer-title">VoidHub 2023</header>
+    </nav>
+  </footer>
 </div>
--->

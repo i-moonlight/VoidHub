@@ -78,7 +78,8 @@ export class TopicComponent implements OnDestroy {
     this.topicService.getPostsPage(this.topicId, {pageNumber: this.currentPage, pageSize: this.postsOnPage})
       .subscribe({
         next: (posts:any[]) => {
-          this.posts = posts;
+          this.posts = [];
+          this.posts.push(...posts);
         }
       });
   }
@@ -94,9 +95,8 @@ export class TopicComponent implements OnDestroy {
       next: data => {
         this.topic.postsCount++;
         //because one-way binding
-        this.newPostContent = '';
-        this.newPostContent = null;
-        console.log(this.newPostContent)
+        this.newPostContent = new Date().toString();
+        setTimeout(() => {this.newPostContent = ''});
 
         let page = this.topic.postsCount / this.postsOnPage;
         page = page % 1 > 0 ? Math.floor(page + 1) : page;

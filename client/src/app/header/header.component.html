@@ -1,4 +1,4 @@
-<div class="navbar">
+<div class="navbar border-neutral mb-2 bg-base-100" style="border-bottom-width: 1px;">
   <div>
     <a class="text-xl btn btn-link no-underline hover:no-underline" routerLink="/">
       <span class="text-primary-content hover:text-base-content">
@@ -7,12 +7,16 @@
     </a>
   </div>
   <div class="ms-5 flex-1 text-lg">
-    <a class="font-medium cursor-pointer hover:text-base-content"
+    <a class="font-medium link no-underline"
       routerLink="/forum">
       Forum
     </a>
-    <a class="text-transparent bg-clip-text bg-gradient-to-br from-amber-300 to-red-500 ms-5 text-lg font-medium cursor-pointer">
+    <a class="ms-5 text-transparent bg-clip-text bg-gradient-to-br from-amber-300 to-red-500 text-lg font-medium cursor-pointer">
       Donation
+    </a>
+    <a class="ms-5 font-medium link no-underline"
+      routerLink="/forum/admin-panel">
+      Admin panel
     </a>
   </div>
   <div class="me-5">
