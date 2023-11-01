@@ -79,7 +79,6 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseMiddleware<BanMiddleware>();
 
 app.UseCors(frontCorsPolicy);
 
