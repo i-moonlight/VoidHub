@@ -1,4 +1,6 @@
 
+using Newtonsoft.Json;
+
 namespace ForumApi.Exceptions
 {
     public class ForbiddenException : BaseException
@@ -10,5 +12,9 @@ namespace ForumApi.Exceptions
         public ForbiddenException(string message, Exception inner) : base(message, inner)
         {
         }
+
+        public ForbiddenException(object errorObj) : base(JsonConvert.SerializeObject(errorObj)) {}
+
+        public ForbiddenException(object errorObj, Exception inner) : base(JsonConvert.SerializeObject(errorObj), inner) {}
     }
 }
