@@ -70,7 +70,7 @@ namespace ForumApi.Services
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Moderator not found");
 
             var banEntity = await _rep.Ban.Value
-                .FindByCondition(b => b.Id == banId)
+                .FindByCondition(b => b.Id == banId, true)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Ban not found");
 
             if(moder.Role == Role.Moder && banEntity.Account.Role != Role.User)
