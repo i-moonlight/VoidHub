@@ -67,7 +67,7 @@ namespace ForumApi.Migrations
                     b.HasIndex("LoginName")
                         .IsUnique();
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Ban", b =>
@@ -110,7 +110,7 @@ namespace ForumApi.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("Bans");
+                    b.ToTable("Bans", (string)null);
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Forum", b =>
@@ -140,7 +140,7 @@ namespace ForumApi.Migrations
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("Forums");
+                    b.ToTable("Forums", (string)null);
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Post", b =>
@@ -186,7 +186,7 @@ namespace ForumApi.Migrations
 
                     b.HasIndex("TopicId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Section", b =>
@@ -211,7 +211,7 @@ namespace ForumApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sections");
+                    b.ToTable("Sections", (string)null);
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Token", b =>
@@ -239,7 +239,7 @@ namespace ForumApi.Migrations
                     b.HasIndex("RefreshToken")
                         .IsUnique();
 
-                    b.ToTable("Tokens");
+                    b.ToTable("Tokens", (string)null);
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Topic", b =>
@@ -295,7 +295,7 @@ namespace ForumApi.Migrations
 
                     NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("SearchVector"), "GIN");
 
-                    b.ToTable("Topics");
+                    b.ToTable("Topics", (string)null);
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Ban", b =>
