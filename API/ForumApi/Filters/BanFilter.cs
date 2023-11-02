@@ -23,12 +23,17 @@ namespace ForumApi.Filters
             var userBan = await banRepo.Value
                 .FindByCondition(b => b.AccountId == userId && b.IsActive && b.ExpiresAt > DateTime.UtcNow)
                 .OrderBy(b => b.ExpiresAt)
+                .Select(b => new BanResponse 
+                {
+                    Id = b.Id,
+                    Reason = b.Reason,
+                    ExpiresAt = b.ExpiresAt
+                })
                 .FirstOrDefaultAsync();
-
 
             if(userBan != null)
             {
-                throw new ForbiddenException(mapper.Map<BanResponse>(userBan));
+                throw new ForbiddenException(userBan);
             }
 
             await next();

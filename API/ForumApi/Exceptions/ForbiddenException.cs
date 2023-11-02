@@ -1,5 +1,5 @@
 
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace ForumApi.Exceptions
 {
@@ -13,8 +13,8 @@ namespace ForumApi.Exceptions
         {
         }
 
-        public ForbiddenException(object errorObj) : base(JsonConvert.SerializeObject(errorObj)) {}
+        public ForbiddenException(object errorObj) : base(JsonSerializer.Serialize(errorObj)) {}
 
-        public ForbiddenException(object errorObj, Exception inner) : base(JsonConvert.SerializeObject(errorObj), inner) {}
+        public ForbiddenException(object errorObj, Exception inner) : base(JsonSerializer.Serialize(errorObj), inner) {}
     }
 }
