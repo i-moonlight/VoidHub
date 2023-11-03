@@ -12,5 +12,13 @@ namespace ForumApi.Data.Repository.Implements
         {
             entity.IsActive = false;
         }
+
+        public override void DeleteMany(IEnumerable<Ban> entities)
+        {
+            foreach (var entity in entities)
+            {
+                Delete(entity);
+            }
+        }
     }
 }

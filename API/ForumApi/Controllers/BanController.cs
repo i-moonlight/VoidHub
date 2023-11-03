@@ -42,12 +42,13 @@ namespace ForumApi.Controllers
             return Ok(await _banService.Update(User.GetId(), id, ban));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         [Authorize(Roles = $"{Role.Admin},{Role.Moder}")]
         [BanFilter]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete([FromQuery] int accountId)
         {
-            await _banService.Delete(User.GetId(), id);
+            Console.WriteLine("ban");
+            await _banService.Delete(User.GetId(), accountId);
             return Ok();
         }
     }

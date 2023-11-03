@@ -84,21 +84,25 @@ namespace ForumApi.Services
             return banEntity;
         }
 
-        public async Task Delete(int moderId, int banId)
+        public async Task Delete(int moderId, int accountId)
         {
             var moder = await _rep.Account.Value
                 .FindById(moderId)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Moderator not found");
 
-            var ban = await _rep.Ban.Value
-                .FindByCondition(b => b.Id == banId, true)
-                .FirstOrDefaultAsync() ?? throw new NotFoundException("Ban not found");   
+            var activeBans = await _rep.Ban.Value
+                .FindByCondition(b => b.AccountId == accountId && b.IsActive == true, true)
+                .ToListAsync();
 
-            if(moder.Role == Role.Moder && ban.Account.Role != Role.User)
+            if(!activeBans.Any()) 
+                throw new NotFoundException("No active bans");
+
+            if(moder.Role == Role.Moder && activeBans[0].Account.Role != Role.User)
                 throw new ForbiddenException("You cannot perform this action");
 
-            _rep.Ban.Value.Delete(ban);
-            ban.UpdatedById = moderId;
+            _rep.Ban.Value.DeleteMany(activeBans);
+            foreach(var ban in activeBans)
+                ban.ModeratorId = moderId;
 
             await _rep.Save();
         }

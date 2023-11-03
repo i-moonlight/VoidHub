@@ -9,6 +9,6 @@ namespace ForumApi.Services.Interfaces
         Task<List<BanResponse>> GetBans(Page page);
         Task<Ban> Create(int moderId, BanDto ban);
         Task<Ban> Update(int moderId, int banId, BanDto ban);
-        Task Delete(int moderId, int banId);
+        Task Delete(int moderId, int accountId);
     }
 }
