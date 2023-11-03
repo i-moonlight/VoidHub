@@ -2,6 +2,7 @@ import { AuthService } from './../auth/auth.service';
 import { Component, OnDestroy } from '@angular/core';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { User } from 'src/shared/models/user.model';
+import { Roles } from 'src/shared/roles.enum';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ export class HeaderComponent implements OnDestroy {
   private readonly destroy$ = new ReplaySubject<boolean>(1);
 
   user: User = null;
+  roles = Roles;
 
   constructor(private authService: AuthService) {
     authService.user$

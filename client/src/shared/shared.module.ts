@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 import { QuillModule } from "ngx-quill";
-import { quillToolbarModules } from "./quill/qiull-toolbar.modules";
+import { ToastrModule } from "ngx-toastr";
 
 @NgModule({
   declarations: [
@@ -14,11 +14,7 @@ import { quillToolbarModules } from "./quill/qiull-toolbar.modules";
     CommonModule,
     BrowserModule,
     RouterModule,
-    QuillModule.forRoot({
-      modules: {
-        toolbar: quillToolbarModules
-      }
-    })
+    QuillModule,
   ],
   exports:[
     FormsModule,

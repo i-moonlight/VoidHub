@@ -43,13 +43,13 @@ export class PostElementComponent {
 
   deleteClick() {
     this.postService.deletePost(this.post.id).subscribe({
-      next: this.handleDelete,
+      next: _ => this.handleDelete(),
     });
   }
 
   onAdminDelete() {
     this.postService.deletePostByAdmin(this.post.id).subscribe({
-      next: this.handleDelete,
+      next: _ => this.handleDelete(),
     });
   }
 

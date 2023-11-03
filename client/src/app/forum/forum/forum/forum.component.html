@@ -7,32 +7,35 @@
     </div>
   </div>
   <div class="flex flex-row mt-3 ms-6" *ngIf="user">
-    <div class="flex flex-row grow my-auto">
-      <div>
-        <app-title-editor
-          [title]="forum.title"
-          (onSave)="onEdit($event)"
-          *ngIf="forum"
-        >
-          <div class="hidden">
-            <input
-              type="number"
-              id="sectionId"
-              name="sectionId"
-              [(ngModel)]="forum.sectionId"
-            >
-          </div>
-        </app-title-editor>
-      </div>
+    <div class="grow">
+      <div class="flex flex-row my-auto" *ngIf="user.role == roles.ADMIN">
+        <div>
+          <app-title-editor
+            [title]="forum.title"
+            (onSave)="onEdit($event)"
+            *ngIf="forum"
+          >
+            <div class="hidden">
+              <input
+                type="number"
+                id="sectionId"
+                name="sectionId"
+                [(ngModel)]="forum.sectionId"
+              >
+            </div>
+          </app-title-editor>
+        </div>
 
-      <div>
-        <app-delete
-          (onConfirm)="onDelete()"
-          [height]="'30px'"
-        >
-        </app-delete>
+        <div>
+          <app-delete
+            (onConfirm)="onDelete()"
+            [height]="'30px'"
+          >
+          </app-delete>
+        </div>
       </div>
     </div>
+
     <div (click)="toggleNewTopic()" *ngIf="!showNewTopic" class="me-6 btn btn-neutral w-fit min-h-fit h-8">
       New topic
     </div>

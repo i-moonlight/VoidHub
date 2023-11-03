@@ -16,7 +16,7 @@
       <div class="text-xs text-secondary-content flex flex-row">
         <div>posts: {{topic.postsCount}}</div>
       </div>
-      <div class="flex flex-row grow my-auto">
+      <div class="flex flex-row my-auto" *ngIf="user && user?.role == roles.ADMIN || user?.role == roles.MODER">
         <div>
           <app-title-editor
             [title]="topic.title"
@@ -56,15 +56,13 @@
         </div>
 
         <div>
-          <app-delete
-            (onConfirm)="onTopicDelete()"
-          >
+          <app-delete (onConfirm)="onTopicDelete()">
           </app-delete>
         </div>
       </div>
 
       <div class="mt-3">
-        <app-post [post]="topic?.post" [user]="user" [enableDeliting]="false"></app-post>
+        <app-post [post]="topic?.post" [user]="user" [enableDeliting]="false" ></app-post>
       </div>
     </div>
     <div class="my-3">
@@ -80,7 +78,7 @@
         <app-post
           [post]="post"
           [user]="user"
-          (deleted)="onPostDelete()">
+          (onDelete)="onPostDelete()">
         </app-post>
       </div>
     </div>

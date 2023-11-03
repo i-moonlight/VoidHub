@@ -1,10 +1,13 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
 @import 'daisyui/dist/full.css';
 
 @import '~quill/dist/quill.core.css';
 @import '~/../shared/quill/quill.custom.css';
+
+@import 'ngx-toastr/toastr';
 
 .ql-editor.ql-blank::before {
   @apply text-secondary-content;

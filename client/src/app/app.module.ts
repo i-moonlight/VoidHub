@@ -12,6 +12,11 @@ import { SharedModule } from 'src/shared/shared.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { HttpExceptionInterceptor } from 'src/shared/error/http-exception.interceptor';
 import { RouterModule } from '@angular/router';
+import { QuillModule } from 'ngx-quill';
+import { quillToolbarModules } from 'src/shared/quill/qiull-toolbar.modules';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -26,6 +31,14 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     AuthModule,
     ForumModule,
+    QuillModule.forRoot({
+      format: 'json',
+      modules: {
+        toolbar: quillToolbarModules
+      }
+    }),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     RouterModule.forChild([
       {path: '**', component: HomeComponent, pathMatch: 'full'}
     ])
@@ -34,6 +47,7 @@ import { RouterModule } from '@angular/router';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpExceptionInterceptor,
+      deps: [ToastrService],
       multi: true,
     },
     {

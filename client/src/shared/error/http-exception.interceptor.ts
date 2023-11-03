@@ -1,7 +1,13 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 import { Observable, catchError, throwError } from "rxjs";
 
+@Injectable()
 export class HttpExceptionInterceptor implements HttpInterceptor {
+
+  constructor(private toastr: ToastrService){}
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((err) => {
@@ -28,7 +34,14 @@ export class HttpExceptionInterceptor implements HttpInterceptor {
               errors.push(err.statusText)
               break;
             case 403:
-              errors.push("Access denied")
+              if(err.error?.ExpiresAt && err.error?.Reason)
+              {
+                let msg = `You are banned until ${new Date(err.error.ExpiresAt).toLocaleString()}, reason: ${err.error.Reason}`;
+
+                errors.push(msg);
+                this.toastr.error(msg);
+              }
+              errors.push("Access denied");
               break;
             case 404:
               errors.push(err.statusText)

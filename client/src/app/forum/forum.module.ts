@@ -29,6 +29,9 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { AdminService } from "./admin/admin.service";
 import { BanService } from "./services/ban.service";
 import { canActivateAdmin } from "./admin/admin.guard";
+import { SearchBarComponent } from './search/search-bar/search-bar.component';
+import { SearchElementComponent } from './search/search-element/search-element.component';
+import { SearchComponent } from './search/search/search.component';
 
 
 
@@ -61,7 +64,10 @@ import { canActivateAdmin } from "./admin/admin.guard";
     PinnedIconComponent,
     ClosedIconComponent,
     BanMenuComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    SearchBarComponent,
+    SearchElementComponent,
+    SearchComponent
   ],
   imports: [
     SharedModule,

@@ -7,6 +7,8 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'src/shared/models/user.model';
 import { PostService } from '../../services/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Roles } from 'src/shared/roles.enum';
+
 
 @Component({
   selector: 'app-topic',
@@ -19,6 +21,7 @@ export class TopicComponent implements OnDestroy {
   posts: any[] = [];
 
   user: User = null;
+  roles = Roles;
 
   postsOnPage = 5;
   currentPage = 1;

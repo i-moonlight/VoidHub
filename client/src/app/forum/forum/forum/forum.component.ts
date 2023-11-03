@@ -6,6 +6,8 @@ import { ReplaySubject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ForumService } from '../../services/forum.service';
 import { Forum } from '../../models/forum.model';
+import { Roles } from 'src/shared/roles.enum';
+
 
 @Component({
   selector: 'app-forum',
@@ -24,6 +26,8 @@ export class ForumComponent implements OnDestroy {
   topicsOnPage: number = 5;
 
   showNewTopic: boolean = false;
+
+  roles = Roles;
 
   constructor(
     private authService: AuthService,
