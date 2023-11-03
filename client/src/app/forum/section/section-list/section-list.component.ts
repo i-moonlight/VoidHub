@@ -4,6 +4,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'src/shared/models/user.model';
 import { SectionService } from '../../services/section.service';
+import { Roles } from 'src/shared/roles.enum';
 
 @Component({
   selector: 'app-section-list',
@@ -13,6 +14,7 @@ import { SectionService } from '../../services/section.service';
 export class SectionListComponent implements OnDestroy {
 
   sections = [];
+  roles = Roles;
 
   private destroy$ = new ReplaySubject<boolean>(1);
   user: User = null;

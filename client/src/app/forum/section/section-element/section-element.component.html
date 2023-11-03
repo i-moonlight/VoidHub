@@ -7,7 +7,7 @@
   </div>
   <div class="collapse-content">
     <div class="flex flex-col">
-      <div class="flex flex-row">
+      <div class="flex flex-row" *ngIf="user && user?.role == roles.ADMIN">
         <app-title-editor
           class="grow"
           [title]="section.title"
@@ -47,10 +47,10 @@
         </app-title-editor>
         <div>
           <button class="btn btn-neutral w-fit min-h-fit h-8"
-          [routerLink]="['/forum/section', section.id, 'new-forum']"
+            [routerLink]="['/forum/section', section.id, 'new-forum']"
           >
-          New forum
-        </button>
+            New forum
+          </button>
         </div>
       </div>
       <div class="flex flex-row items-center text-secondary-content">

@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Section } from '../../models/section.model';
 import { SectionService } from '../../services/section.service';
 import { User } from 'src/shared/models/user.model';
+import { Roles } from 'src/shared/roles.enum';
+
 
 @Component({
   selector: 'app-section',
@@ -15,6 +17,8 @@ export class SectionElementComponent {
 
   @Input()
   user: User;
+
+  roles = Roles;
 
   editMode = false;
 
