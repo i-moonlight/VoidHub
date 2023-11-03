@@ -22,6 +22,7 @@ builder.Services.AddScoped<IForumService, ForumService>();
 builder.Services.AddScoped<ITopicService, TopicService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IBanService, BanService>();
+builder.Services.AddScoped<ISearchService, SearchService>();
 
 builder.Services.AddControllers();
 

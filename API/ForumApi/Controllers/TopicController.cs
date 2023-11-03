@@ -1,4 +1,5 @@
 using ForumApi.Data.Models;
+using ForumApi.DTO.DSearch;
 using ForumApi.DTO.DTopic;
 using ForumApi.DTO.Page;
 using ForumApi.Extensions;
@@ -15,13 +16,16 @@ namespace ForumApi.Controllers
     {
         private readonly ITopicService _topicService;
         private readonly IPostService _postService;
+        private readonly ISearchService _searchService;
 
         public TopicController(
             ITopicService topicService,
-            IPostService postService)
+            IPostService postService,
+            ISearchService searchService)
         {
             _topicService = topicService;
             _postService = postService;
+            _searchService = searchService;
         }
 
         [HttpGet("{id}")]
@@ -34,6 +38,14 @@ namespace ForumApi.Controllers
         public async Task<IActionResult> GetPostPage(int id, [FromQuery] Page page)
         {
             return Ok(await _postService.GetPostPage(id, page));
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string query, [FromQuery] SearchParams searchParams, [FromQuery] Page page)
+        {
+            Console.WriteLine($"search params: {searchParams.Sort}, pm:{searchParams.PartialMatch}, wm:{searchParams.WordMatch}, wpc:{searchParams.WithPostContent}");
+
+            return Ok(await _searchService.SearchTopics(query, searchParams, page));
         }
 
         [HttpPost]
