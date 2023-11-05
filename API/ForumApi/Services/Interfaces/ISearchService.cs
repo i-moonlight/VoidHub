@@ -6,6 +6,6 @@ namespace ForumApi.Services.Interfaces
 {
     public interface ISearchService
     {
-        Task<List<Topic>> SearchTopics(string query, SearchParams search, Page page);
+        Task<SearchResponse> SearchTopics(string query, SearchParams search, Page page);
     }
 }

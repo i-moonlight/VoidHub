@@ -15,65 +15,61 @@ namespace ForumApi.Services
     {
         private readonly IRepositoryManager _rep;
 
-
-
         public SearchService(IRepositoryManager rep)
         {
             _rep = rep;
         }
 
-        public async Task<List<Topic>> SearchTopics([FromQuery] string query, SearchParams search, Page page)
+        public async Task<SearchResponse> SearchTopics([FromQuery] string query, SearchParams search, Page page)
         {
+            query = query.Trim();
+
             var predicate = PredicateBuilder.Create<Topic>(t => t.DeletedAt == null);
+
+            // configure tsquery search
+            var forTsQuery = query.Split(' ')
+                .Select(w => $"{w}:*")
+                .Aggregate((a, b) => $"{a} | {b}");
 
             var predicators = new Dictionary<string, Expression<Func<Topic, bool>>>
             {
-                [SearchParamNames.WordTitle] = t => t.SearchVector.Matches(EF.Functions.ToTsQuery("english", query)),
-                [SearchParamNames.WordContent] = t => t.Posts.First().SearchVector.Matches(EF.Functions.ToTsQuery("english", query)),
+                [SearchParamNames.WordTitle] = t => t.SearchVector.Matches(EF.Functions.ToTsQuery("english", forTsQuery)),
+                [SearchParamNames.WordContent] = t => t.Posts.First().SearchVector.Matches(EF.Functions.ToTsQuery("english", forTsQuery)),
                 [SearchParamNames.PartialTitle] = t => EF.Functions.Like(t.Title, $"%{query.ToLower()}%"),
                 [SearchParamNames.PartialContent] = t => EF.Functions.Like(t.Posts.First().Content ?? "", $"%{query.ToLower()}%"),
             };
-            //first need to be AND, then OR
-            var first = true;
 
-            if(search.WordMatch)
-            {
-                predicate = predicate.AndOrFirst(predicators[SearchParamNames.WordTitle], ref first);
+            predicate = predicate.AND(predicators[SearchParamNames.WordTitle]);
 
-                if(search.WithPostContent)
-                    predicate = predicate.OR(predicators[SearchParamNames.WordContent]);
-            }
-
-            if(search.PartialMatch)
-            {
-                predicate = predicate.AndOrFirst(predicators[SearchParamNames.PartialTitle], ref first);
-
-                if(search.WithPostContent)
-                    predicate = predicate.OR(predicators[SearchParamNames.PartialContent]);
-            }
+            if(search.WithPostContent)
+                predicate = predicate.OR(predicators[SearchParamNames.WordContent]);
             
+            // do search
             var q = _rep.Topic.Value.FindByCondition(predicate);
 
-            //priority of sorting:
-            if(search.WordMatch)
-            {
-                q = q.OrderByDescending(t => t.SearchVector.Rank( 
-                    EF.Functions.ToTsQuery("english", query)
-                ));
-            }
+
+            q = q.OrderByDescending(t => t.SearchVector.Rank( 
+                EF.Functions.ToTsQuery("english", forTsQuery)
+            ));
 
             //apply sort
-            if(string.IsNullOrEmpty(search.Sort) && !search.WordMatch)
+            if(string.IsNullOrEmpty(search.Sort))
             {
-                q = q.OrderByDescending(t => t.CreatedAt);
+                q = ((IOrderedQueryable<Topic>)q).ThenBy(t => t.CreatedAt);
             }
             else
             {
                 //TODO: replace with normal))
-                q = q.OrderBy($"CreatedAt {search.Sort}");
+                q = ((IOrderedQueryable<Topic>)q).ThenBy($"CreatedAt {search.Sort}");
             }
 
-            return await q.TakePage(page).ToListAsync();
+            var searchRes = new SearchResponse
+            {
+                SearchCount = q.Count(),
+                Topics = await q.TakePage(page).ToListAsync()
+            };
+            
+            return searchRes;
         }
     }
 }
