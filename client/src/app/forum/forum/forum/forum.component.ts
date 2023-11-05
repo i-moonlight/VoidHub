@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ForumService } from '../../services/forum.service';
 import { Forum } from '../../models/forum.model';
 import { Roles } from 'src/shared/roles.enum';
+import { Page } from 'src/shared/page.model';
 
 
 @Component({
@@ -56,7 +57,7 @@ export class ForumComponent implements OnDestroy {
           this.forum = forum;
         });
 
-      this.loadTopicsPage(this.currentPage);
+      this.loadTopicsPage();
     }
   }
 
@@ -67,7 +68,7 @@ export class ForumComponent implements OnDestroy {
       }
 
       this.currentPage = newPage;
-      this.loadTopicsPage(this.currentPage);
+      this.loadTopicsPage();
     }
   }
 
@@ -79,9 +80,11 @@ export class ForumComponent implements OnDestroy {
     this.showNewTopic = !this.showNewTopic;
   }
 
-  loadTopicsPage(page: number) {
+  loadTopicsPage() {
+    let page = new Page(this.currentPage, this.topicsOnPage);
+
     this.forumService
-      .getForumTopics(this.forumId, {pageNumber: this.currentPage, pageSize: this.topicsOnPage})
+      .getForumTopics(this.forumId, page)
       .subscribe((topics: Topic[]) => {
         this.topics = topics;
       });
@@ -105,10 +108,10 @@ export class ForumComponent implements OnDestroy {
   }
 
   onCreated() {
-    this.toggleNewTopic();
-    this.loadTopicsPage(this.forum.topicsCount / this.topicsOnPage);
     this.forum.topicsCount++;
     this.forum.postsCount++;
+    this.toggleNewTopic();
+    this.loadTopicsPage();
   }
 
   ngOnDestroy(): void {

@@ -1,7 +1,7 @@
 <div class="group">
   <div class="flex flex-row items-center my-2">
     <div class="basis-8/12 h-full">
-      <div routerLink="/forum/{{forum.id}}" class="text-cyan-100 hover:text-accent-focus link link-hover font-semibold">
+      <div routerLink="/forum/{{forum.id}}" class="link link-hover no-underline">
         {{forum.title}}
       </div>
     </div>
@@ -12,14 +12,14 @@
       {{forum.topicsCount}}
     </div>
     <div class="basis-3/12">
-      <div class="flex flex-col text-xs" *ngIf="forum.lastTopic">
+      <div class="flex flex-col text-sm" *ngIf="forum.lastTopic">
         <a
-          class="text-cyan-100 hover:text-accent-focus link link-hover font-semibold"
+          class="link link-hover no-underline"
           routerLink="/forum/topic/{{forum.lastTopic.id}}"
         >
           {{forum.lastTopic.title}}
         </a>
-        <div class="text-secondary-content">
+        <div class="text-secondary-content text-xs">
           {{forum.lastTopic.updatedAt | date: 'dd.MM.yyyy HH:mm'}}
         </div>
       </div>
