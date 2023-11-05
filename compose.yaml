@@ -1,0 +1,23 @@
+services:
+  api:
+    container_name: forumapi
+    build:
+      context: ./API/ForumApi
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+  client:
+    container_name: forumclient
+    build:
+      context: ./client
+    ports:
+      - "4200:4200"
+  db:
+    container_name: forumdb
+    image: postgres:12.16-bullseye
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: .Qwerty1%
