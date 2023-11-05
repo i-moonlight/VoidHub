@@ -4,7 +4,6 @@ import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 import { QuillModule } from "ngx-quill";
-import { ToastrModule } from "ngx-toastr";
 
 @NgModule({
   declarations: [
@@ -14,7 +13,7 @@ import { ToastrModule } from "ngx-toastr";
     CommonModule,
     BrowserModule,
     RouterModule,
-    QuillModule,
+    QuillModule
   ],
   exports:[
     FormsModule,

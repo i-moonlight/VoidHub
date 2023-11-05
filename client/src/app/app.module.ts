@@ -17,12 +17,11 @@ import { quillToolbarModules } from 'src/shared/quill/qiull-toolbar.modules';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     SharedModule,
