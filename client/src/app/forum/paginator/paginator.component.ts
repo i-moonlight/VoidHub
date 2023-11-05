@@ -38,7 +38,7 @@ export class PaginatorComponent {
     if(value < this.min)
       return;
 
-    this._max = value % 1 > 0 ? Math.floor(value + 1) : value;
+    this._max = value % 1 > 0 && value > 1 ? Math.floor(value + 1) : value;
   };
 
   pages: number[] = [];
