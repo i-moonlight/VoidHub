@@ -30,7 +30,6 @@ export class PostElementComponent {
   onPostEdit(data) {
     this.postService.updatePost(this.post.id, data).subscribe({
       next: (post: any) => {
-        console.log(post);
         this.editMode = false;
         this.post.content = post.content;
       }

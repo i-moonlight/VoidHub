@@ -16,7 +16,12 @@ export class TopicService {
   }
 
   getPostsPage(topicId, page: Page) {
-    return this.http.get(`${this.baseURL}/${topicId}/posts`, {params: {...page}});
+    return this.http.get(`${this.baseURL}/${topicId}/posts`, {
+      headers: {
+        'X-Limit-Param' : '2'
+      },
+      params: {...page}
+    });
   }
 
   createTopic(topic) {

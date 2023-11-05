@@ -55,6 +55,10 @@ export class HttpExceptionInterceptor implements HttpInterceptor {
           }
         }
 
+        if(err instanceof Error) {
+          errors.push(err.message);
+        }
+
         return throwError(errors);
       })
     );

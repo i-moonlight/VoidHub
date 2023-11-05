@@ -16,6 +16,7 @@ import { QuillModule } from 'ngx-quill';
 import { quillToolbarModules } from 'src/shared/quill/qiull-toolbar.modules';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LimitterInterceptor } from 'src/shared/limitter.interceptor';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpExceptionInterceptor,
       deps: [ToastrService],
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LimitterInterceptor,
       multi: true,
     },
     {

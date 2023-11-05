@@ -14,7 +14,12 @@ export class ForumService {
   }
 
   getForumTopics(forumId, page: Page) {
-    return this.http.get(`${this.baseUrl}/${forumId}/topics`, {params: {...page}});
+    return this.http.get(`${this.baseUrl}/${forumId}/topics`, {
+      headers: {
+        'X-Limit-Param' : '2'
+      },
+      params: {...page}
+    });
   }
 
   createForum(data) {
