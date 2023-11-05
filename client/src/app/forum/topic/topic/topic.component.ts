@@ -8,6 +8,7 @@ import { User } from 'src/shared/models/user.model';
 import { PostService } from '../../services/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Roles } from 'src/shared/roles.enum';
+import { Page } from 'src/shared/page.model';
 
 
 @Component({
@@ -78,7 +79,9 @@ export class TopicComponent implements OnDestroy {
   }
 
   loadNewPostsPage() {
-    this.topicService.getPostsPage(this.topicId, {pageNumber: this.currentPage, pageSize: this.postsOnPage})
+    let page = new Page(this.currentPage, this.postsOnPage);
+
+    this.topicService.getPostsPage(this.topicId, page)
       .subscribe({
         next: (posts:any[]) => {
           this.posts = [];

@@ -2,15 +2,21 @@
   <div class="group">
     <div class="py-2 ms-8 flex flex-row items-center">
       <div class="basis-8/12 h-full">
-        <div class="flex flex-row">
-          <div routerLink="/forum/topic/{{topic.id}}" class="link link-hover font-semibold grow">
-            {{topic.title}}
+        <div class="flex flex-col">
+          <div class="flex flex-row">
+            <div routerLink="/forum/topic/{{topic.id}}" class="link link-hover font-semibold grow">
+              {{topic.title}}
+            </div>
+            <div *ngIf="topic.isPinned">
+              <app-pinned-icon></app-pinned-icon>
+            </div>
+            <div *ngIf="topic.isClosed" class="ms-1">
+              <app-closed-icon></app-closed-icon>
+            </div>
           </div>
-          <div *ngIf="topic.isPinned">
-            <app-pinned-icon></app-pinned-icon>
-          </div>
-          <div *ngIf="topic.isClosed" class="ms-1">
-            <app-closed-icon></app-closed-icon>
+
+          <div class="text-xs text-secondary-content">
+            created: {{topic.createdAt | date: 'dd.MM.yyyy HH:mm'}}
           </div>
         </div>
       </div>
@@ -20,14 +26,16 @@
         </div>
       </div>
       <div class="basis-3/12">
-        <div
-          [routerLink]="['/','profile',topic?.lastPost?.author.id]"
-          class="flex flex-col link no-underline"
-        >
-          {{topic?.lastPost?.author.username}}
-        </div>
-        <div class="text-xs text-secondary-content">
-          time: {{topic?.lastPost?.createdAt | date: 'dd.MM.yyyy HH:mm'}}
+        <div *ngIf="topic?.lastPost">
+          <div
+            [routerLink]="['/','profile',topic?.lastPost?.author.id]"
+            class="flex flex-col link no-underline"
+          >
+            {{topic?.lastPost?.author.username}}
+          </div>
+          <div class="text-xs text-secondary-content">
+            time: {{topic?.lastPost?.createdAt | date: 'dd.MM.yyyy HH:mm'}}
+          </div>
         </div>
       </div>
     </div>
