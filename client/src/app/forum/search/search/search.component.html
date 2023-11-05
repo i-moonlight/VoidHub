@@ -1,0 +1,33 @@
+<div class="flex flex-col">
+  <div class="mb-3">
+    <app-search-bar
+      [searchQuery]="query"
+      [withContent]="searchParams.withPostContent"
+      (onForceSearch)="search()"
+      [enableParams]="true"
+    >
+    </app-search-bar>
+  </div>
+
+  <div class="w-fit">
+    <app-error-message-list [messages]="errorMessages">
+    </app-error-message-list>
+  </div>
+
+  <div *ngIf="searchResult">
+    <ng-template #emptySearch>
+      No topics found
+    </ng-template>
+
+    <div *ngIf="searchResult.topics.length > 0; emptySearch">
+      <app-paginator
+        (changePage)="changePage($event)"
+        [max]="searchResult.searchCount / searchPage.pageSize"
+        [currentPage]="searchPage.pageNumber">
+      </app-paginator>
+
+      <app-topic-element *ngFor="let item of searchResult.topics" [topic]="item">
+      </app-topic-element>
+    </div>
+  </div>
+</div>

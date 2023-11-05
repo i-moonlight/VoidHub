@@ -1,0 +1,36 @@
+<form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm)">
+  <div class="flex flex-col">
+    <div class="join min-h-fit h-8 w-fit focus-within:outline focus-within:outline-accent focus-within:outline-2">
+      <svg xmlns="http://www.w3.org/2000/svg"
+        width="15px" height="15px" viewBox="0 0 24 24" fill="none"
+        class="join-item my-auto ms-2"
+      >
+        <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
+          class="stroke-base-content stroke-2"
+        />
+      </svg>
+      <input
+        type="text"
+        name="search"
+        id="search"
+        placeholder="Search..."
+        class="join-item input min-h-fit h-8 focus:outline-none"
+        autocomplete="search"
+        [ngModel]="searchQuery"
+      >
+    </div>
+
+    <div *ngIf="enableParams" class="ms-1.5 mt-1">
+      <div class="flex flex-row">
+        <input
+          type="checkbox"
+          name="withContent"
+          id="withContent"
+          class="checkbox"
+          [ngModel] = "withContent"
+        />
+        <div class="ms-2">Include topic content</div>
+      </div>
+    </div>
+  </div>
+</form>

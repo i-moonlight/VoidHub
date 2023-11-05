@@ -30,8 +30,8 @@ import { AdminService } from "./admin/admin.service";
 import { BanService } from "./services/ban.service";
 import { canActivateAdmin } from "./admin/admin.guard";
 import { SearchBarComponent } from './search/search-bar/search-bar.component';
-import { SearchElementComponent } from './search/search-element/search-element.component';
 import { SearchComponent } from './search/search/search.component';
+import { SearchService } from "./services/search.service";
 
 
 
@@ -43,6 +43,7 @@ import { SearchComponent } from './search/search/search.component';
     PostService,
     BanService,
     AdminService,
+    SearchService
   ],
   declarations: [
     SectionListComponent,
@@ -66,8 +67,8 @@ import { SearchComponent } from './search/search/search.component';
     BanMenuComponent,
     AdminPanelComponent,
     SearchBarComponent,
-    SearchElementComponent,
-    SearchComponent
+    SearchComponent,
+    SearchBarComponent
   ],
   imports: [
     SharedModule,
@@ -83,13 +84,14 @@ import { SearchComponent } from './search/search/search.component';
         {path:'admin-panel', component: AdminPanelComponent, canActivate:[canActivateAdmin],  children: [
           {path:'ban-menu', component: BanMenuComponent}
         ]},
+        {path:'search',component: SearchComponent},
         {path:':id', redirectTo: ':id/1', pathMatch: 'full'},
         {path:':id/:page', component: ForumComponent},
       ]},
     ])
   ],
   exports: [
-
+    SearchBarComponent
   ]
 })
 export class ForumModule{}
