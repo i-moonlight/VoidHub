@@ -20,16 +20,18 @@
       >
     </div>
 
-    <div *ngIf="enableParams" class="ms-1.5 mt-1">
+    <div *ngIf="enableParams" class="ms-1.5 mt-2">
       <div class="flex flex-row">
         <input
           type="checkbox"
           name="withContent"
           id="withContent"
-          class="checkbox"
+          class="checkbox checkbox-sm"
           [ngModel] = "withContent"
         />
-        <div class="ms-2">Include topic content</div>
+        <div class="ms-2 text-sm">
+          Include topic content
+        </div>
       </div>
     </div>
   </div>
