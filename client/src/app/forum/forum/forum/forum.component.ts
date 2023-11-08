@@ -23,7 +23,7 @@ export class ForumComponent implements OnDestroy {
   private destroy$ = new ReplaySubject<boolean>(1);
 
   forumId: number = 0;
-  currentPage: number = 1;
+  currentPage: number = 0;
   topicsOnPage: number = 5;
 
   showNewTopic: boolean = false;
@@ -56,8 +56,6 @@ export class ForumComponent implements OnDestroy {
         .subscribe((forum: Forum) => {
           this.forum = forum;
         });
-
-      this.loadTopicsPage();
     }
   }
 
@@ -82,6 +80,7 @@ export class ForumComponent implements OnDestroy {
 
   loadTopicsPage() {
     let page = new Page(this.currentPage, this.topicsOnPage);
+    this.topics = [];
 
     this.forumService
       .getForumTopics(this.forumId, page)
