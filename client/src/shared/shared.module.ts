@@ -4,9 +4,11 @@ import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 import { QuillModule } from "ngx-quill";
+import { LimitLoaderComponent } from "src/app/limitter/limit-loader/limit-loader.component";
 
 @NgModule({
   declarations: [
+    LimitLoaderComponent
   ],
   imports:[
     FormsModule,
@@ -19,7 +21,8 @@ import { QuillModule } from "ngx-quill";
     FormsModule,
     CommonModule,
     RouterModule,
-    QuillModule
+    QuillModule,
+    LimitLoaderComponent
   ]
 })
 export class SharedModule{}

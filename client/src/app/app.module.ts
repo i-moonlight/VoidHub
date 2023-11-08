@@ -16,7 +16,8 @@ import { QuillModule } from 'ngx-quill';
 import { quillToolbarModules } from 'src/shared/quill/qiull-toolbar.modules';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LimitterInterceptor } from 'src/shared/limitter.interceptor';
+import { LimitterInterceptor } from 'src/app/limitter/limitter.interceptor';
+import { LimitterService } from './limitter/limitter.service';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { LimitterInterceptor } from 'src/shared/limitter.interceptor';
     ])
   ],
   providers: [
+    LimitterService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpExceptionInterceptor,
@@ -53,6 +55,7 @@ import { LimitterInterceptor } from 'src/shared/limitter.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LimitterInterceptor,
+      deps: [LimitterService],
       multi: true,
     },
     {
