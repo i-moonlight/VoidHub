@@ -45,7 +45,11 @@ export class AuthService
     if(!refreshToken)
       return of(null);
 
-    return this.http.get<AuthResponse>(this.baseURL + 'refresh?refreshToken=' + refreshToken)
+    return this.http.get<AuthResponse>(this.baseURL + 'refresh?refreshToken=' + refreshToken, {
+      headers: {
+        'X-Limit-Skip': 'true'
+      }
+      })
       .pipe(tap(data => this.handleAuth(data)))
   }
 
