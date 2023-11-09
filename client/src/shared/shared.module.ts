@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
-import { QuillModule } from "ngx-quill";
+import { TitleEditorComponent } from "src/app/forum/title-editor/title-editor.component";
 import { LimitLoaderComponent } from "src/app/limitter/limit-loader/limit-loader.component";
 
 @NgModule({
@@ -13,15 +13,12 @@ import { LimitLoaderComponent } from "src/app/limitter/limit-loader/limit-loader
   imports:[
     FormsModule,
     CommonModule,
-    BrowserModule,
     RouterModule,
-    QuillModule
   ],
   exports:[
     FormsModule,
     CommonModule,
     RouterModule,
-    QuillModule,
     LimitLoaderComponent
   ]
 })

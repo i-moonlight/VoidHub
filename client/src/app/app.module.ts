@@ -12,12 +12,11 @@ import { SharedModule } from 'src/shared/shared.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { HttpExceptionInterceptor } from 'src/shared/error/http-exception.interceptor';
 import { RouterModule } from '@angular/router';
-import { QuillModule } from 'ngx-quill';
-import { quillToolbarModules } from 'src/shared/quill/qiull-toolbar.modules';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LimitterInterceptor } from 'src/app/limitter/limitter.interceptor';
 import { LimitterService } from './limitter/limitter.service';
+import { SearchBarComponent } from './forum/search/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -31,17 +30,10 @@ import { LimitterService } from './limitter/limitter.service';
     AppRoutingModule,
     FormsModule,
     AuthModule,
-    ForumModule,
-    QuillModule.forRoot({
-      format: 'json',
-      modules: {
-        toolbar: quillToolbarModules
-      }
-    }),
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     RouterModule.forChild([
-      {path: '**', component: HomeComponent, pathMatch: 'full'}
+      {path: '**', component: HomeComponent, pathMatch: 'full'},
     ])
   ],
   providers: [

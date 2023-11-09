@@ -1,37 +1,60 @@
-
-@import '~quill/dist/quill.core.css';
-@import '~/../shared/quill/quill.custom.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @import 'ngx-toastr/toastr';
 
-.ql-editor.ql-blank::before {
-  @apply text-secondary-content;
+//icons color
+.ck.ck-button.ck-off {
+  @apply text-base-content
 }
 
-.ql-toolbar {
-  @apply border-secondary-content;
+// ckeditor bg
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred,
+.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-focused,
+.ck.ck-toolbar div,
+.ck.ck-dropdown.ck-heading-dropdown
+{
+  @apply bg-neutral;
 }
 
-.ql-toolbar .ql-stroke {
-  @apply stroke-base-content
+// toolbar items
+.ck.ck-toolbar__items .ck.ck-button {
+  @apply hover:text-neutral
 }
 
-.ql-picker .ql-picker-label {
-  @apply text-base-content;
+// toolbar list items
+.ck.ck-reset.ck-list li {
+  @apply bg-neutral
 }
 
-.ql-toolbar .ql-fill {
-  @apply fill-none stroke-base-content
+// remove left/right lines
+.ck.ck-sticky-panel__content .ck {
+  @apply p-0;
 }
 
-.ql-clean,
-.ql-clean .ql-stroke,
-.ql-clean .ql-fill {
-  @apply stroke-red-600
+// fix for lists
+.ck.ck-editor__main .ck.ck-content {
+  @apply ps-10
+}
+
+// ck viewer
+.ck-viewer .ck-editor .ck-editor__main div {
+  padding: 0 !important;
+  padding-left: 2em !important;
+  border: 0;
+}
+
+.ck-viewer .ck-editor .ck-editor__top .ck-sticky-panel__content .ck-toolbar{
+  border: 0;
 }
 
 .link {
   @apply text-cyan-100 hover:text-accent-focus
+}
+
+.ck-content p a {
+  @apply link
 }
 
 .min-h-32 {
