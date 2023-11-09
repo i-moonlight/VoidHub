@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using ForumApi.DTO.Auth;
+using ForumApi.DTO.DSearch;
 using ForumApi.DTO.Page;
 using Microsoft.AspNetCore.Builder;
 
@@ -19,6 +20,8 @@ namespace ForumApi.Extensions
 
             services.AddScoped<IValidator<Register>, RegisterValidator>();
             services.AddScoped<IValidator<Login>, LoginValidator>();
+
+            services.AddScoped<IValidator<SearchDto>, SearchDtoValidator>();
 
             return services;
         }
