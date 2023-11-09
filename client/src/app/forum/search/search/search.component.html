@@ -14,20 +14,22 @@
     </app-error-message-list>
   </div>
 
-  <div *ngIf="searchResult">
-    <ng-template #emptySearch>
-      No topics found
-    </ng-template>
+  <app-limit-loader [limit]="1" [ignore]="searchResult">
+    <div *ngIf="searchResult">
+      <ng-template #emptySearch>
+        No topics found
+      </ng-template>
 
-    <div *ngIf="searchResult.topics.length > 0; emptySearch">
-      <app-paginator
-        (changePage)="changePage($event)"
-        [max]="searchResult.searchCount / searchPage.pageSize"
-        [currentPage]="searchPage.pageNumber">
-      </app-paginator>
+      <div *ngIf="searchResult.topics.length > 0; emptySearch">
+        <app-paginator
+          (changePage)="changePage($event)"
+          [max]="searchResult.searchCount / searchPage.pageSize"
+          [currentPage]="searchPage.pageNumber">
+        </app-paginator>
 
-      <app-topic-element *ngFor="let item of searchResult.topics" [topic]="item">
-      </app-topic-element>
+        <app-topic-element *ngFor="let item of searchResult.topics" [topic]="item">
+        </app-topic-element>
+      </div>
     </div>
-  </div>
+  </app-limit-loader>
 </div>

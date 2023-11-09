@@ -44,15 +44,17 @@
         />
       </div>
       <div class="flex flex-row mt-2">
-        <button class="btn btn-success min-h-fit h-8">
-          Ban
-        </button>
-        <button type="button" class="ms-3 btn btn-error min-h-fit h-8" (click)="onCancelClick()">
-          Cancel
-        </button>
-        <button type="button" class="ms-3 btn btn-success min-h-fit h-8" (click)="onUnbanSubmit(banForm)">
-          Unban
-        </button>
+        <app-limit-loader [limit] = 1>
+          <button class="btn btn-success min-h-fit h-8">
+            Ban
+          </button>
+          <button type="button" class="ms-3 btn btn-error min-h-fit h-8" (click)="onCancelClick()">
+            Cancel
+          </button>
+          <button type="button" class="ms-3 btn btn-success min-h-fit h-8" (click)="onUnbanSubmit(banForm)">
+            Unban
+          </button>
+        </app-limit-loader>
       </div>
     </form>
   </div>

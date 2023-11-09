@@ -53,13 +53,15 @@
       </div>
 
       <div class="flex flex-col items-center pb-12 pt-5">
-          <button class="btn btn-accent text-base-100 min-h-fit h-8">
-            Sign in
-            <svg class="fill-none stroke-base-100 stroke-2" xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 14.414 12.162">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8.333 1.415 13 6.081m0 0-4.667 4.667M13 6.081H1">
-              </path>
-            </svg>
-          </button>
+          <app-limit-loader [limit]="1">
+            <button class="btn btn-accent text-base-100 min-h-fit h-8">
+              Sign in
+              <svg class="fill-none stroke-base-100 stroke-2" xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 14.414 12.162">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.333 1.415 13 6.081m0 0-4.667 4.667M13 6.081H1">
+                </path>
+              </svg>
+            </button>
+          </app-limit-loader>
 
           <a class="link link-hover pt-2 text-cyan-400 hover:text-cyan-200" routerLink="/register">Create an account</a>
       </div>

@@ -1,73 +1,77 @@
 <div class="flex flex-col bg-base-200 rounded-lg">
-  <div *ngIf="forum" class="ms-6 mt-3 flex flex-col">
-    <div class="text-3xl font-bold">{{forum.title}}</div>
-    <div class="text-xs text-secondary-content flex flex-row">
-      <div>topics: {{forum.topicsCount}}</div>
-      <div class="ms-3 ">msgs: {{forum.postsCount}}</div>
-    </div>
-  </div>
-  <div class="flex flex-row mt-3 ms-6" *ngIf="user">
-    <div class="grow">
-      <div class="flex flex-row my-auto" *ngIf="user.role == roles.ADMIN">
-        <div>
-          <app-title-editor
-            [title]="forum.title"
-            (onSave)="onEdit($event)"
-            *ngIf="forum"
-          >
-            <div class="hidden">
-              <input
-                type="number"
-                id="sectionId"
-                name="sectionId"
-                [(ngModel)]="forum.sectionId"
-              >
-            </div>
-          </app-title-editor>
-        </div>
-
-        <div>
-          <app-delete
-            (onConfirm)="onDelete()"
-            [height]="'30px'"
-          >
-          </app-delete>
-        </div>
+  <app-limit-loader [limit]="2">
+    <div *ngIf="forum" class="ms-6 mt-3 flex flex-col">
+      <div class="text-3xl font-bold">{{forum.title}}</div>
+      <div class="text-xs text-secondary-content flex flex-row">
+        <div>topics: {{forum.topicsCount}}</div>
+        <div class="ms-3 ">msgs: {{forum.postsCount}}</div>
       </div>
     </div>
+    <div class="flex flex-row mt-3 ms-6" *ngIf="user">
+      <div class="grow">
+        <div class="flex flex-row my-auto" *ngIf="user.role == roles.ADMIN">
+          <div>
+            <app-title-editor
+              [title]="forum.title"
+              (onSave)="onEdit($event)"
+              *ngIf="forum"
+            >
+              <div class="hidden">
+                <input
+                  type="number"
+                  id="sectionId"
+                  name="sectionId"
+                  [(ngModel)]="forum.sectionId"
+                >
+              </div>
+            </app-title-editor>
+          </div>
 
-    <div (click)="toggleNewTopic()" *ngIf="!showNewTopic" class="me-6 btn btn-neutral w-fit min-h-fit h-8">
-      New topic
+          <div>
+            <app-delete
+              (onConfirm)="onDelete()"
+              [height]="'30px'"
+            >
+            </app-delete>
+          </div>
+        </div>
+      </div>
+
+      <div (click)="toggleNewTopic()" *ngIf="!showNewTopic" class="me-6 btn btn-neutral w-fit min-h-fit h-8">
+        New topic
+      </div>
     </div>
-  </div>
+  </app-limit-loader>
 
   <app-new-topic *ngIf="user && showNewTopic" (close)="toggleNewTopic()" (created)="onCreated()"></app-new-topic>
 
-  <div *ngIf="forum && topics.length > 0">
-    <div class="ms-6 my-3">
-      <app-paginator
+  <app-limit-loader [limit]="1" [ignore]="topics.length > 0">
+    <div *ngIf="forum && topics.length > 0">
+      <div class="ms-6 my-3">
+        <app-paginator
+          (changePage)="changePage($event)"
+          [max]="forum.topicsCount / topicsOnPage"
+          [currentPage]="currentPage">
+        </app-paginator>
+      </div>
+      <div>
+        <div class="flex flex-row items-center ms-8 mt-2">
+          <div class="basis-8/12"></div>
+          <div class="basis-1/12">
+            <div class="text-center text-secondary-content">
+              msgs
+            </div>
+          </div>
+          <div class="basis-3/12"></div>
+        </div>
+        <app-topic-element *ngFor="let el of topics" [topic]="el"></app-topic-element>
+      </div>
+      <div class="ms-6 my-3">
+        <app-paginator
         (changePage)="changePage($event)"
         [max]="forum.topicsCount / topicsOnPage"
-        [currentPage]="currentPage">
-      </app-paginator>
-    </div>
-    <div>
-      <div class="flex flex-row items-center ms-8 mt-2">
-        <div class="basis-8/12"></div>
-        <div class="basis-1/12">
-          <div class="text-center text-secondary-content">
-            msgs
-          </div>
-        </div>
-        <div class="basis-3/12"></div>
+        [currentPage]="currentPage"></app-paginator>
       </div>
-      <app-topic-element *ngFor="let el of topics" [topic]="el"></app-topic-element>
     </div>
-    <div class="ms-6 my-3">
-      <app-paginator
-      (changePage)="changePage($event)"
-      [max]="forum.topicsCount / topicsOnPage"
-      [currentPage]="currentPage"></app-paginator>
-    </div>
-  </div>
+  </app-limit-loader>
 </div>
