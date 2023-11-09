@@ -32,6 +32,7 @@ import { canActivateAdmin } from "./admin/admin.guard";
 import { SearchBarComponent } from './search/search-bar/search-bar.component';
 import { SearchComponent } from './search/search/search.component';
 import { SearchService } from "./services/search.service";
+import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 
 
 
@@ -66,28 +67,28 @@ import { SearchService } from "./services/search.service";
     ClosedIconComponent,
     BanMenuComponent,
     AdminPanelComponent,
-    SearchBarComponent,
     SearchComponent,
-    SearchBarComponent
+    SearchBarComponent,
   ],
   imports: [
     SharedModule,
+    CKEditorModule,
     ErrorMessageListComponent,
     RouterModule.forChild([
-      {path: 'forum', redirectTo: 'forum/sections', pathMatch: 'full'},
-      {path:'forum', component: MainComponent, children: [
-        {path:'sections', component: SectionListComponent},
-        {path:'new-section', component: NewSectionComponent},
-        {path:'section/:id/new-forum', component: NewForumComponent},
-        {path:'topic/:id/:page', component: TopicComponent},
-        {path:'topic/:id', redirectTo: 'topic/:id/1', pathMatch: 'full'},
-        {path:'admin-panel', component: AdminPanelComponent, canActivate:[canActivateAdmin],  children: [
-          {path:'ban-menu', component: BanMenuComponent}
-        ]},
-        {path:'search',component: SearchComponent},
-        {path:':id', redirectTo: ':id/1', pathMatch: 'full'},
-        {path:':id/:page', component: ForumComponent},
-      ]},
+        {path: '', component: MainComponent, children: [
+          {path: '', redirectTo: 'sections', pathMatch: 'full'},
+          {path:'sections', component: SectionListComponent},
+          {path:'new-section', component: NewSectionComponent},
+          {path:'section/:id/new-forum', component: NewForumComponent},
+          {path:'topic/:id/:page', component: TopicComponent},
+          {path:'topic/:id', redirectTo: 'topic/:id/1', pathMatch: 'full'},
+          {path:'admin-panel', component: AdminPanelComponent, canActivate:[canActivateAdmin],  children: [
+            {path:'ban-menu', component: BanMenuComponent}
+          ]},
+          {path:'search',component: SearchComponent},
+          {path:':id', redirectTo: ':id/1', pathMatch: 'full'},
+          {path:':id/:page', component: ForumComponent},
+        ]}
     ])
   ],
   exports: [

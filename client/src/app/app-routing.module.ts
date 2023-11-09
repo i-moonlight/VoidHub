@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: HomeComponent},
+  {path: 'forum', loadChildren: () => import('./forum/forum.module').then(m => m.ForumModule)},
 ];
 
 @NgModule({
