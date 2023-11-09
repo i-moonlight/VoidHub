@@ -30,6 +30,7 @@ import { SearchBarComponent } from './forum/search/search-bar/search-bar.compone
     AppRoutingModule,
     FormsModule,
     AuthModule,
+    SearchBarComponent,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     RouterModule.forChild([

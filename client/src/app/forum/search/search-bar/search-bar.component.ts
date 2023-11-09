@@ -1,11 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SharedModule } from 'src/shared/shared.module';
 
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.css'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule
+  ]
 })
 export class SearchBarComponent {
 

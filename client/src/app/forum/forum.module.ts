@@ -68,12 +68,12 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
     BanMenuComponent,
     AdminPanelComponent,
     SearchComponent,
-    SearchBarComponent,
   ],
   imports: [
     SharedModule,
     CKEditorModule,
     ErrorMessageListComponent,
+    SearchBarComponent,
     RouterModule.forChild([
         {path: '', component: MainComponent, children: [
           {path: '', redirectTo: 'sections', pathMatch: 'full'},
@@ -92,7 +92,6 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
     ])
   ],
   exports: [
-    SearchBarComponent
   ]
 })
 export class ForumModule{}
