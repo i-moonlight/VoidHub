@@ -32,7 +32,7 @@
     </div>
 
     <div>
-      <quill-view [content]="post.content"></quill-view>
+      <ckeditor [ngModel]="post.content" [editor]="editor" [config]="{toolbar: []}" [disabled]="true" class="ck-viewer"></ckeditor>
     </div>
   </div>
   <div *ngIf="editMode">

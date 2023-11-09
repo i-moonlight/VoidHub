@@ -37,16 +37,15 @@
         </div>
 
         <div class="form-control w-full">
-          <quill-editor
+          <ckeditor
             class="bg-neutral"
             classes="rounded-b bg-neutral min-h-24"
             id="content"
             name="content"
-            [placeholder]="'Topic message'"
-            [maxLength]="24000"
-            [minLength]="1"
+            [editor]="editor"
+            [config]="{placeholder:'Topic message'}"
             [(ngModel)]="content">
-          </quill-editor>
+          </ckeditor>
           <label class="label">
             <span class="label-text-alt">
               <span
@@ -55,7 +54,7 @@
                 }">
                 {{content?.length ?? 0}}
               </span>
-              / 24000
+              / 24000 <span class="text-xs text-secondary-content">(include styles)</span>
             </span>
           </label>
         </div>
@@ -65,10 +64,12 @@
         </div>
 
         <div class="my-3">
-          <button
-            class=" btn btn-accent text-base-100 min-h-fit h-8">
-            Create
-          </button>
+          <app-limit-loader [limit]="1" [containerClasses]="">
+            <button
+              class=" btn btn-accent text-base-100 min-h-fit h-8">
+              Create
+            </button>
+          </app-limit-loader>
           <button type="button" (click)="onCancel()"
             class=" btn btn-error ms-3 text-base-100 min-h-fit h-8">
             Cancel

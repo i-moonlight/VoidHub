@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgFormExtension } from 'src/shared/ng-form.extension';
+import Editor from 'ckeditor5/build/ckeditor';
 
 @Component({
   selector: 'app-post-editor',
@@ -8,6 +9,9 @@ import { NgFormExtension } from 'src/shared/ng-form.extension';
   styleUrls: ['./post-editor.component.css']
 })
 export class NewPostComponent {
+  editor = Editor as {
+    create: any;
+  };
 
   @Output()
   onCreate = new EventEmitter<any>();

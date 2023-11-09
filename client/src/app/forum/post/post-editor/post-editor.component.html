@@ -2,16 +2,15 @@
   <div class="flex flex-col">
     <div class="form-control">
       <div class="form-control w-full">
-        <quill-editor
+        <ckeditor
           class="bg-neutral"
           classes="rounded-b bg-neutral min-h-24"
           id="content"
           name="content"
-          [placeholder]="'Topic message'"
-          [maxLength]="24000"
-          [minLength]="1"
+          [config]="{placeholder: 'Topic message'}"
+          [editor]="editor"
           [(ngModel)]="content">
-        </quill-editor>
+        </ckeditor>
         <label class="label">
           <span class="label-text-alt">
             <span

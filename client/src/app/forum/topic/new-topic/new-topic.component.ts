@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgFormExtension } from 'src/shared/ng-form.extension';
 import { TopicService } from '../../services/topic.service';
-import { quillToolbarModules } from 'src/shared/quill/qiull-toolbar.modules';
+import Editor from 'ckeditor5/build/ckeditor'
 
 @Component({
   selector: 'app-new-topic',
@@ -11,12 +11,13 @@ import { quillToolbarModules } from 'src/shared/quill/qiull-toolbar.modules';
   styleUrls: ['./new-topic.component.css']
 })
 export class NewTopicComponent {
+  editor = Editor as {
+    create: any;
+  }
 
   forumId;
   errorMessages: string[] = [];
   content = '';
-
-  modules = {toolbar: quillToolbarModules};
 
   @Output()
   close = new EventEmitter();
