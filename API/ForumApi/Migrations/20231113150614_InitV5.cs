@@ -8,7 +8,7 @@ using NpgsqlTypes;
 namespace ForumApi.Migrations
 {
     /// <inheritdoc />
-    public partial class init_v3 : Migration
+    public partial class InitV5 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,10 +55,10 @@ namespace ForumApi.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AccountId = table.Column<int>(type: "integer", nullable: false),
                     ModeratorId = table.Column<int>(type: "integer", nullable: false),
+                    UpdatedById = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "timezone('utc', now())"),
                     ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Reason = table.Column<string>(type: "text", nullable: false),
-                    IsPermanent = table.Column<bool>(type: "boolean", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -73,6 +73,12 @@ namespace ForumApi.Migrations
                     table.ForeignKey(
                         name: "FK_Bans_Accounts_ModeratorId",
                         column: x => x.ModeratorId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bans_Accounts_UpdatedById",
+                        column: x => x.UpdatedById,
                         principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -160,8 +166,9 @@ namespace ForumApi.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    AccountId = table.Column<int>(type: "integer", nullable: false),
+                    AccountId = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     TopicId = table.Column<int>(type: "integer", nullable: false),
+                    AncestorId = table.Column<int>(type: "integer", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "timezone('utc', now())"),
                     DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -178,6 +185,11 @@ namespace ForumApi.Migrations
                         principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Posts_Posts_AncestorId",
+                        column: x => x.AncestorId,
+                        principalTable: "Posts",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Posts_Topics_TopicId",
                         column: x => x.TopicId,
@@ -209,6 +221,11 @@ namespace ForumApi.Migrations
                 column: "ModeratorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bans_UpdatedById",
+                table: "Bans",
+                column: "UpdatedById");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Forums_SectionId",
                 table: "Forums",
                 column: "SectionId");
@@ -217,6 +234,11 @@ namespace ForumApi.Migrations
                 name: "IX_Posts_AccountId",
                 table: "Posts",
                 column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_AncestorId",
+                table: "Posts",
+                column: "AncestorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_SearchVector",

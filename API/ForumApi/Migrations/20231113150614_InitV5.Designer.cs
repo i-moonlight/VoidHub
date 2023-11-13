@@ -13,8 +13,8 @@ using NpgsqlTypes;
 namespace ForumApi.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    [Migration("20231031070838_delete_permban")]
-    partial class delete_permban
+    [Migration("20231113150614_InitV5")]
+    partial class InitV5
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -155,6 +155,11 @@ namespace ForumApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccountId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("AncestorId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Content")
@@ -182,6 +187,8 @@ namespace ForumApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
+
+                    b.HasIndex("AncestorId");
 
                     b.HasIndex("SearchVector");
 
@@ -347,11 +354,17 @@ namespace ForumApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ForumApi.Data.Models.Post", "Ancestor")
+                        .WithMany("Comments")
+                        .HasForeignKey("AncestorId");
+
                     b.HasOne("ForumApi.Data.Models.Topic", "Topic")
                         .WithMany("Posts")
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Ancestor");
 
                     b.Navigation("Author");
 
@@ -406,6 +419,11 @@ namespace ForumApi.Migrations
             modelBuilder.Entity("ForumApi.Data.Models.Forum", b =>
                 {
                     b.Navigation("Topics");
+                });
+
+            modelBuilder.Entity("ForumApi.Data.Models.Post", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Section", b =>

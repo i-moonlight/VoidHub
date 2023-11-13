@@ -13,8 +13,8 @@ using NpgsqlTypes;
 namespace ForumApi.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    [Migration("20231026204329_upd_ban")]
-    partial class upd_ban
+    [Migration("20231113152220_post_ancestor_default_null")]
+    partial class post_ancestor_default_null
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,9 +95,6 @@ namespace ForumApi.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("IsPermanent")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("ModeratorId")
                         .HasColumnType("integer");
 
@@ -160,6 +157,9 @@ namespace ForumApi.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("AncestorId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text");
@@ -185,6 +185,8 @@ namespace ForumApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
+
+                    b.HasIndex("AncestorId");
 
                     b.HasIndex("SearchVector");
 
@@ -350,11 +352,17 @@ namespace ForumApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ForumApi.Data.Models.Post", "Ancestor")
+                        .WithMany("Comments")
+                        .HasForeignKey("AncestorId");
+
                     b.HasOne("ForumApi.Data.Models.Topic", "Topic")
                         .WithMany("Posts")
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Ancestor");
 
                     b.Navigation("Author");
 
@@ -409,6 +417,11 @@ namespace ForumApi.Migrations
             modelBuilder.Entity("ForumApi.Data.Models.Forum", b =>
                 {
                     b.Navigation("Topics");
+                });
+
+            modelBuilder.Entity("ForumApi.Data.Models.Post", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Section", b =>

@@ -67,7 +67,7 @@ namespace ForumApi.Migrations
                     b.HasIndex("LoginName")
                         .IsUnique();
 
-                    b.ToTable("Accounts", (string)null);
+                    b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Ban", b =>
@@ -110,7 +110,7 @@ namespace ForumApi.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("Bans", (string)null);
+                    b.ToTable("Bans");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Forum", b =>
@@ -140,7 +140,7 @@ namespace ForumApi.Migrations
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("Forums", (string)null);
+                    b.ToTable("Forums");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Post", b =>
@@ -152,6 +152,9 @@ namespace ForumApi.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("AncestorId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Content")
@@ -180,13 +183,15 @@ namespace ForumApi.Migrations
 
                     b.HasIndex("AccountId");
 
+                    b.HasIndex("AncestorId");
+
                     b.HasIndex("SearchVector");
 
                     NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("SearchVector"), "GIN");
 
                     b.HasIndex("TopicId");
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Section", b =>
@@ -211,7 +216,7 @@ namespace ForumApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sections", (string)null);
+                    b.ToTable("Sections");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Token", b =>
@@ -239,7 +244,7 @@ namespace ForumApi.Migrations
                     b.HasIndex("RefreshToken")
                         .IsUnique();
 
-                    b.ToTable("Tokens", (string)null);
+                    b.ToTable("Tokens");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Topic", b =>
@@ -295,7 +300,7 @@ namespace ForumApi.Migrations
 
                     NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("SearchVector"), "GIN");
 
-                    b.ToTable("Topics", (string)null);
+                    b.ToTable("Topics");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Ban", b =>
@@ -344,11 +349,17 @@ namespace ForumApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ForumApi.Data.Models.Post", "Ancestor")
+                        .WithMany("Comments")
+                        .HasForeignKey("AncestorId");
+
                     b.HasOne("ForumApi.Data.Models.Topic", "Topic")
                         .WithMany("Posts")
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Ancestor");
 
                     b.Navigation("Author");
 
@@ -403,6 +414,11 @@ namespace ForumApi.Migrations
             modelBuilder.Entity("ForumApi.Data.Models.Forum", b =>
                 {
                     b.Navigation("Topics");
+                });
+
+            modelBuilder.Entity("ForumApi.Data.Models.Post", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("ForumApi.Data.Models.Section", b =>

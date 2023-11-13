@@ -53,11 +53,11 @@ namespace ForumApi.Services
             await _rep.Save();
         }
 
-        public async Task<List<PostResponse>> GetPostPage(int topicId, Page page)
+        public async Task<List<PostResponse>> GetPostPage(int topicId, Page page, int? ancestorId = null)
         {
             //skip(1) for not including main post
             var posts = await _rep.Post.Value
-                .FindByCondition(p => p.TopicId == topicId && p.DeletedAt == null)
+                .FindByCondition(p => p.TopicId == topicId && p.DeletedAt == null && p.AncestorId == ancestorId)
                 .OrderBy(p => p.CreatedAt)
                 .Include(p => p.Author)
                 .Skip(1)

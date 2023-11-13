@@ -128,6 +128,9 @@ namespace ForumApi.Data
             {
                 p.HasKey(p => p.Id);
 
+                p.Property(p => p.AncestorId)
+                    .HasDefaultValue(null);
+
                 p.Property(p => p.Content)
                     .IsRequired();
 
@@ -153,6 +156,11 @@ namespace ForumApi.Data
                 p.HasOne(p => p.Author)
                     .WithMany(a => a.Posts)
                     .HasForeignKey(p => p.AccountId);
+
+                p.HasMany(p => p.Comments)
+                    .WithOne(p => p.Ancestor)
+                    .HasForeignKey(p => p.AncestorId)
+                    .IsRequired(false);
             });
 
             builder.Entity<Ban>(b => {
