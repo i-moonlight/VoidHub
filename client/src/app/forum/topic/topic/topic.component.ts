@@ -25,7 +25,7 @@ export class TopicComponent implements OnDestroy {
   roles = Roles;
 
   postsOnPage = 5;
-  currentPage = 1;
+  currentPage = -1;
   topicId;
 
   newPostContent = '';
@@ -60,7 +60,6 @@ export class TopicComponent implements OnDestroy {
           topic.postsCount -= 1;
 
           this.topic = topic;
-          this.loadNewPostsPage();
         }
       });
     }

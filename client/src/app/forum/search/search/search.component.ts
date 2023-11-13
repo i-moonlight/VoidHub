@@ -43,8 +43,6 @@ export class SearchComponent {
         let isPageChanged = !this.searchPage.Equals(newSearchPage);
         let isQueryChanged = !(this.query == newQuery)
 
-        console.log('new', newQuery, newSearchParams, newSearchPage);
-        console.log('old', this.query, this.searchParams, this.searchPage);
         if(isParamsChanged || isPageChanged || isQueryChanged) {
           this.query = newQuery ?? "";
           this.searchParams = newSearchParams;
@@ -70,13 +68,13 @@ export class SearchComponent {
   }
 
   search() {
-    console.log(this.query, this.searchParams, this.searchPage);
+    this.errorMessages = [];
+    this.searchResult = null;
+    //console.log(this.query, this.searchParams, this.searchPage);
     this.searchService.searchTopics(this.query, this.searchParams, this.searchPage)
     .subscribe({
       next: data => {
-        console.log(data);
-        this.errorMessages = [];
-        this.searchResult = null;
+        //console.log(data)
         this.searchResult = data;
       },
       error: errs => {

@@ -1,5 +1,5 @@
 <div class="flex flex-col">
-  <app-limit-loader [limit]="1" [ignore]="!!topic">
+  <app-limit-loader [limit]="2" [ignore]="!!topic">
     <div class="flex flex-col" *ngIf="topic">
       <div>
         <div class="link no-underline" routerLink="/forum/{{topic.forumId}}">Back to forum...</div>
@@ -63,13 +63,13 @@
         </div>
 
         <div class="mt-3">
-          <app-post [post]="topic?.post" [user]="user" [enableDeliting]="false" ></app-post>
+          <app-post [post]="topic?.post" [user]="user" [enableDeliting]="false" [enableComments]="false" ></app-post>
         </div>
       </div>
       <div class="my-3">
         <app-paginator
           (changePage)="changePage($event)"
-          [max]="topic.postsCount / postsOnPage"
+          [max]="(topic.postsCount - topic.CommentsCount) / postsOnPage"
           [currentPage]="currentPage">
         </app-paginator>
       </div>
@@ -89,7 +89,7 @@
       <div class="my-3">
         <app-paginator
           (changePage)="changePage($event)"
-          [max]="topic.postsCount / postsOnPage"
+          [max]="(topic.postsCount - topic.CommentsCount) / postsOnPage"
           [currentPage]="currentPage">
         </app-paginator>
       </div>
