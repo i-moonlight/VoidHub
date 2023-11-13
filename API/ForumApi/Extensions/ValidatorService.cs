@@ -18,6 +18,7 @@ namespace ForumApi.Extensions
             });
             
             services.AddScoped<IValidator<Page>, PageValidator>();
+            services.AddScoped<IValidator<Offset>, OffsetValidator>();
 
             services.AddScoped<IValidator<Register>, RegisterValidator>();
             services.AddScoped<IValidator<Login>, LoginValidator>();
