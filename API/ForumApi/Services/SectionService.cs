@@ -44,7 +44,7 @@ namespace ForumApi.Services
                                 .SelectMany(t => t.Posts).Where(p=> p.DeletedAt == null).Count(),
                             LastTopic = ff.Topics
                                 .Where(t => t.DeletedAt == null)
-                                .OrderByDescending(t => t.CreatedAt)
+                                .OrderByDescending(t => t.Posts.Where(p => p.DeletedAt == null).Max(p => p.CreatedAt))
                                 .Select(t => new TopicLast
                                 {
                                     Id = t.Id,
