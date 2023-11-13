@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { User } from 'src/shared/models/user.model';
 import { PostService } from '../../services/post.service';
 import { Roles } from 'src/shared/roles.enum';
 import Editor from 'ckeditor5/build/ckeditor';
+
 
 @Component({
   selector: 'app-post',
@@ -10,9 +12,7 @@ import Editor from 'ckeditor5/build/ckeditor';
   styleUrls: ['./post-element.component.css']
 })
 export class PostElementComponent {
-  editor = Editor as {
-    create: any;
-  }
+  editor = Editor as {create: any}
 
   @Input()
   post;
@@ -23,14 +23,20 @@ export class PostElementComponent {
   @Input()
   enableDeliting: boolean = true;
 
+  @Input()
+  enableComments: boolean = true;
+
   roles = Roles;
 
   @Output()
-  onDelete = new EventEmitter();
+  onDelete = new EventEmitter<number>();
 
   editMode = false;
+  commentsMode = false;
 
-  constructor(private postService: PostService) {}
+  constructor(private postService: PostService) {
+
+  }
 
   onPostEdit(data) {
     this.postService.updatePost(this.post.id, data).subscribe({
@@ -58,6 +64,15 @@ export class PostElementComponent {
   }
 
   handleDelete() {
-    this.onDelete.emit();
+    this.onDelete.emit(this.post.id);
+  }
+
+  // comments
+  toggleCommentsMode() {
+    this.commentsMode = !this.commentsMode;
+  }
+
+  updateCommentsCounter(count) {
+    this.post.commentsCount = count;
   }
 }

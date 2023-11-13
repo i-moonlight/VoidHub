@@ -29,7 +29,7 @@ export class NewPostComponent {
   cancelPlaceholder = 'Cancel';
 
   @Input()
-  ancestorId: number = 0;
+  ancestorId: number | null = null;
   @Input()
   topicId: number;
   @Input()

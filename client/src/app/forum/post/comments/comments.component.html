@@ -1,0 +1,32 @@
+<div class="ps-10 flex flex-col">
+
+  <app-limit-loader [limit]="1" [ignore]="posts.length > 0">
+    <div *ngFor="let post of posts" class="my-2">
+      <app-post
+        [post]="post"
+        [user]="user"
+        (onDelete)="onPostDelete($event)"
+      >
+      </app-post>
+    </div>
+
+    <div *ngIf="posts.length < commentsCount">
+      <app-limit-loader class="flex flex-col" [limit]="1">
+        <div class="btn btn-accent min-h-min h-8 self-center" (click)="loadNexPosts()">
+          Load more
+        </div>
+      </app-limit-loader>
+    </div>
+  </app-limit-loader>
+  <div>
+    <app-post-editor
+      [ancestorId]="postId"
+      [topicId]="topicId"
+      [submitPlaceholder]="'Answer'"
+      [cancelPlaceholder]="'Clear'"
+      [content]="editorContent"
+      (onCreate)="onPostCreate($event)"
+    >
+    </app-post-editor>
+  </div>
+</div>

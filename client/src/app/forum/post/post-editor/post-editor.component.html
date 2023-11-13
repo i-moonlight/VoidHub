@@ -47,9 +47,11 @@
     </div>
 
     <div class="flex flex-row">
-      <button class="btn btn-success min-h-fit h-8">
-        {{submitPlaceholder}}
-      </button>
+      <app-limit-loader [limit]="1">
+        <button class="btn btn-success min-h-fit h-8">
+          {{submitPlaceholder}}
+        </button>
+      </app-limit-loader>
       <button type="button" class="btn btn-info ms-5 min-h-fit h-8" (click)="onCancelClick()">
         {{cancelPlaceholder}}
       </button>
