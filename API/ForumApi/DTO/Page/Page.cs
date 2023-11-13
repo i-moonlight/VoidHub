@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace ForumApi.DTO.Page
 {
     public class Page

@@ -43,3 +43,5 @@ Thumbs.db
 
 # ckeditor build
 /build
+/sample
+readme.md

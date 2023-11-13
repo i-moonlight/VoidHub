@@ -61,14 +61,11 @@ namespace ForumApi.Services
         public async Task<AuthResponse> Login(Login auth)
         {
             var account = await _rep.Account.Value
-                .FindByLoginWithTokens(auth.LoginName, true)
-                .FirstOrDefaultAsync() ?? throw new BadRequestException("User with such login doesn't exist");
-
-            if(account.DeletedAt != null)
-                throw new BadRequestException("User with such login doesn't exist");
+                .FindByCondition(a => a.LoginName == auth.LoginName && a.DeletedAt == null, true)
+                .FirstOrDefaultAsync() ?? throw new BadRequestException("Invalid login or password");
 
             if(!PasswordHelper.Verify(auth.Password, account.PasswordHash))
-                throw new BadRequestException("Password is incorrect");
+                throw new BadRequestException("Invalid login or password");
 
             //check max tokens count and update
             if(account.Tokens.Count > _jwtOptions.MaxTokenCount)

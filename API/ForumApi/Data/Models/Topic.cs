@@ -20,7 +20,8 @@ namespace ForumApi.Data.Models
         [JsonIgnore]
         public virtual Forum Forum {get;set;} = null!;
         [JsonIgnore]
-        public virtual List<Post> Posts {get;set;} = new();      
+        public virtual List<Post> Posts {get;set;} = new();  
+
         [JsonIgnore]
         public virtual Account Author {get;set;} = null!;  
     }
