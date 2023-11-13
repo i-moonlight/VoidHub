@@ -29,12 +29,8 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { AdminService } from "./admin/admin.service";
 import { BanService } from "./services/ban.service";
 import { canActivateAdmin } from "./admin/admin.guard";
-import { SearchBarComponent } from './search/search-bar/search-bar.component';
-import { SearchComponent } from './search/search/search.component';
-import { SearchService } from "./services/search.service";
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
-
-
+import { CommentsComponent } from './post/comments/comments.component';
 
 @NgModule({
   providers: [
@@ -44,36 +40,34 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
     PostService,
     BanService,
     AdminService,
-    SearchService
   ],
   declarations: [
     SectionListComponent,
     SectionElementComponent,
     ForumListComponent,
-    TopicElementComponent,
     PostElementComponent,
     MainComponent,
     TopicComponent,
     NewSectionComponent,
     NewForumComponent,
     NewTopicComponent,
-    PaginatorComponent,
     NewPostComponent,
     DeleteComponent,
     TitleEditorComponent,
     ForumComponent,
     ForumElementComponent,
-    PinnedIconComponent,
-    ClosedIconComponent,
     BanMenuComponent,
     AdminPanelComponent,
-    SearchComponent,
+    CommentsComponent,
   ],
   imports: [
     SharedModule,
     CKEditorModule,
     ErrorMessageListComponent,
-    SearchBarComponent,
+    PaginatorComponent,
+    TopicElementComponent,
+    PinnedIconComponent,
+    ClosedIconComponent,
     RouterModule.forChild([
         {path: '', component: MainComponent, children: [
           {path: '', redirectTo: 'sections', pathMatch: 'full'},
@@ -85,7 +79,7 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
           {path:'admin-panel', component: AdminPanelComponent, canActivate:[canActivateAdmin],  children: [
             {path:'ban-menu', component: BanMenuComponent}
           ]},
-          {path:'search',component: SearchComponent},
+          {path:'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule)},
           {path:':id', redirectTo: ':id/1', pathMatch: 'full'},
           {path:':id/:page', component: ForumComponent},
         ]}
