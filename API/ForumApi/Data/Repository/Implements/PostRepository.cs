@@ -12,6 +12,7 @@ namespace ForumApi.Data.Repository.Implements
         public override void Delete(Post entity)
         {
             entity.DeletedAt = DateTime.UtcNow;
+            DeleteMany(entity.Comments);
         }
 
         public override void DeleteMany(IEnumerable<Post> entities)

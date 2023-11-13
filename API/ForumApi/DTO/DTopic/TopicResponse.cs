@@ -12,6 +12,7 @@ namespace ForumApi.DTO.DTopic
         public DateTime CreatedAt {get;set;}
 
         public int PostsCount {get;set;}        
+        public int CommentsCount {get;set;}
 
         public PostResponse Post {get;set;} = null!;
     }

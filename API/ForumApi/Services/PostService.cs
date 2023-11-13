@@ -2,11 +2,11 @@ using AutoMapper;
 using ForumApi.Data.Models;
 using ForumApi.Data.Repository.Extensions;
 using ForumApi.Data.Repository.Interfaces;
+using ForumApi.DTO.Auth;
 using ForumApi.DTO.DPost;
 using ForumApi.DTO.Page;
 using ForumApi.Exceptions;
 using ForumApi.Services.Interfaces;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForumApi.Services
@@ -53,18 +53,48 @@ namespace ForumApi.Services
             await _rep.Save();
         }
 
-        public async Task<List<PostResponse>> GetPostPage(int topicId, Page page, int? ancestorId = null)
+        public async Task<List<PostResponse>> GetPostPage(int topicId, Page page)
         {
             //skip(1) for not including main post
             var posts = await _rep.Post.Value
-                .FindByCondition(p => p.TopicId == topicId && p.DeletedAt == null && p.AncestorId == ancestorId)
+                .FindByCondition(p => p.TopicId == topicId && p.DeletedAt == null && p.AncestorId == null)
                 .OrderBy(p => p.CreatedAt)
                 .Include(p => p.Author)
                 .Skip(1)
                 .TakePage(page)
+                .Select(p => new PostResponse
+                {
+                    Id = p.Id,
+                    TopicId = p.TopicId,
+                    Author = _mapper.Map<User>(p.Author),
+                    Content = p.Content,
+                    CreatedAt = p.CreatedAt,
+                    CommentsCount = p.Comments.Where(c => c.DeletedAt == null).Count()
+                })
                 .ToListAsync();
 
-            return _mapper.Map<List<PostResponse>>(posts);
+            return posts;
+        }
+
+        public async Task<List<PostResponse>> GetPostComments(int? ancestorId, Offset page)
+        {
+            var posts = await _rep.Post.Value
+                .FindByCondition(p => p.DeletedAt == null && p.AncestorId == ancestorId)
+                .OrderBy(p => p.CreatedAt)
+                .Include(p => p.Author)
+                .TakeOffset(page)
+                .Select(p => new PostResponse
+                {
+                    Id = p.Id,
+                    TopicId = p.TopicId,
+                    Author = _mapper.Map<User>(p.Author),
+                    Content = p.Content,
+                    CreatedAt = p.CreatedAt,
+                    CommentsCount = p.Comments.Count()
+                })
+                .ToListAsync();
+
+            return posts;
         }
 
         public async Task<Post> Update(int postId, PostDto postDto)

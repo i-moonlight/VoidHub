@@ -1,5 +1,6 @@
 using ForumApi.Data.Models;
 using ForumApi.DTO.DPost;
+using ForumApi.DTO.Page;
 using ForumApi.Extensions;
 using ForumApi.Filters;
 using ForumApi.Services.Interfaces;
@@ -17,6 +18,13 @@ namespace ForumApi.Controllers
         public PostController(IPostService postService)
         {
             _postService = postService;
+        }
+
+        [HttpGet("{id}/comments")]
+        public async Task<IActionResult> GetPage(int id, [FromQuery] Offset page)
+        {
+            var posts = await _postService.GetPostComments(id, page);
+            return Ok(posts);
         }
 
         [HttpPost]

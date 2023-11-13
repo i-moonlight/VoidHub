@@ -8,6 +8,7 @@ namespace ForumApi.DTO.DPost
         public int TopicId {get;set;}
         public string Content {get;set;} = null!;
         public DateTime CreatedAt {get;set;}
+        public int CommentsCount {get;set;}
 
         public User Author {get;set;} = null!;
     }
