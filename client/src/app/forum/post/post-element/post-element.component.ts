@@ -51,14 +51,8 @@ export class PostElementComponent {
     this.editMode = value;
   }
 
-  deleteClick() {
-    this.postService.deletePost(this.post.id).subscribe({
-      next: _ => this.handleDelete(),
-    });
-  }
-
   onAdminDelete() {
-    this.postService.deletePostByAdmin(this.post.id).subscribe({
+    this.postService.deletePost(this.post.id).subscribe({
       next: _ => this.handleDelete(),
     });
   }

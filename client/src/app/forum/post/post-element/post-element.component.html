@@ -19,12 +19,8 @@
           </div>
           <div class="my-auto" *ngIf="enableDeliting">
             <div class="text-xs" *ngIf="user">
-              <app-delete *ngIf="user?.id == post?.author.id; else deleteAsAdmin" (onConfirm)="deleteClick()">
-              </app-delete>
-              <ng-template #deleteAsAdmin>
                 <app-delete *ngIf="user?.role == roles.ADMIN || user?.role == roles.MODER" (onConfirm)="onAdminDelete()">
                 </app-delete>
-              </ng-template>
             </div>
           </div>
         </div>

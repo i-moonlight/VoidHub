@@ -31,8 +31,4 @@ export class PostService {
   deletePost(postId) {
     return this.http.delete(`${this.baseURL}/${postId}`);
   }
-
-  deletePostByAdmin(postId) {
-    return this.http.delete(`${this.baseURL}/${postId}/admin`);
-  }
 }

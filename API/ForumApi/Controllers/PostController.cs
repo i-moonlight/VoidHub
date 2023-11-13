@@ -47,16 +47,6 @@ namespace ForumApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
-        [BanFilter]
-        [PermissionActionFilter<Post>]
-        public async Task<IActionResult> Delete(int id)
-        {
-            await _postService.Delete(id);
-            return Ok();
-        }
-
-        [HttpDelete("{id}/admin")]
         [Authorize(Roles = $"{Role.Admin},{Role.Moder}")]
         [BanFilter]
         public async Task<IActionResult> DeleteAsDmin(int id)
