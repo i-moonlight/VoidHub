@@ -1,10 +1,8 @@
-import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { User } from 'src/shared/models/user.model';
 import { PostService } from '../../services/post.service';
 import { Roles } from 'src/shared/roles.enum';
 import Editor from 'ckeditor5/build/ckeditor';
-
 
 @Component({
   selector: 'app-post',
@@ -25,6 +23,9 @@ export class PostElementComponent {
 
   @Input()
   enableComments: boolean = true;
+
+  @Input()
+  depth = 1;
 
   roles = Roles;
 

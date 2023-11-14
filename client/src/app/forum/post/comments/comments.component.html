@@ -5,6 +5,8 @@
       <app-post
         [post]="post"
         [user]="user"
+        [depth]="depth"
+        [enableComments]="depth < depthLimit"
         (onDelete)="onPostDelete($event)"
       >
       </app-post>
@@ -23,9 +25,10 @@
       [ancestorId]="postId"
       [topicId]="topicId"
       [submitPlaceholder]="'Answer'"
-      [cancelPlaceholder]="'Clear'"
+      [cancelPlaceholder]="'Close'"
       [content]="editorContent"
       (onCreate)="onPostCreate($event)"
+      (onCancel)="onCloseClicked()"
     >
     </app-post-editor>
   </div>

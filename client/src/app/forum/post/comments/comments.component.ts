@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from 'src/shared/models/user.model';
 import { PostService } from '../../services/post.service';
-import { Page } from 'src/shared/page.model';
 import { Offset } from 'src/shared/offset.model';
+import { environment as env } from 'src/environments/environment';
 
 @Component({
   selector: 'app-comments',
@@ -23,8 +23,15 @@ export class CommentsComponent implements OnInit {
   @Input()
   commentsCount = 0;
 
+  @Input()
+  depth = 1;
+  depthLimit = env.commenthDepthLimit;
+
   @Output()
   onCommentsCounterUpdated = new EventEmitter<number>();
+
+  @Output()
+  onClose = new EventEmitter();
 
   posts:any = [];
   postOnPage = 5;
@@ -73,5 +80,9 @@ export class CommentsComponent implements OnInit {
     this.posts.splice(this.posts.findIndex(p => p.id == postId), 1);
     this.onCommentsCounterUpdated.emit(this.commentsCount - 1);
     this.commentsCount -= 1;
+  }
+
+  onCloseClicked() {
+    this.onClose.emit();
   }
 }

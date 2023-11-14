@@ -62,15 +62,15 @@
     </app-post-editor>
   </div>
   <div *ngIf="commentsMode">
-    <div class="mt-2">
       <app-comments
         [postId]="post.id"
         [topicId]="post.topicId"
         [user]="user"
         [commentsCount]="post.commentsCount"
+        [depth]="depth + 1"
         (onCommentsCounterUpdated)="updateCommentsCounter($event)"
+        (onClose)="toggleCommentsMode()"
       ></app-comments>
-    </div>
   </div>
 </div>
 
