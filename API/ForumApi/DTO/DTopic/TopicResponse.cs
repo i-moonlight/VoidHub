@@ -15,5 +15,6 @@ namespace ForumApi.DTO.DTopic
         public int CommentsCount {get;set;}
 
         public PostResponse Post {get;set;} = null!;
+        public List<PostResponse> Posts {get;set;} = null!;
     }
 }

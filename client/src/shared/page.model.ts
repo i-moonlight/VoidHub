@@ -1,3 +1,5 @@
+import { Offset } from "./offset.model";
+
 export class Page {
   public pageNumber: number;
   public pageSize: number;
@@ -12,5 +14,9 @@ export class Page {
       this.pageNumber == other.pageNumber &&
       this.pageSize == other.pageSize
     );
+  }
+
+  public getOffset(): Offset {
+    return new Offset((this.pageNumber - 1) * this.pageSize, this.pageSize);
   }
 }

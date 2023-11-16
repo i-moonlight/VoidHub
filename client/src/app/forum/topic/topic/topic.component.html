@@ -1,5 +1,5 @@
 <div class="flex flex-col">
-  <app-limit-loader [limit]="2" [ignore]="!!topic">
+  <app-limit-loader [limit]="1" [ignore]="!!topic">
     <div class="flex flex-col" *ngIf="topic">
       <div>
         <div class="link no-underline" routerLink="/forum/{{topic.forumId}}">Back to forum...</div>
@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="text-xs text-secondary-content flex flex-row">
-          <div>posts: {{topic.postsCount}}</div>
+          <div>posts: {{topic.postsCount + topic.commentsCount}}</div>
         </div>
         <div class="flex flex-row my-auto" *ngIf="user && user?.role == roles.ADMIN || user?.role == roles.MODER">
           <div>
@@ -69,7 +69,7 @@
       <div class="my-3">
         <app-paginator
           (changePage)="changePage($event)"
-          [max]="(topic.postsCount - topic.CommentsCount) / postsOnPage"
+          [max]="topic.postsCount / postsOnPage"
           [currentPage]="currentPage">
         </app-paginator>
       </div>
@@ -90,13 +90,14 @@
       <div class="my-3">
         <app-paginator
           (changePage)="changePage($event)"
-          [max]="(topic.postsCount - topic.CommentsCount) / postsOnPage"
+          [max]="topic.postsCount / postsOnPage"
           [currentPage]="currentPage">
         </app-paginator>
       </div>
       <app-post-editor
         *ngIf="user && !topic.isClosed"
         [topicId]="topic.id"
+        [ancestorId]="topic?.post.id"
         [content]="newPostContent"
         [cancelPlaceholder]="'Clear'"
         (onCreate)="onPostCreate($event)">

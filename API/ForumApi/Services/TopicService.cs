@@ -25,6 +25,11 @@ namespace ForumApi.Services
 
         public async Task<TopicResponse?> GetTopic(int id)
         {
+            var firstPost = await _rep.Post.Value
+                .FindByCondition(p => p.TopicId == id && p.DeletedAt == null && p.AncestorId == null)
+                .Include(p => p.Author)
+                .FirstOrDefaultAsync() ?? throw new NotFoundException("Topic not found");
+
             return await _rep.Topic.Value
                 .FindByCondition(t => t.Id == id && t.DeletedAt == null)
                 .Select(p => new TopicResponse
@@ -37,13 +42,13 @@ namespace ForumApi.Services
                     IsPinned = p.IsPinned,
                     Post = new PostResponse
                     {
-                        Id = p.Posts.First().Id,
-                        Content = p.Posts.First().Content ?? "",
-                        CreatedAt = p.Posts.First().CreatedAt,
-                        Author = _mapper.Map<User>(p.Posts.First().Author)
+                        Id = firstPost.Id,
+                        Content = firstPost.Content ?? "",
+                        CreatedAt = firstPost.CreatedAt,
+                        Author = _mapper.Map<User>(firstPost.Author)
                     },
-                    PostsCount = p.Posts.Where(p => p.DeletedAt == null).Count(),
-                    CommentsCount = p.Posts.Where(p => p.DeletedAt == null && p.AncestorId != null).Count()
+                    PostsCount = p.Posts.Where(pp => pp.DeletedAt == null && pp.AncestorId == firstPost.Id).Count(),
+                    CommentsCount = p.Posts.Where(pp => pp.DeletedAt == null && pp.AncestorId != firstPost.Id).Count()
                 })
                 .FirstOrDefaultAsync();
         }

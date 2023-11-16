@@ -31,6 +31,7 @@ export class TopicComponent implements OnDestroy {
   newPostContent = '';
 
   private destroy$ = new ReplaySubject<boolean>();
+  private firstTopicLoad = true;
 
   constructor(
     authService: AuthService,
@@ -42,24 +43,25 @@ export class TopicComponent implements OnDestroy {
     authService.user$.pipe(takeUntil(this.destroy$))
       .subscribe(user => {this.user = user;})
 
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
+      await this.handleNewPage(params['page']);
       this.handleNewTopicId(params['id']);
-      this.handleNewPage(params['page']);
     });
   }
 
   async handleNewTopicId(newTopicId: number) {
+    this.firstTopicLoad = false;
     if(newTopicId == this.topicId)
       return;
 
+    let offset = new Page(this.currentPage, this.postsOnPage).getOffset();
     this.topicId = newTopicId;
-    if(+this.topicId) {
-      this.topicService.getTopic(this.topicId).subscribe({
-        next: (topic:any) => {
-          // -1 for not counting the topic post
-          topic.postsCount -= 1;
 
+    if(+this.topicId) {
+      this.topicService.getTopic(this.topicId, offset).subscribe({
+        next: (topic:any) => {
           this.topic = topic;
+          this.posts = topic.posts;
         }
       });
     }
@@ -70,7 +72,10 @@ export class TopicComponent implements OnDestroy {
       return;
 
     this.currentPage = newPage;
-    this.loadNewPostsPage();
+
+    // skip loading if topic is not loaded yet
+    if(!this.firstTopicLoad)
+      this.loadNewPostsPage();
   }
 
   changePage(page: number) {
@@ -78,9 +83,9 @@ export class TopicComponent implements OnDestroy {
   }
 
   loadNewPostsPage() {
-    let page = new Page(this.currentPage, this.postsOnPage);
+    let offset = new Page(this.currentPage, this.postsOnPage).getOffset();
 
-    this.topicService.getPostsPage(this.topicId, page)
+    this.postService.getComments(this.topic?.post.id, offset)
       .subscribe({
         next: (posts:any[]) => {
           this.posts = [];

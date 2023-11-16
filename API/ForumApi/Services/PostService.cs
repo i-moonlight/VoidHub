@@ -53,29 +53,6 @@ namespace ForumApi.Services
             await _rep.Save();
         }
 
-        public async Task<List<PostResponse>> GetPostPage(int topicId, Page page)
-        {
-            //skip(1) for not including main post
-            var posts = await _rep.Post.Value
-                .FindByCondition(p => p.TopicId == topicId && p.DeletedAt == null && p.AncestorId == null)
-                .OrderBy(p => p.CreatedAt)
-                .Include(p => p.Author)
-                .Skip(1)
-                .TakePage(page)
-                .Select(p => new PostResponse
-                {
-                    Id = p.Id,
-                    TopicId = p.TopicId,
-                    Author = _mapper.Map<User>(p.Author),
-                    Content = p.Content,
-                    CreatedAt = p.CreatedAt,
-                    CommentsCount = p.Comments.Where(c => c.DeletedAt == null).Count()
-                })
-                .ToListAsync();
-
-            return posts;
-        }
-
         public async Task<List<PostResponse>> GetPostComments(int? ancestorId, Offset page)
         {
             var posts = await _rep.Post.Value
@@ -90,7 +67,7 @@ namespace ForumApi.Services
                     Author = _mapper.Map<User>(p.Author),
                     Content = p.Content,
                     CreatedAt = p.CreatedAt,
-                    CommentsCount = p.Comments.Count()
+                    CommentsCount = p.Comments.Where(c => c.DeletedAt == null).Count()
                 })
                 .ToListAsync();
 

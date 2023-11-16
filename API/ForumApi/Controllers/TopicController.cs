@@ -29,15 +29,14 @@ namespace ForumApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTopic(int id)
+        public async Task<IActionResult> GetTopic(int id, [FromQuery] Offset offset)
         {
-            return Ok(await _topicService.GetTopic(id));
-        }
+            var topic = await _topicService.GetTopic(id);
+            if(topic == null)
+                return NotFound();
 
-        [HttpGet("{id}/posts")]
-        public async Task<IActionResult> GetPostPage(int id, [FromQuery] Page page)
-        {
-            return Ok(await _postService.GetPostPage(id, page));
+            topic.Posts = await _postService.GetPostComments(topic.Post.Id, offset);
+            return Ok(topic);
         }
 
         [HttpGet("search")]

@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Offset } from "src/shared/offset.model";
 import { Page } from "src/shared/page.model";
 
 @Injectable()
@@ -11,16 +12,9 @@ export class TopicService {
     private http: HttpClient,
   ) {}
 
-  getTopic(topicId) {
-    return this.http.get(`${this.baseURL}/${topicId}`);
-  }
-
-  getPostsPage(topicId, page: Page) {
-    return this.http.get(`${this.baseURL}/${topicId}/posts`, {
-      headers: {
-        'X-Limit-Param' : '2'
-      },
-      params: {...page}
+  getTopic(topicId, offset: Offset) {
+    return this.http.get(`${this.baseURL}/${topicId}`, {
+      params: {...offset}
     });
   }
 
