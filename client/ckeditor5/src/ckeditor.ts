@@ -148,6 +148,25 @@ class Editor extends ClassicEditor {
             );
           }
         },
+        {
+          name: "twitter",
+          url: [
+            /^twitter\.com\/(.+)\/status\/(\d+)/
+          ],
+          html: (match:any) => {
+            const user = match[ 1 ];
+            const id = match[ 2 ];
+
+            return (
+            '<div> ' +
+              '<iframe ' +
+                `src="https://twitframe.com/show?url=https://twitter.com/${user}/status/${id}"` +
+                'style="height:400px" csp frameborder="0" allowtransparency="true" allow="encrypted-media" loading="lazy"' +
+              '/> ' +
+            '</div>'
+            );
+          }
+        }
       ],
     }
 	};
