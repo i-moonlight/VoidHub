@@ -20,7 +20,7 @@
       </app-limit-loader>
     </div>
   </app-limit-loader>
-  <div>
+  <div class="mt-1" *ngIf="user">
     <app-post-editor
       [ancestorId]="postId"
       [topicId]="topicId"
