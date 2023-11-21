@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using ForumApi.Data.Repository;
 using ForumApi.Extensions;
 using ForumApi.Middlewares;
@@ -24,7 +25,8 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IBanService, BanService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+  .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -97,3 +99,5 @@ app.UseSwaggerUI( options => {
 app.MapControllers();
 
 app.Run();
+
+
