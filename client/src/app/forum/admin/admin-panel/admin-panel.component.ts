@@ -22,8 +22,6 @@ export class AdminPanelComponent implements OnDestroy  {
     }
 
   close() {
-    console.log('close');
-
     this.router.navigate(['../', 'admin-panel'], { relativeTo: this.route });
   }
 

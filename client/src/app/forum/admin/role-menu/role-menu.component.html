@@ -1,0 +1,46 @@
+<div class="flex flex-col">
+  <app-error-message-list [messages]="errorMessages"></app-error-message-list>
+
+  <form #roleChangeForm="ngForm" (ngSubmit)="onSubmit(roleChangeForm)">
+    <div class="form-control">
+      <input
+        type="number"
+        name="accountId"
+        id="accountId"
+        placeholder="user id"
+        class="input-sm bg-neutral input input-bordered"
+        [ngClass]="{
+          'input-error': roleChangeForm.controls['accountId']?.touched && roleChangeForm.controls['accountId'].invalid
+        }"
+        [ngModel]="userId"
+        required
+        autocomplete="id"
+      />
+    </div>
+    <div class="mt-2 form-control">
+      <select
+        class="select bg-neutral min-h-min h-8"
+        id="roleName"
+        name="roleName"
+        [ngClass]="{
+          'input-error': roleChangeForm.controls['roleName']?.touched && roleChangeForm.controls['roleName'].invalid,
+          'select-bordered': !(roleChangeForm.controls['roleName']?.touched && roleChangeForm.controls['roleName'].invalid)
+        }"
+        [ngModel]="'Pick role'"
+      >
+        <option disabled selected>Pick role</option>
+        <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+      </select>
+    </div>
+
+    <div class="mt-2 flex flex-row">
+      <button class="btn btn-success min-h-fit h-8">
+        Save
+      </button>
+      <button type="button" class="ms-3 btn btn-error min-h-fit  h-8" (click)="onCancelClick()">
+        Cancel
+      </button>
+    </div>
+
+  </form>
+</div>

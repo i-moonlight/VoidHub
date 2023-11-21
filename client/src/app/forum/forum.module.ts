@@ -31,6 +31,8 @@ import { BanService } from "./services/ban.service";
 import { canActivateAdmin } from "./admin/admin.guard";
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { CommentsComponent } from './post/comments/comments.component';
+import { RoleMenuComponent } from './admin/role-menu/role-menu.component';
+import { AccountService } from "./services/account.service";
 
 @NgModule({
   providers: [
@@ -40,6 +42,7 @@ import { CommentsComponent } from './post/comments/comments.component';
     PostService,
     BanService,
     AdminService,
+    AccountService
   ],
   declarations: [
     SectionListComponent,
@@ -59,6 +62,7 @@ import { CommentsComponent } from './post/comments/comments.component';
     BanMenuComponent,
     AdminPanelComponent,
     CommentsComponent,
+    RoleMenuComponent,
   ],
   imports: [
     SharedModule,
@@ -77,7 +81,8 @@ import { CommentsComponent } from './post/comments/comments.component';
           {path:'topic/:id/:page', component: TopicComponent},
           {path:'topic/:id', redirectTo: 'topic/:id/1', pathMatch: 'full'},
           {path:'admin-panel', component: AdminPanelComponent, canActivate:[canActivateAdmin],  children: [
-            {path:'ban-menu', component: BanMenuComponent}
+            {path:'ban-menu', component: BanMenuComponent},
+            {path:'role-menu', component: RoleMenuComponent},
           ]},
           {path:'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule)},
           {path:':id', redirectTo: ':id/1', pathMatch: 'full'},
