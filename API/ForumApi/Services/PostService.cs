@@ -78,13 +78,9 @@ namespace ForumApi.Services
         {
             var entity = await _rep.Post.Value
                 .FindByCondition(p => p.Id == postId && p.DeletedAt == null, true)
-                .FirstOrDefaultAsync();
-
-            if (entity == null)
-                throw new Exception("Post not found");
+                .FirstOrDefaultAsync() ?? throw new NotFoundException("Post not found");
 
             entity.Content = postDto.Content;
-
             await _rep.Save();
 
             return entity;
