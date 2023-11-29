@@ -28,6 +28,12 @@ namespace ForumApi.Controllers
             _searchService = searchService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetTopics([FromQuery] Offset offset, [FromQuery] DateTime time)
+        {
+            return Ok(await _topicService.GetTopics(offset, time));
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTopic(int id, [FromQuery] Offset offset)
         {

@@ -53,6 +53,34 @@ namespace ForumApi.Services
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<List<TopicResponse>> GetTopics(Offset offset, DateTime time)
+        {
+            Console.WriteLine(time);
+            Console.WriteLine(time.ToUniversalTime());
+            return await _rep.Topic.Value
+                .FindByCondition(t => t.DeletedAt == null && t.CreatedAt < time.ToUniversalTime())
+                .OrderByDescending(t => t.CreatedAt)
+                .TakeOffset(offset)
+                .Select(p => new TopicResponse
+                {
+                    Id = p.Id,
+                    ForumId = p.ForumId,
+                    Title = p.Title,
+                    CreatedAt = p.CreatedAt,
+                    IsClosed = p.IsClosed,
+                    IsPinned = p.IsPinned,
+                    Post = new PostResponse
+                    {
+                        Content = p.Posts.First().Content ?? "",
+                        CreatedAt = p.Posts.First().CreatedAt,
+                        Author = _mapper.Map<User>(p.Posts.First().Author)
+                    },
+                    PostsCount = p.Posts.Where(pp => pp.DeletedAt == null && pp.AncestorId == null).Count(),
+                    CommentsCount = p.Posts.Where(pp => pp.DeletedAt == null && pp.AncestorId != null).Count()
+                })
+                .ToListAsync();
+        }
+
         public async Task<List<TopicElement>> GetTopics(int forumId, Page page)
         {
             return await _rep.Topic.Value
