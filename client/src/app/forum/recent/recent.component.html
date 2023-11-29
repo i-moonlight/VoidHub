@@ -1,0 +1,30 @@
+
+<div class="flex flex-col">
+  <app-limit-loader [limit]="1" [ignore]="topics.length > 0">
+    <div #topicsContainer>
+      <div *ngFor="let topic of topics" class="mb-2">
+        <div class="bg-neutral rounded-md">
+          <div class="px-8">
+            <div class="flex flex-col border-b-2 border-secondary-content py-2">
+              <a class="link no-underline text-xl" routerLink="/forum/topic/{{topic.id}}">
+                {{topic.title}}
+              </a>
+              <div class="text-sm text-secondary-content">
+                <div>
+                  Posted: {{topic.post.createdAt | date: 'medium'}}
+                </div>
+                <div class="link no-underline" routerLink="/profile/{{topic.post.author.id}}">
+                  <span class="text-secondary-content">Author:</span> {{topic.post.author.username}}
+                </div>
+              </div>
+            </div>
+            <ckeditor [ngModel]="topic.post.content | reducePost:200:11" [editor]="editor" [config]="{toolbar: []}" [disabled]="true" class="ck-viewer">
+            </ckeditor>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-limit-loader>
+  <app-limit-loader [limit]="1" [ignore]="topics.length == 0">
+  </app-limit-loader>
+</div>

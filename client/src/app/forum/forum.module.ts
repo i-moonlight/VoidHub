@@ -33,6 +33,8 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { CommentsComponent } from './post/comments/comments.component';
 import { RoleMenuComponent } from './admin/role-menu/role-menu.component';
 import { AccountService } from "./services/account.service";
+import { RecentComponent } from "./recent/recent.component";
+import { ReducePost } from "./recent/reduce-post.pipe";
 
 @NgModule({
   providers: [
@@ -63,6 +65,7 @@ import { AccountService } from "./services/account.service";
     AdminPanelComponent,
     CommentsComponent,
     RoleMenuComponent,
+    RecentComponent
   ],
   imports: [
     SharedModule,
@@ -72,11 +75,13 @@ import { AccountService } from "./services/account.service";
     TopicElementComponent,
     PinnedIconComponent,
     ClosedIconComponent,
+    ReducePost,
     RouterModule.forChild([
         {path: '', component: MainComponent, children: [
           {path: '', redirectTo: 'sections', pathMatch: 'full'},
           {path:'sections', component: SectionListComponent},
           {path:'new-section', component: NewSectionComponent},
+          {path: 'recent', component: RecentComponent},
           {path:'section/:id/new-forum', component: NewForumComponent},
           {path:'topic/:id/:page', component: TopicComponent},
           {path:'topic/:id', redirectTo: 'topic/:id/1', pathMatch: 'full'},

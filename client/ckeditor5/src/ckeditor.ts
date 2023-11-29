@@ -142,7 +142,7 @@ class Editor extends ClassicEditor {
             return (
               '<div>' +
                 `<iframe src="https://www.youtube-nocookie.com/embed/${ id }${ time ? `?start=${ time }` : '' }" ` +
-                  'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>' +
+                  'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen loading="lazy">' +
                 '</iframe>' +
               '</div>'
             );

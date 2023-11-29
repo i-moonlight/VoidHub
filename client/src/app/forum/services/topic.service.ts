@@ -18,6 +18,15 @@ export class TopicService {
     });
   }
 
+  getTopics(offset: Offset, time: Date) {
+    return this.http.get(this.baseURL, {
+      params: {
+        ...offset,
+        time: time.toISOString()
+      }
+    })
+  }
+
   createTopic(topic) {
     return this.http.post(this.baseURL, topic);
   }
