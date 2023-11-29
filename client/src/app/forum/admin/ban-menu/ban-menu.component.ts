@@ -80,7 +80,6 @@ export class BanMenuComponent {
       return;
     }
 
-    console.log(form.value.accountId);
     this.banService.unbanUser(form.value.accountId)
       .subscribe({
         next: _ => {
