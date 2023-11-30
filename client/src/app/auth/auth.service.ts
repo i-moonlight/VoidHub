@@ -5,6 +5,7 @@ import { User } from "../../shared/models/user.model";
 import { Register } from "./models/register.model";
 import { AuthResponse } from "./models/auth-response.model";
 import { Login } from "./models/login.model";
+import { environment as env } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class AuthService
   private user = new BehaviorSubject<User>(null);
   user$ = this.user.asObservable();
 
-  private baseURL:string = 'http://localhost:5000/api/v1/auth/';
+  private baseURL:string = env.baseAPIUrl + '/v1/auth/';
 
   constructor(private http: HttpClient) {}
 

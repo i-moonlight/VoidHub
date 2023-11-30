@@ -81,7 +81,7 @@ import { ReducePost } from "./recent/reduce-post.pipe";
           {path: '', redirectTo: 'sections', pathMatch: 'full'},
           {path:'sections', component: SectionListComponent},
           {path:'new-section', component: NewSectionComponent},
-          {path: 'recent', component: RecentComponent},
+          {path:'recent', component: RecentComponent},
           {path:'section/:id/new-forum', component: NewForumComponent},
           {path:'topic/:id/:page', component: TopicComponent},
           {path:'topic/:id', redirectTo: 'topic/:id/1', pathMatch: 'full'},

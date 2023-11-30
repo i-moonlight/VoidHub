@@ -1,11 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Section } from "../models/section.model";
+import { environment as env } from "src/environments/environment";
 
 @Injectable()
 export class SectionService {
 
-  baseUrl = 'http://localhost:5000/api/v1/sections';
+  baseUrl = env.baseAPIUrl + '/v1/sections';
 
   constructor(private http: HttpClient) {}
 

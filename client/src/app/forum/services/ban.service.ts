@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
-
+import { environment as env } from 'src/environments/environment';
 
 @Injectable()
 export class BanService {
 
-  baseUrl = 'http://localhost:5000/api/v1/bans';
+  baseUrl = env.baseAPIUrl + '/v1/bans';
 
   constructor(private http: HttpClient) {}
 

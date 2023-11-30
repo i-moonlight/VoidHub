@@ -1,12 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Offset } from "src/shared/offset.model";
-import { Page } from "src/shared/page.model";
+import { environment as env } from "src/environments/environment";
 
 @Injectable()
 export class TopicService {
 
-  private baseURL = 'http://localhost:5000/api/v1/topics';
+  private baseURL = env.baseAPIUrl + '/v1/topics';
 
   constructor(
     private http: HttpClient,

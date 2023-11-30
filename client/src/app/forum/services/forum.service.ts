@@ -1,11 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Page } from "src/shared/page.model";
+import { environment as env } from "src/environments/environment";
+
 
 @Injectable()
 export class ForumService {
 
-  private baseUrl = 'http://localhost:5000/api/v1/forums';
+  private baseUrl = env.baseAPIUrl +  '/v1/forums';
 
   constructor(private http: HttpClient) {}
 

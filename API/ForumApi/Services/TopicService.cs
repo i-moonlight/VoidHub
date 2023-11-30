@@ -61,22 +61,29 @@ namespace ForumApi.Services
                 .FindByCondition(t => t.DeletedAt == null && t.CreatedAt < time.ToUniversalTime())
                 .OrderByDescending(t => t.CreatedAt)
                 .TakeOffset(offset)
-                .Select(p => new TopicResponse
+                .Select(t => new {
+                    Topic = t,
+                    Post = t.Posts
+                        .Where(p => p.AncestorId == null)
+                        .OrderByDescending(p => p.CreatedAt)
+                        .FirstOrDefault()
+                })
+                .Select(t => new TopicResponse
                 {
-                    Id = p.Id,
-                    ForumId = p.ForumId,
-                    Title = p.Title,
-                    CreatedAt = p.CreatedAt,
-                    IsClosed = p.IsClosed,
-                    IsPinned = p.IsPinned,
+                    Id = t.Topic.Id,
+                    ForumId = t.Topic.ForumId,
+                    Title = t.Topic.Title,
+                    CreatedAt = t.Topic.CreatedAt,
+                    IsClosed = t.Topic.IsClosed,
+                    IsPinned = t.Topic.IsPinned,
                     Post = new PostResponse
                     {
-                        Content = p.Posts.First().Content ?? "",
-                        CreatedAt = p.Posts.First().CreatedAt,
-                        Author = _mapper.Map<User>(p.Posts.First().Author)
+                        Content = t.Post == null ? "" : t.Post.Content,
+                        CreatedAt = t.Post == null ? default : t.Post.CreatedAt,
+                        Author = t.Post == null ? default : _mapper.Map<User>(t.Post.Author)
                     },
-                    PostsCount = p.Posts.Where(pp => pp.DeletedAt == null && pp.AncestorId == null).Count(),
-                    CommentsCount = p.Posts.Where(pp => pp.DeletedAt == null && pp.AncestorId != null).Count()
+                    PostsCount = t.Topic.Posts.Where(pp => pp.DeletedAt == null && pp.AncestorId == null).Count(),
+                    CommentsCount = t.Topic.Posts.Where(pp => pp.DeletedAt == null && pp.AncestorId != null).Count()
                 })
                 .ToListAsync();
         }

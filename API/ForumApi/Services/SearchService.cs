@@ -20,7 +20,7 @@ namespace ForumApi.Services
             _rep = rep;
         }
 
-        public async Task<SearchResponse> SearchTopics([FromQuery] string query, SearchParams search, Page page)
+        public async Task<SearchResponse> SearchTopics(string query, SearchParams search, Page page)
         {
             query = query.Trim();
 
@@ -34,7 +34,7 @@ namespace ForumApi.Services
             var predicators = new Dictionary<string, Expression<Func<Topic, bool>>>
             {
                 [SearchParamNames.WordTitle] = t => t.SearchVector.Matches(EF.Functions.ToTsQuery("english", forTsQuery)),
-                [SearchParamNames.WordContent] = t => t.Posts.First().SearchVector.Matches(EF.Functions.ToTsQuery("english", forTsQuery)),
+                [SearchParamNames.WordContent] = t => t.Posts.Where(p => p.AncestorId == null).First().SearchVector.Matches(EF.Functions.ToTsQuery("english", forTsQuery)),
                 [SearchParamNames.PartialTitle] = t => EF.Functions.Like(t.Title, $"%{query.ToLower()}%"),
                 [SearchParamNames.PartialContent] = t => EF.Functions.Like(t.Posts.First().Content ?? "", $"%{query.ToLower()}%"),
             };

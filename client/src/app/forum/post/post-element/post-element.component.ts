@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/cor
 import { User } from 'src/shared/models/user.model';
 import { PostService } from '../../services/post.service';
 import { Roles } from 'src/shared/roles.enum';
-import Editor from 'ckeditor5/build/ckeditor';
+import Editor from 'ckeditor5/src/ckeditor';
 
 @Component({
   selector: 'app-post',

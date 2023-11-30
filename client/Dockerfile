@@ -8,9 +8,16 @@ COPY package.json package-lock.json ./
 RUN npm install
 RUN npm install -g @angular/cli
 
-ENV NODE_ENV production
-
 COPY . .
+COPY ./src/environments/environment.docker.ts ./src/environments/environment.ts
+
+WORKDIR /usr/src/app/ckeditor5
+RUN npm run build
+
+WORKDIR /usr/src/app/
+RUN npm install ./ckeditor5/
+
+ENV NODE_ENV production
 
 EXPOSE 4200
 

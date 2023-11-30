@@ -1,4 +1,4 @@
 export const environment = {
   commenthDepthLimit: 5,
-  baseAPIUrl: 'http://localhost:5000/api',
+  baseAPIUrl: 'http://forumapi:5000/api',
 }

@@ -48,9 +48,6 @@ namespace ForumApi.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] SearchDto search, [FromQuery] SearchParams searchParams, [FromQuery] Page page)
         {
-            Console.WriteLine($"\n\n\n query param: {search.Query}");
-            Console.WriteLine($"search params: {searchParams.Sort}, wpc:{searchParams.WithPostContent}");
-
             return Ok(await _searchService.SearchTopics(search.Query, searchParams, page));
         }
 

@@ -1,10 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment as env } from "src/environments/environment";
 
 @Injectable()
 export class SearchService {
 
-  baseURL = "http://localhost:5000/api/v1/";
+  baseURL = env.baseAPIUrl + "/v1/";
 
   constructor(private http: HttpClient) {}
 
