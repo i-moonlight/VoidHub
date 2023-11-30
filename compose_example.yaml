@@ -20,4 +20,4 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: .Qwerty1%
+      POSTGRES_PASSWORD: your_password
