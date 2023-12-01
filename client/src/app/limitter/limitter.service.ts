@@ -4,7 +4,7 @@ import { BehaviorSubject } from "rxjs";
 @Injectable()
 export class LimitterService {
 
-  private _defaultLimit = 1;
+  private _defaultLimit = 3;
   public get defaultLimit() : number {
     return this._defaultLimit;
   };
