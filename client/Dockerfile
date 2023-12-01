@@ -11,10 +11,13 @@ RUN npm install -g @angular/cli
 COPY . .
 COPY ./src/environments/environment.docker.ts ./src/environments/environment.ts
 
+RUN export NODE_OPTIONS="--max-old-space-size=2048"
+
 WORKDIR /usr/src/app/ckeditor5
+RUN npm install
 RUN npm run build
 
-WORKDIR /usr/src/app/
+WORKDIR /usr/src/app
 RUN npm install ./ckeditor5/
 
 ENV NODE_ENV production
