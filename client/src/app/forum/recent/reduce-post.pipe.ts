@@ -18,7 +18,7 @@ export class ReducePost implements PipeTransform {
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  transform(value: any, symbolLimit: number, tagLimit: number) : SafeHtml {
+  transform(value: string, symbolLimit: number, tagLimit: number) : SafeHtml {
     let result = '';
     let symbolCount = 0;
     let tagCount = 0;
@@ -60,6 +60,7 @@ export class ReducePost implements PipeTransform {
         let tagIndex = tagCounter.findIndex(x => x.tag == tagName);
         if(tagIndex === -1) {
           tagCounter.push({tag: tagName, count: 1});
+          tagIndex = tagCounter.length - 1;
         }
         else {
           tagCounter[tagIndex].count++;
@@ -69,13 +70,17 @@ export class ReducePost implements PipeTransform {
         let tagLimitIndex = this.tagLimmiter.findIndex(x => x.tag == tagName);
         if(tagLimitIndex !== -1) {
           let closeTag = `</${tagName}>`
+          console.log(tagName, tagCounter[tagIndex].count)
 
-          if(tagCounter[tagLimitIndex].count > this.tagLimmiter[tagLimitIndex].limit) {
+
+          if(tagCounter[tagIndex].count > this.tagLimmiter[tagLimitIndex].limit) {
             // remove last tag and upd index
             result = result.substring(0, openIndex);
             i = value.indexOf(closeTag, openIndex) + closeTag.length - 1;
 
             tagCount--;
+            tagNameReaded = false;
+            tagName = '';
             continue;
           }
         }
@@ -110,6 +115,8 @@ export class ReducePost implements PipeTransform {
     if (tagCount > tagLimit) {
       result = result.substring(0, result.length - 1);
     }
+
+    //console.log(value, result, tagCounter)
 
     return result;
   }
