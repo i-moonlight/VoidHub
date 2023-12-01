@@ -1,11 +1,23 @@
-<div class="flex flex-col items-center text-3xl">
-  <a class="link link-hover pt-2" routerLink="/forum">
-    Check forum page
-  </a>
-  <div class="flex flex-col items-center" *ngIf="!(authService.user$ | async)">
-    <div class="text-3xl">OR</div>
+<div class="flex flex-col items-center">
+  <div class="text-3xl">
+    Welcome <span *ngIf="authService.user$ | async">back</span> to Void<span class="text-accent">Hub</span>
+  </div>
+  <div class="py-8 flex flex-col items-center text-2xl">
+    <div>
+      Check out <a class="link link-hover" routerLink="/forum">sectins page</a> to see all sections
+    </div>
+    <div>
+      Or <a class="link link-hover" routerLink="/forum/recent">recent topics</a> to see what's new
+    </div>
+  </div>
+  <div class="flex flex-col items-center text-2xl" *ngIf="!(authService.user$ | async)">
+    Not have account yet?
+    <div routerLink="/register">
+      <a class="link link-hover">Sign up</a> to create account
+    </div>
+    or
     <div routerLink="/login">
-      <a class="link link-hover">Sign in</a> to create topic
+      <a class="link link-hover">Login</a> to your account
     </div>
   </div>
 </div>
