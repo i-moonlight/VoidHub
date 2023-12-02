@@ -78,6 +78,7 @@ namespace ForumApi.Services
 
             _mapper.Map(ban, banEntity);
             banEntity.UpdatedById = moderId;
+            banEntity.UpdatedAt = DateTime.UtcNow;
 
             await _rep.Save();
 

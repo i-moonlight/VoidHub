@@ -9,6 +9,7 @@ namespace ForumApi.Data.Models
         public int ModeratorId { get; set; }
         public int UpdatedById { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         public DateTime ExpiresAt { get; set; }
         public string Reason { get; set; } = null!;
         public bool IsActive { get; set; } = true;
