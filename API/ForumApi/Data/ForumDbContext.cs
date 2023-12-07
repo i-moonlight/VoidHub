@@ -36,6 +36,8 @@ namespace ForumApi.Data
                     .IsRequired();
                 a.Property(a => a.LastLoggedAt)
                     .HasDefaultValueSql("timezone('utc', now())");
+                a.Property(a => a.CreatedAt)
+                    .HasDefaultValueSql("timezone('utc', now())");
 
                 a.Property(a => a.DeletedAt)
                     .HasDefaultValue(null);
@@ -167,6 +169,10 @@ namespace ForumApi.Data
                 b.HasKey(b => b.Id);
 
                 b.Property(b => b.CreatedAt)
+                    .IsRequired()
+                    .HasDefaultValueSql("timezone('utc', now())");
+
+                b.Property(b => b.UpdatedAt)
                     .IsRequired()
                     .HasDefaultValueSql("timezone('utc', now())");
 
