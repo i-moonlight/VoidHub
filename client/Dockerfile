@@ -11,7 +11,8 @@ RUN npm install -g @angular/cli
 COPY . .
 COPY ./src/environments/environment.docker.ts ./src/environments/environment.ts
 
-RUN export NODE_OPTIONS="--max-old-space-size=2048"
+# My pc is like potato, so change parameter it depends on your pc :D
+RUN export NODE_OPTIONS="--max-old-space-size=512"
 
 WORKDIR /usr/src/app/ckeditor5
 RUN npm install
