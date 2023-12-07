@@ -8,6 +8,7 @@ namespace ForumApi.DTO.DBan
         public BanProfile()
         {
             CreateMap<BanDto, Ban>();
+            CreateMap<Ban, BanDto>();
             CreateMap<Ban, BanResponse>();
         }        
     }
