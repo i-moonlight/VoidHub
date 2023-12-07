@@ -35,27 +35,31 @@ namespace ForumApi.Services
                     IsHidden = s.IsHidden,
                     Forums = s.Forums
                         .Where(f => f.DeletedAt == null)
+                        .Select(f => new {
+                            Forum = f,
+                            Topics = f.Topics.Where(t => t.DeletedAt == null)
+                        })
                         .Select(ff => new ForumResponse
                         {
-                            Id = ff.Id,
-                            Title = ff.Title,
-                            TopicsCount = ff.Topics.Where(t => t.DeletedAt == null).Count(),
-                            PostsCount = ff.Topics.Where(t => t.DeletedAt == null)
-                                .SelectMany(t => t.Posts).Where(p=> p.DeletedAt == null).Count(),
+                            Id = ff.Forum.Id,
+                            Title = ff.Forum.Title,
+                            TopicsCount = ff.Topics.Count(),
+                            PostsCount = ff.Topics.SelectMany(t => t.Posts).Where(p=> p.DeletedAt == null).Count(),
                             LastTopic = ff.Topics
-                                .Where(t => t.DeletedAt == null)
                                 .OrderByDescending(t => t.Posts.Where(p => p.DeletedAt == null).Max(p => p.CreatedAt))
+                                .Select(t => new {
+                                    Topic = t,
+                                    Posts = t.Posts.Where(p => p.DeletedAt == null)
+                                        .OrderByDescending(p => p.CreatedAt)
+                                        .Select(p => p)
+                                })
                                 .Select(t => new TopicLast
                                 {
-                                    Id = t.Id,
-                                    Title = t.Title,
+                                    Id = t.Topic.Id,
+                                    Title = t.Topic.Title,
                                     UpdatedAt = t.Posts
-                                        .Where(p => p.DeletedAt == null)
-                                        .OrderByDescending(p => p.CreatedAt)
                                         .First().CreatedAt,
                                     User = _mapper.Map<User>(t.Posts
-                                        .Where(p => p.DeletedAt == null)
-                                        .OrderByDescending(p => p.CreatedAt)
                                         .Select(p => p.Author)
                                         .FirstOrDefault())
                                 }).FirstOrDefault()
