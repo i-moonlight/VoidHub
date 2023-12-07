@@ -23,13 +23,10 @@ namespace ForumApi.Controllers
             _accountService = accountService;
         }
 
-        [HttpDelete("{id}")]
-        [Authorize(Roles = Role.Admin)]
-        [BanFilter]
-        public async Task<IActionResult> DeleteAccount(int id) 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAccount(int id)
         {
-            await _accountService.Delete(User.GetId());
-            return Ok();
+            return Ok(await _accountService.Get(id));
         }
 
         [HttpPatch]
@@ -40,8 +37,8 @@ namespace ForumApi.Controllers
             var validator = new AccountDtoValidator();
             await validator.ValidateAndThrowAsync(accountDto);
 
-            await _accountService.Update(User.GetId(), accountDto);
-            return Ok();
+            var senderId = User.GetId();
+            return Ok(await _accountService.Update(senderId, senderId, accountDto));
         }
 
         [HttpPatch("{id}")]
@@ -53,7 +50,16 @@ namespace ForumApi.Controllers
             var validator = new AccountDtoAdminValidator();
             await validator.ValidateAndThrowAsync(accountDto);
 
-            await _accountService.Update(id, accountDto);
+            await _accountService.Update(id, User.GetId(), accountDto);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = Role.Admin)]
+        [BanFilter]
+        public async Task<IActionResult> DeleteAccount(int id) 
+        {
+            await _accountService.Delete(User.GetId());
             return Ok();
         }
 
