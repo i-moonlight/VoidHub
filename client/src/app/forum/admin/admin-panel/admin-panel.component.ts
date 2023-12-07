@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AdminService } from '../admin.service';
+import { AdminService } from '../services/admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaySubject, takeUntil } from 'rxjs';
 

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgFormExtension } from 'src/shared/ng-form.extension';
-import { BanService } from '../../services/ban.service';
-import { AdminService } from '../admin.service';
+import { BanService } from '../services/ban.service';
+import { AdminService } from '../services/admin.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

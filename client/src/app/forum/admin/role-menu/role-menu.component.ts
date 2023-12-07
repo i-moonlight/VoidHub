@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Roles } from 'src/shared/roles.enum';
-import { AdminService } from '../admin.service';
+import { AdminService } from '../services/admin.service';
 import { NgForm } from '@angular/forms';
 import { NgFormExtension } from 'src/shared/ng-form.extension';
 import { AccountService } from '../../services/account.service';
