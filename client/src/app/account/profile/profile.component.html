@@ -1,0 +1,50 @@
+<app-limit-loader [limit]="1" [ignore]="!!profile">
+  <ng-template #profileNotFound>
+    <div class="flex flex-col items-center text-3xl">
+      Profile not found
+    </div>
+  </ng-template>
+
+
+  <div class="bg-neutral rounded mx-8" *ngIf="profile; else profileNotFound">
+    <div class="flex flex-col p-5">
+      <div class="flex flex-col mb-5">
+          <div class="text-error" *ngIf="profile?.ban">
+            Banned until: {{profile.ban.expiresAt | date: 'dd.MM.yyyy HH:mm'}}
+          </div>
+          <div class="text-3xl min-h-fit h-min text-accent">
+            {{profile.username}}
+          </div>
+          <div [ngSwitch]="profile.role">
+            <div *ngSwitchCase="roles.ADMIN" class="text-red-700">Admin</div>
+            <div *ngSwitchCase="roles.MODER"class="text-orange-600">Moder</div>
+            <div *ngSwitchCase="roles.USER">User</div>
+          </div>
+          <div>
+            Joined: {{profile.createdAt | date: 'dd.MM.yyyy'}}
+          </div>
+          <div *ngIf="user?.role == roles.ADMIN || user?.role == roles.MODER">
+
+          </div>
+      </div>
+      <div>
+        Total posts: {{profile.postsCount}}
+      </div>
+      <div>
+        Total topics: {{profile.topicsCount}}
+      </div>
+
+      <app-admin-panel
+        class="mt-5"
+        *ngIf="user && (user.role == roles.ADMIN || user.role == roles.MODER)"
+        [skipRouting]="true"
+        [blockUserId]="true">
+      </app-admin-panel>
+
+      <div class="w-fit">
+        <router-outlet>
+        </router-outlet>
+      </div>
+    </div>
+  </div>
+</app-limit-loader>

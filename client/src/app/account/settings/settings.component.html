@@ -1,0 +1,97 @@
+<div class="min-w-fit w-min mx-8">
+  <div class="text-2xl mb-2">
+    Profile settings:
+  </div>
+  <app-error-message-list [messages]="errorMessages"></app-error-message-list>
+  <form #accountSettings="ngForm" (ngSubmit)="onProfileSubmit(accountSettings)" >
+    <div class="form-control">
+      <input
+        type="text"
+        name="username"
+        id="username"
+        placeholder="Username"
+        class="input-sm bg-neutral input input-bordered"
+        [ngClass]="{
+          'input-error': accountSettings.controls['username']?.touched && accountSettings.controls['username'].invalid,
+        }"
+        [ngModel]="user?.username"
+        required
+        autocomplete="on"
+      />
+    </div>
+    <div class="form-control mt-2">
+      <input
+        type="text"
+        name="email"
+        id="email"
+        placeholder="Email"
+        class="input-sm bg-neutral input input-bordered"
+        [ngClass]="{
+          'input-error': accountSettings.controls['email']?.touched && accountSettings.controls['email'].invalid,
+        }"
+        [ngModel]="user?.email"
+        required
+        email
+        autocomplete="email"
+      />
+    </div>
+    <div class="form-control mt-2">
+      <input
+        type="password"
+        id="oldPassword"
+        name="oldPassword"
+        placeholder="Old password"
+        class="input-sm bg-neutral mt-2 input input-bordered"
+        [ngClass]="{
+          'input-error': accountSettings.controls['oldPassword']?.touched && accountSettings.controls['oldPassword']?.invalid
+        }"
+        [ngModel]="''"
+        autocomplete="current-password"
+      />
+    </div>
+    <div class="form-control">
+      <input
+        type="password"
+        id="newPassword"
+        name="newPassword"
+        placeholder="New password"
+        class="input-sm bg-neutral mt-2 input input-bordered"
+        [ngClass]="{
+          'input-error':
+            (accountSettings.controls['newPassword']?.touched) &&
+            (
+              accountSettings.controls['newPassword']?.invalid ||
+              accountSettings.controls['oldPassword']?.value == accountSettings.controls['newPassword']?.value && accountSettings.controls['oldPassword']?.value != '' ||
+              accountSettings.controls['newPassword']?.value && accountSettings.controls['newPassword']?.value.length < 8 ||
+              accountSettings.controls['newPassword']?.value && !accountSettings.controls['oldPassword']?.value
+            )
+        }"
+        [ngModel]="''"
+        autocomplete="new-password"
+        />
+        <label
+          class="flex flex-col items-start label pt-0.5">
+          <span
+            class="label-text-alt text-error"
+            *ngIf="accountSettings.controls['newPassword']?.touched && accountSettings.controls['oldPassword']?.value != '' && accountSettings.controls['oldPassword']?.value == accountSettings.controls['newPassword']?.value"
+          >
+            Old and new passwords are equal
+          </span>
+          <span
+            class="label-text-alt text-error"
+            *ngIf="accountSettings.controls['newPassword']?.touched && accountSettings.controls['newPassword']?.value?.length < 8"
+          >
+            Password must be at least 8 characters
+          </span>
+        </label>
+    </div>
+
+    <div>
+      <button class="btn btn-success min-h-min h-8">
+        Save
+      </button>
+    </div>
+
+  </form>
+
+</div>
