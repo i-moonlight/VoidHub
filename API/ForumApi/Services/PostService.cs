@@ -57,7 +57,7 @@ namespace ForumApi.Services
         {
             var posts = await _rep.Post.Value
                 .FindByCondition(p => p.DeletedAt == null && p.AncestorId == ancestorId)
-                .OrderBy(p => p.CreatedAt)
+                .OrderByDescending(p => p.CreatedAt)
                 .Include(p => p.Author)
                 .TakeOffset(page)
                 .Select(p => new PostResponse
