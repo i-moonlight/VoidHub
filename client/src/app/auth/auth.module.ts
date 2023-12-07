@@ -35,10 +35,7 @@ function onAppLoad(authService: AuthService): () => Promise<any> {
       {path: 'register', component: RegisterComponent}
     ])
   ],
-  exports: [
-    LoginComponent,
-    RegisterComponent
-  ],
+  exports: [],
   providers: [
     AuthService,
     {

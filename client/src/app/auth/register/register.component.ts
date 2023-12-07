@@ -2,6 +2,7 @@ import { AuthService } from './../auth.service';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgFormExtension } from 'src/shared/ng-form.extension';
 
 @Component({
   selector: 'app-register',
@@ -19,19 +20,14 @@ export class RegisterComponent {
 
   onSubmit(form: NgForm) {
     this.errorMessages = [];
+    let data = form.value;
 
-    console.log(form);
-    if(form.invalid) {
-      let controls = form.controls;
-      for(let i = 0; i < Object.keys(controls).length; i++) {
-        let control = controls[Object.keys(controls)[i]];
-        control.markAsTouched();
-      }
-
+    if(form.invalid || data.password != data.confirmPassword) {
+      NgFormExtension.markAllAsTouched(form);
       return;
     }
 
-    this.authService.register(form.value)
+    this.authService.register(data)
       .subscribe({
         next: data => {
           this.router.navigate(['/']);
