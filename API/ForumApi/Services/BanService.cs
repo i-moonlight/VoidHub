@@ -49,6 +49,9 @@ namespace ForumApi.Services
             var user = await _rep.Account.Value
                 .FindById(ban.AccountId).FirstOrDefaultAsync() ?? throw new NotFoundException("User not found");
 
+            if(moder.Id == user.Id)
+                throw new BadRequestException("You cannot ban yourself");
+
             if(moder.Role == Role.Moder && user.Role != Role.User)
                 throw new ForbiddenException("You cannot perform this action");
 
