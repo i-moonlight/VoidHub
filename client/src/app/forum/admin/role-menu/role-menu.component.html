@@ -10,7 +10,8 @@
         placeholder="user id"
         class="input-sm bg-neutral input input-bordered"
         [ngClass]="{
-          'input-error': roleChangeForm.controls['accountId']?.touched && roleChangeForm.controls['accountId'].invalid
+          'input-error': roleChangeForm.controls['accountId']?.touched && roleChangeForm.controls['accountId'].invalid,
+          'btn-disabled': userIdBlocked
         }"
         [ngModel]="userId"
         required
@@ -34,13 +35,14 @@
     </div>
 
     <div class="mt-2 flex flex-row">
-      <button class="btn btn-success min-h-fit h-8">
-        Save
-      </button>
-      <button type="button" class="ms-3 btn btn-error min-h-fit  h-8" (click)="onCancelClick()">
-        Cancel
-      </button>
+      <app-limit-loader [limit]="1">
+        <button class="btn btn-success min-h-fit h-8">
+          Save
+        </button>
+        <button type="button" class="ms-3 btn btn-error min-h-fit  h-8" (click)="onCancelClick()">
+          Cancel
+        </button>
+      </app-limit-loader>
     </div>
-
   </form>
 </div>

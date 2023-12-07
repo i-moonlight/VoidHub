@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Roles } from 'src/shared/roles.enum';
 import { AdminService } from '../services/admin.service';
 import { NgForm } from '@angular/forms';
@@ -11,10 +11,12 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './role-menu.component.html',
   styleUrls: ['./role-menu.component.css']
 })
-export class RoleMenuComponent {
+export class RoleMenuComponent implements OnInit {
 
   @Input()
   userId;
+
+  userIdBlocked;
 
   roles = Object.keys(Roles).map(key => Roles[key]);
 
@@ -23,8 +25,12 @@ export class RoleMenuComponent {
   constructor(
     private adminService: AdminService,
     private accountService: AccountService,
-    private toastr: ToastrService
-    ) {}
+    private toastr: ToastrService) {}
+
+  ngOnInit(): void {
+    this.userIdBlocked = this.adminService.userIdBlocked;
+    this.userId = this.adminService.userId;
+  }
 
   onSubmit(form: NgForm) {
     this.errorMessages = [];

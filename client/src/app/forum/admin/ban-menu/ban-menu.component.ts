@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgFormExtension } from 'src/shared/ng-form.extension';
 import { BanService } from '../services/ban.service';
@@ -10,10 +10,12 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './ban-menu.component.html',
   styleUrls: ['./ban-menu.component.css']
 })
-export class BanMenuComponent {
+export class BanMenuComponent implements OnInit {
 
   @Input()
   userId: string;
+
+  userIdBlocked = false;
 
   private _currentDate: Date = new Date();
 
@@ -35,6 +37,11 @@ export class BanMenuComponent {
     private adminService: AdminService,
     private banService: BanService,
     private toastr: ToastrService) {}
+
+  ngOnInit(): void {
+    this.userIdBlocked = this.adminService.userIdBlocked;
+    this.userId = this.adminService.userId;
+  }
 
   onBanSubmit(form: NgForm) {
     this.errorMessages = [];
@@ -59,6 +66,7 @@ export class BanMenuComponent {
 
     data.expiresAt = new Date(new Date(currentUtc).getTime() + new Date(banTime).getTime()).toISOString();
 
+    console.log(data)
     this.banService.banUser(data)
       .subscribe({
         next: _ => {

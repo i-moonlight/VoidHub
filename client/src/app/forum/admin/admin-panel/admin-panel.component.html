@@ -3,11 +3,11 @@
     <div class="btn btn-neutral min-h-fit h-8" routerLink="ban-menu">
        Ban menu
     </div>
-    <div class="btn btn-neutral min-h-fit h-8 ms-3" routerLink="role-menu">
+    <div class="btn btn-neutral min-h-fit h-8 ms-3" routerLink="role-menu" *ngIf="user?.role == roles.ADMIN">
       Role menu
    </div>
   </div>
-  <div class="w-fit">
+  <div class="w-fit" *ngIf="!skipRouting">
     <router-outlet></router-outlet>
   </div>
 </div>

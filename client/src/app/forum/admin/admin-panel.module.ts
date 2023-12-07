@@ -6,24 +6,23 @@ import { RouterModule } from "@angular/router";
 import { BanMenuComponent } from "./ban-menu/ban-menu.component";
 import { RoleMenuComponent } from "./role-menu/role-menu.component";
 import { canActivateAdmin } from './admin.guard';
+import { AdminService } from './services/admin.service';
 
 @NgModule({
-    declarations: [
-      AdminPanelComponent
-    ],
+    declarations: [],
     imports: [
       SharedModule,
       AdminComponentsModule,
       RouterModule.forChild([
-        {path: "", component: AdminPanelComponent, children: [
+        {path: "", canActivate: [canActivateAdmin], component: AdminPanelComponent, children: [
           {path:'ban-menu', component: BanMenuComponent},
           {path:'role-menu', component: RoleMenuComponent},
         ]}
       ])
     ],
-    providers: [],
-    exports: [
-      AdminPanelComponent
-    ]
+    providers: [
+      AdminService
+    ],
+    exports: []
 })
 export class AdminPanelModule {}

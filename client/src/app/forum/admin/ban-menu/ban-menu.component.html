@@ -10,11 +10,12 @@
           placeholder="user id"
           class="input-sm bg-neutral input input-bordered"
           [ngClass]="{
-            'input-error': banForm.controls['accountId']?.touched && banForm.controls['accountId'].invalid
+            'input-error': banForm.controls['accountId']?.touched && banForm.controls['accountId'].invalid,
+            'btn-disabled': userIdBlocked
           }"
           [ngModel]="userId"
           required
-          autocomplete="id"
+          autocomplete="on"
         />
       </div>
       <div class="form-control mt-2">
@@ -27,9 +28,9 @@
           [ngClass]="{
             'input-error': banForm.controls['reason']?.touched && banForm.controls['reason'].invalid
           }"
-          [ngModel]="userId"
+          ngModel
           required
-          autocomplete="id"
+          autocomplete="on"
         />
       </div>
       <div class="form-control mt-2">
@@ -40,7 +41,7 @@
           class="input input-bordered bg-neutral text-sm cursor-pointer"
           [ngModel]="currentDate | date:'yyyy-MM-ddTHH:mm'"
           required
-          autocomplete="bantime"
+          autocomplete="off"
         />
       </div>
       <div class="flex flex-row mt-2">
