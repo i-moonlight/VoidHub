@@ -1,23 +1,29 @@
 services:
   api:
-    container_name: forumapi
     build:
       context: ./API/ForumApi
     ports:
       - "5000:5000"
+    networks:
+      - forumnetwork
     depends_on:
       - db
   client:
-    container_name: forumclient
     build:
       context: ./client
     ports:
       - "4200:4200"
+    networks:
+      - forumnetwork
   db:
-    container_name: forumdb
     image: postgres:12.16-bullseye
     ports:
       - "5432:5432"
+    networks:
+      - forumnetwork
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: your_password
+
+networks:
+  forumnetwork:
