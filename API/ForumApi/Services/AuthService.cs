@@ -54,7 +54,7 @@ namespace ForumApi.Services
             return new AuthResponse
             {
                 Tokens = pair,
-                User = _mapper.Map<User>(tokenEntity.Account)
+                User = _mapper.Map<AuthUser>(tokenEntity.Account)
             };
         }
 
@@ -90,7 +90,7 @@ namespace ForumApi.Services
             return new AuthResponse
             {
                 Tokens = newPair,
-                User = _mapper.Map<User>(account)
+                User = _mapper.Map<AuthUser>(account)
             };
         }
 
@@ -133,7 +133,7 @@ namespace ForumApi.Services
                 return new AuthResponse
                 {
                     Tokens = pair,
-                    User = _mapper.Map<User>(account)
+                    User = _mapper.Map<AuthUser>(account)
                 };
             } 
             catch 

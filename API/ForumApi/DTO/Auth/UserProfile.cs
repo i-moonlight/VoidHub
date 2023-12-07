@@ -9,6 +9,7 @@ namespace ForumApi.DTO.Mapper
         public UserProfile()
         {
             CreateMap<Account, User>();
+            CreateMap<Account, AuthUser>();
         }
     }
 }
