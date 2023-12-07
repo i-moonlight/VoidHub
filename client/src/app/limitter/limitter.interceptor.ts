@@ -20,7 +20,7 @@ export class LimitterInterceptor {
     }
 
     let limitParam = req.headers.get('X-Limit-Param') ?? this.limitter.defaultLimit;
-    if(this.limitter.isOutOfLimit(+limitParam)) {
+    if(this.limitter.isOutOfLimit(this.limitter.defaultLimit + +limitParam)) {
       throw new Error('Too much requests')
     }
 

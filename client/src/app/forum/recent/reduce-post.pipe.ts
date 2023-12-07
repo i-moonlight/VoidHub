@@ -1,9 +1,9 @@
-import { Pipe, PipeTransform, SecurityContext } from "@angular/core";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { OperationFactory } from "@ckeditor/ckeditor5-engine";
+import { Pipe, PipeTransform } from "@angular/core";
+import { SafeHtml } from "@angular/platform-browser";
 
 @Pipe({
   standalone: true,
+  pure: true,
   name: 'reducePost'
 })
 export class ReducePost implements PipeTransform {
@@ -15,8 +15,6 @@ export class ReducePost implements PipeTransform {
   private tagLimmiter = [
     {tag: 'figure', limit: 2},
   ]
-
-  constructor(private sanitizer: DomSanitizer) {}
 
   transform(value: string, symbolLimit: number, tagLimit: number) : SafeHtml {
     let result = '';
@@ -69,9 +67,7 @@ export class ReducePost implements PipeTransform {
         // skip if limitted
         let tagLimitIndex = this.tagLimmiter.findIndex(x => x.tag == tagName);
         if(tagLimitIndex !== -1) {
-          let closeTag = `</${tagName}>`
-          console.log(tagName, tagCounter[tagIndex].count)
-
+          let closeTag = `</${tagName}>`;
 
           if(tagCounter[tagIndex].count > this.tagLimmiter[tagLimitIndex].limit) {
             // remove last tag and upd index
@@ -115,8 +111,6 @@ export class ReducePost implements PipeTransform {
     if (tagCount > tagLimit) {
       result = result.substring(0, result.length - 1);
     }
-
-    //console.log(value, result, tagCounter)
 
     return result;
   }

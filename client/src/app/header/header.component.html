@@ -41,7 +41,8 @@
       <div class="dropdown me-5">
         <label tabindex="0" class="btn m-1 bg-base-200 h-10 min-h-min">{{user?.username}}</label>
         <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box">
-          <li><a>(wip)Profile {{user?.id}}</a></li>
+          <li><a routerLink="/profile/{{user?.id}}">Profile</a></li>
+          <li><a routerLink="/profile/settings">Settings</a></li>
           <li><a class="bg-error mt-2" (click)="logout()">Logout</a></li>
         </ul>
       </div>

@@ -7,6 +7,7 @@ import { LimitLoaderComponent } from "src/app/limitter/limit-loader/limit-loader
 import { SharedModule } from "src/shared/shared.module";
 import { PaginatorComponent } from "../paginator/paginator.component";
 import { TopicElementComponent } from "../topic/topic-element/topic-element.component";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,10 @@ import { TopicElementComponent } from "../topic/topic-element/topic-element.comp
     SearchBarComponent,
     ErrorMessageListComponent,
     PaginatorComponent,
-    TopicElementComponent
+    TopicElementComponent,
+    RouterModule.forChild([
+      {path: '', component: SearchComponent}
+    ])
   ],
   providers: [
     SearchService,

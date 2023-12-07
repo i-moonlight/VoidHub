@@ -11,7 +11,6 @@ export class HttpExceptionInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((err) => {
-        console.log(err);
         let errors = []
         if (err instanceof HttpErrorResponse) {
           switch (err.status) {
@@ -44,7 +43,7 @@ export class HttpExceptionInterceptor implements HttpInterceptor {
               errors.push("Access denied");
               break;
             case 404:
-              errors.push(err.statusText)
+              errors.push(err.error)
               break;
             case 500:
               errors.push("Internal server error");

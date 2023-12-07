@@ -22,7 +22,7 @@ import { SearchBarComponent } from './forum/search/search-bar/search-bar.compone
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent,
+    HomeComponent
   ],
   imports: [
     SharedModule,
