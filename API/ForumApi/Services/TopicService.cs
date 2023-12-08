@@ -55,8 +55,6 @@ namespace ForumApi.Services
 
         public async Task<List<TopicResponse>> GetTopics(Offset offset, DateTime time)
         {
-            Console.WriteLine(time);
-            Console.WriteLine(time.ToUniversalTime());
             return await _rep.Topic.Value
                 .FindByCondition(t => t.DeletedAt == null && t.CreatedAt < time.ToUniversalTime())
                 .OrderByDescending(t => t.CreatedAt)
@@ -65,7 +63,7 @@ namespace ForumApi.Services
                     Topic = t,
                     Post = t.Posts
                         .Where(p => p.AncestorId == null)
-                        .OrderByDescending(p => p.CreatedAt)
+                        .OrderBy(p => p.CreatedAt)
                         .FirstOrDefault()
                 })
                 .Select(t => new TopicResponse
@@ -80,10 +78,10 @@ namespace ForumApi.Services
                     {
                         Content = t.Post == null ? "" : t.Post.Content,
                         CreatedAt = t.Post == null ? default : t.Post.CreatedAt,
-                        Author = t.Post == null ? default : _mapper.Map<User>(t.Post.Author)
+                        Author = t.Post.Author == null ? default : _mapper.Map<User>(t.Post.Author)
                     },
-                    PostsCount = t.Topic.Posts.Where(pp => pp.DeletedAt == null && pp.AncestorId == null).Count(),
-                    CommentsCount = t.Topic.Posts.Where(pp => pp.DeletedAt == null && pp.AncestorId != null).Count()
+                    PostsCount = t.Topic.Posts.Where(pp => pp.DeletedAt == null && pp.AncestorId != null).Count(),
+                    CommentsCount = 0
                 })
                 .ToListAsync();
         }
