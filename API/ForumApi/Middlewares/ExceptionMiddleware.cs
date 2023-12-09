@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ForumApi.Exceptions;
 
 namespace ForumApi.Middlewares
@@ -23,36 +24,38 @@ namespace ForumApi.Middlewares
             }
             catch(ArgumentNullException ex)
             {
-                context.Response.StatusCode = 400;
-                context.Response.ContentType = "text/plain";
-                await context.Response.WriteAsync($"{ex.Message} is empty");
+                await HandleError(context, 400, $"{ex.Message} is empty");
             }
             catch(BadRequestException ex)
             {
-                context.Response.StatusCode = 400;
-                context.Response.ContentType = "text/plain";
-                await context.Response.WriteAsync(ex.Message);
-            }
-            catch(ForbiddenException ex)
-            {
-                context.Response.StatusCode = 403;
-                context.Response.ContentType = "text/plain";
-                await context.Response.WriteAsync(ex.Message);
+                await HandleError(context, 400, ex.Message);
             }
             catch(NotFoundException ex)
             {
-                context.Response.StatusCode = 404;
-                context.Response.ContentType = "text/plain";
-                await context.Response.WriteAsync(ex.Message);
+                await HandleError(context, 404, ex.Message);
+            }
+            catch(ForbiddenException ex)
+            {
+                await HandleError(context, 403, ex.Message);
+            }
+            catch(FluentValidation.ValidationException ex)
+            {
+                var errorsObj = new { errors = ex.Errors.Select(e => new {e.PropertyName, e.ErrorMessage}) };
+
+                await HandleError(context, 400, JsonSerializer.Serialize(errorsObj));
             }
             catch(Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
 
-                context.Response.StatusCode = 500;
-                context.Response.ContentType = "text/plain";
-                await context.Response.WriteAsync("Internal server error.");
+                await HandleError(context, 500, "Internal server error.");
             }
+        }
+
+        private async Task HandleError(HttpContext context, int statusCode, string message)
+        {
+            context.Response.StatusCode = statusCode;
+            await context.Response.WriteAsync(message);
         }
     }
 }
