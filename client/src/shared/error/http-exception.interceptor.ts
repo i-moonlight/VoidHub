@@ -13,13 +13,21 @@ export class HttpExceptionInterceptor implements HttpInterceptor {
       catchError((err) => {
         let errors = []
         if (err instanceof HttpErrorResponse) {
+          console.log(err);
           switch (err.status) {
             case 400:
               if (err.error.errors) {
-
-                Object.keys(err.error.errors).forEach(key => {
-                  errors.push(err.error.errors[key][0]);
-                });
+                //check if err.error.errors is array
+                if (Array.isArray(err.error.errors)) {
+                  let validErrors = err.error.errors;
+                  for(let i = 0; i < validErrors.length; i++)
+                    errors.push(validErrors[i].ErrorMessage);
+                  }
+                else {
+                  Object.keys(err.error.errors).forEach(key => {
+                    errors.push(err.error.errors[key][0]);
+                  });
+                }
 
                 return throwError(errors);
               }
@@ -49,6 +57,12 @@ export class HttpExceptionInterceptor implements HttpInterceptor {
               errors.push("Internal server error");
               break;
             default:
+              // connection refused or timeout
+              if(err.status == 0) {
+                errors.push("Connection refused");
+                break;
+              }
+
               errors.push("Something went wrong");
               break;
           }

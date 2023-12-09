@@ -40,6 +40,11 @@ export class AuthService
     this.user.next(user);
   }
 
+  public updateUser(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
+    this.user.next(user);
+  }
+
   public refreshAndAuth() {
     //refresh and handle auth
     const refreshToken = localStorage.getItem('refresh-token');
