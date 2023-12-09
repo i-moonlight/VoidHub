@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { NgFor } from '@angular/common';
+import { NgFormExtension } from 'src/shared/ng-form.extension';
 
 @Component({
   selector: 'app-login',
@@ -20,12 +22,7 @@ export class LoginComponent {
     this.errorMessages = [];
 
     if(form.invalid) {
-      let controls = form.controls;
-      for(let i = 0; i < Object.keys(controls).length; i++) {
-        let control = controls[Object.keys(controls)[i]];
-        control.markAsTouched();
-      }
-
+      NgFormExtension.markAllAsTouched(form);
       return;
     }
 

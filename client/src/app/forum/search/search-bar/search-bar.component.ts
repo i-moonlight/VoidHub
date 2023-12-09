@@ -31,7 +31,7 @@ export class SearchBarComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute
-    ) {}
+  ) {}
 
   onSubmit(form: NgForm) {
     let params = this.route.snapshot.queryParamMap

@@ -8,6 +8,8 @@ import { ForumService } from '../../services/forum.service';
 import { Forum } from '../../models/forum.model';
 import { Roles } from 'src/shared/roles.enum';
 import { Page } from 'src/shared/page.model';
+import { ToastrService } from 'ngx-toastr';
+import { ToastrExtension } from 'src/shared/toastr.extension';
 
 
 @Component({
@@ -34,7 +36,8 @@ export class ForumComponent implements OnDestroy {
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private forumService: ForumService) {
+    private forumService: ForumService,
+    private toastr: ToastrService) {
 
     authService.user$.pipe(takeUntil(this.destroy$))
       .subscribe(user => {this.user = user;})
@@ -94,7 +97,12 @@ export class ForumComponent implements OnDestroy {
       .subscribe({
         next: (forum:any) => {
           this.forum.title = forum.title;
+          this.toastr.success('Forum updated');
+        },
+        error: errs => {
+          ToastrExtension.handleErrors(this.toastr, errs);
         }
+
       })
   }
 
