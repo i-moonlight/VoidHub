@@ -4,9 +4,9 @@
       <div class="basis-8/12 h-full">
         <div class="flex flex-col">
           <div class="flex flex-row">
-            <div routerLink="/forum/topic/{{topic.id}}" class="link link-hover font-semibold grow">
+            <a routerLink="/forum/topic/{{topic.id}}" class="link link-hover font-semibold grow">
               {{topic.title}}
-            </div>
+            </a>
             <div *ngIf="topic.isPinned">
               <app-pinned-icon></app-pinned-icon>
             </div>
@@ -27,12 +27,12 @@
       </div>
       <div class="basis-3/12">
         <div *ngIf="topic?.lastPost">
-          <div
+          <a
             [routerLink]="['/','profile',topic?.lastPost?.author.id]"
             class="flex flex-col link no-underline"
           >
             {{topic?.lastPost?.author.username}}
-          </div>
+          </a>
           <div class="text-xs text-secondary-content">
             time: {{topic?.lastPost?.createdAt | date: 'dd.MM.yyyy HH:mm'}}
           </div>

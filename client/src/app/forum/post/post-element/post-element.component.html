@@ -5,9 +5,9 @@
   }">
     <div class="w-36 px-5 py-5 text-center border-e border-secondary-content">
       <div class="flex flex-col">
-        <div class="link no-underline" routerLink="/profile/{{post?.author.id}}">
+        <a class="link no-underline" routerLink="/profile/{{post?.author.id}}">
           {{post?.author.username}}
-        </div>
+        </a>
         <div class="text-xs">
           {{post?.createdAt | date: 'dd.MM.yyyy HH:mm'}}
         </div>
