@@ -5,23 +5,22 @@ using ForumApi.DTO.DAccount;
 using ForumApi.DTO.DBan;
 using ForumApi.Exceptions;
 using ForumApi.Extensions;
+using ForumApi.Options;
 using ForumApi.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using SixLabors.ImageSharp;
 
 namespace ForumApi.Services
 {
-    public class AccountService : IAccountService
+    public class AccountService 
+        (
+            IRepositoryManager _rep, 
+            IMapper _mapper, 
+            IOptions<ImageOptions> imageOptions
+        ) : IAccountService
     {
-        private readonly IRepositoryManager _rep;
-        private readonly IMapper _mapper;
-
-        public AccountService(
-            IRepositoryManager rep,
-            IMapper mapper)
-        {
-            _rep = rep;
-            _mapper = mapper;
-        }
+        private readonly ImageOptions _imageOptions = imageOptions.Value;
 
         public async Task<AccountResponse> Get(int id)
         {
@@ -32,6 +31,7 @@ namespace ForumApi.Services
                     Id = a.Id,
                     Username = a.Username,
                     Role = a.Role,
+                    AvatarPath = a.AvatarPath,
                     CreatedAt = a.CreatedAt,
                     PostsCount = a.Posts.Count(p => p.AccountId == a.Id && p.DeletedAt == null),
                     TopicsCount = a.Topics.Count(t => t.AccountId == a.Id && t.DeletedAt == null),
@@ -85,7 +85,18 @@ namespace ForumApi.Services
 
                 user.PasswordHash = PasswordHelper.Hash(accountDto.NewPassword);
             }
+            
+            await _rep.Save();
 
+            return _mapper.Map<AuthUser>(user);
+        }
+
+        public async Task<AuthUser> UpdateImg(int accountId, string newPath)
+        {
+            var user = await _rep.Account.Value.FindById(accountId, true)
+                .FirstOrDefaultAsync() ?? throw new NotFoundException("User not found");
+
+            user.AvatarPath = newPath;
             await _rep.Save();
 
             return _mapper.Map<AuthUser>(user);

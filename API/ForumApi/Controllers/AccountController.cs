@@ -1,27 +1,21 @@
 using FluentValidation;
 using ForumApi.Data.Models;
-using ForumApi.DTO.Auth;
 using ForumApi.DTO.DAccount;
 using ForumApi.Extensions;
 using ForumApi.Filters;
+using ForumApi.Options;
 using ForumApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace ForumApi.Controllers
 {
     [ApiController]
     [Route("api/v1/accounts")]
-    public class AccountController : ControllerBase
+    public class AccountController(IAccountService _accountService, IOptions<ImageOptions> options, IImageService _imageService) : ControllerBase
     {   
-        private readonly IAccountService _accountService;
-
-        public AccountController(
-            IAccountService accountService
-        )
-        {
-            _accountService = accountService;
-        }
+        private readonly ImageOptions _imageOptions = options.Value;
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccount(int id)
@@ -32,7 +26,7 @@ namespace ForumApi.Controllers
         [HttpPatch]
         [Authorize]
         [BanFilter]
-        public async Task<IActionResult> UpdateSelf(AccountDto accountDto)
+        public async Task<IActionResult> UpdateSelf([FromBody] AccountDto accountDto)
         {
             var validator = new AccountDtoValidator();
             await validator.ValidateAndThrowAsync(accountDto);
@@ -41,12 +35,32 @@ namespace ForumApi.Controllers
             return Ok(await _accountService.Update(senderId, senderId, accountDto));
         }
 
+        [HttpPatch("avatar")]
+        [Authorize]
+        [BanFilter]
+        public async Task<IActionResult> UpdateImageSelf(AccountDto accountDto, [FromQuery] string currentPath)
+        {
+            var validator = new AccountDtoImageValidator();
+            await validator.ValidateAndThrowAsync(accountDto);
+
+            var avatarPath = $"{_imageOptions.AvatarFolder}/{User.GetId()}.png";
+            var fullPath = Path.Combine(_imageOptions.Folder, avatarPath);
+
+            var image = _imageService.PrepareImage(accountDto.Img);
+            await _imageService.SaveImage(image, fullPath);
+
+            // avatar path always id.format (except default), so we can not to update it every time
+            if(string.IsNullOrEmpty(currentPath) || currentPath != avatarPath)
+                return Ok(await _accountService.UpdateImg(User.GetId(), avatarPath));
+            
+            return Ok();
+        }
+
         [HttpPatch("{id}")]
         [Authorize(Roles = Role.Admin)]
         [BanFilter]
         public async Task<IActionResult> ChangeRole(int id, AccountDto accountDto)
         {
-            Console.WriteLine(accountDto.Role);
             var validator = new AccountDtoAdminValidator();
             await validator.ValidateAndThrowAsync(accountDto);
 

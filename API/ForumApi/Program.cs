@@ -7,11 +7,28 @@ using ForumApi.Services;
 using ForumApi.Services.Interfaces;
 using Microsoft.OpenApi.Models;
 
+//need to be checked before create builder
+if(!Directory.Exists("wwwroot"))
+{
+  Directory.CreateDirectory("wwwroot");
+}
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.AddConsole();
 
 builder.Services.AddAppOptions(builder.Configuration);
+
+var imageSettings = builder.Configuration
+  .GetSection(ImageOptions.Image)
+  .Get<ImageOptions>() ?? throw new NullReferenceException("ImageOptions");
+
+//check for folders
+if(!Directory.Exists($"{imageSettings.Folder}/{imageSettings.AvatarFolder}"))
+{
+  Directory.CreateDirectory($"{imageSettings.Folder}/{imageSettings.AvatarFolder}");
+}
+
 builder.Services.AddRepository(builder.Configuration);
 
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -24,6 +41,7 @@ builder.Services.AddScoped<ITopicService, TopicService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IBanService, BanService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 
 builder.Services.AddControllers()
   .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
@@ -83,7 +101,14 @@ var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
+//check for default avatar
+if(!File.Exists($"{imageSettings.Folder}/{imageSettings.AvatarDefault}"))
+{
+  app.Logger.LogWarning($"Default avatar in {imageSettings.Folder}/{imageSettings.AvatarDefault} not found.");
+}
+
 app.UseCors(frontCorsPolicy);
+app.UseStaticFiles();
 
 app.UseRouting();
 

@@ -15,6 +15,7 @@ namespace ForumApi.Data.Models
         public DateTime CreatedAt { get; set; }
         public DateTime LastLoggedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
+        public string AvatarPath { get; set; } = null!;
 
         [JsonIgnore]
         public virtual List<Token> Tokens { get; set; } = new();

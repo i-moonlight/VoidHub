@@ -9,5 +9,6 @@ namespace ForumApi.DTO.DAccount
         public RoleEnum Role { get; set; } = RoleEnum.None;
         public string? OldPassword { get; set; } = null;
         public string? NewPassword { get; set; } = null;
+        public IFormFile Img { get; set; } = null!;
     }
 }

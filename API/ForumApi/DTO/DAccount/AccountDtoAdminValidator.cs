@@ -20,6 +20,7 @@ namespace ForumApi.DTO.DAccount
             RuleFor(r => r.Email).Null();
             RuleFor(r => r.OldPassword).Null();
             RuleFor(r => r.NewPassword).Null();
+            RuleFor(r => r.Img).Null();
         }
         
     }

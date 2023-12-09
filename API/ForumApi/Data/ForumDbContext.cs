@@ -38,6 +38,8 @@ namespace ForumApi.Data
                     .HasDefaultValueSql("timezone('utc', now())");
                 a.Property(a => a.CreatedAt)
                     .HasDefaultValueSql("timezone('utc', now())");
+                a.Property(a => a.AvatarPath)
+                    .HasDefaultValue("default.png");
 
                 a.Property(a => a.DeletedAt)
                     .HasDefaultValue(null);

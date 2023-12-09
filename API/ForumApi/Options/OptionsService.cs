@@ -4,7 +4,13 @@ namespace ForumApi.Options
     {
         public static IServiceCollection AddAppOptions(this IServiceCollection services, IConfiguration config) 
         {
-            services.AddOptions<JwtOptions>().Bind(config.GetSection(JwtOptions.Jwt))
+            services.AddOptions<JwtOptions>()
+                .Bind(config.GetSection(JwtOptions.Jwt))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            services.AddOptions<ImageOptions>()
+                .Bind(config.GetSection(ImageOptions.Image))
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
 
