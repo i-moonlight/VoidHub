@@ -59,7 +59,7 @@ namespace ForumApi.Controllers
         [HttpPatch("{id}")]
         [Authorize(Roles = Role.Admin)]
         [BanFilter]
-        public async Task<IActionResult> ChangeRole(int id, AccountDto accountDto)
+        public async Task<IActionResult> ChangeRole(int id, [FromBody] AccountDto accountDto)
         {
             var validator = new AccountDtoAdminValidator();
             await validator.ValidateAndThrowAsync(accountDto);
