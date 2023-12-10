@@ -9,23 +9,31 @@
   <div class="bg-neutral rounded mx-8" *ngIf="profile; else profileNotFound">
     <div class="flex flex-col p-5">
       <div class="flex flex-col mb-5">
-          <div class="text-error" *ngIf="profile?.ban">
-            Banned until: {{profile.ban.expiresAt | date: 'dd.MM.yyyy HH:mm'}}
+        <div class="text-error mb-2" *ngIf="profile?.ban">
+          Banned until: {{profile.ban.expiresAt | date: 'dd.MM.yyyy HH:mm'}}
+        </div>
+        <div class="flex flex-row">
+          <div class="my-auto me-2">
+            <div class="avatar">
+              <div class="w-20 rounded">
+                <img src="{{resourceUrl}}/{{profile.avatarPath}}" loading="lazy">
+              </div>
+            </div>
           </div>
-          <div class="text-3xl min-h-fit h-min text-accent">
-            {{profile.username}}
+          <div class="flex flex-col">
+            <div class="text-3xl min-h-fit h-min text-accent">
+              {{profile.username}}
+            </div>
+            <div [ngSwitch]="profile.role">
+              <div *ngSwitchCase="roles.ADMIN" class="text-red-700">Admin</div>
+              <div *ngSwitchCase="roles.MODER"class="text-orange-600">Moder</div>
+              <div *ngSwitchCase="roles.USER">User</div>
+            </div>
+            <div>
+              Joined: {{profile.createdAt | date: 'dd.MM.yyyy'}}
+            </div>
           </div>
-          <div [ngSwitch]="profile.role">
-            <div *ngSwitchCase="roles.ADMIN" class="text-red-700">Admin</div>
-            <div *ngSwitchCase="roles.MODER"class="text-orange-600">Moder</div>
-            <div *ngSwitchCase="roles.USER">User</div>
-          </div>
-          <div>
-            Joined: {{profile.createdAt | date: 'dd.MM.yyyy'}}
-          </div>
-          <div *ngIf="user?.role == roles.ADMIN || user?.role == roles.MODER">
-
-          </div>
+        </div>
       </div>
       <div>
         Total posts: {{profile.postsCount}}

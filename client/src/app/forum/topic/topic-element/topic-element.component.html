@@ -26,15 +26,26 @@
         </div>
       </div>
       <div class="basis-3/12">
-        <div *ngIf="topic?.lastPost">
-          <a
-            [routerLink]="['/','profile',topic?.lastPost?.author.id]"
-            class="flex flex-col link no-underline"
-          >
-            {{topic?.lastPost?.author.username}}
-          </a>
-          <div class="text-xs text-secondary-content">
-            time: {{topic?.lastPost?.createdAt | date: 'dd.MM.yyyy HH:mm'}}
+        <div class="flex flex-row" *ngIf="topic?.lastPost">
+          <div class="me-2">
+            <div class="avatar">
+              <div class="w-10 rounded">
+                <a routerLink="/profile{{topic.lastPost?.author.id}}">
+                  <img src="{{resourceUrl}}/{{topic.lastPost?.author?.avatarPath}}" loading="lazy"/>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div>
+            <a
+              [routerLink]="['/','profile',topic.lastPost.author.id]"
+              class="flex flex-col link no-underline"
+            >
+              {{topic?.lastPost?.author.username}}
+            </a>
+            <div class="text-xs text-secondary-content">
+              time: {{topic?.lastPost?.createdAt | date: 'dd.MM.yyyy HH:mm'}}
+            </div>
           </div>
         </div>
       </div>

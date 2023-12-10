@@ -4,7 +4,14 @@
     'hidden': editMode
   }">
     <div class="w-36 px-5 py-5 text-center border-e border-secondary-content">
-      <div class="flex flex-col">
+      <div class="flex flex-col items-center">
+        <div class="avatar">
+          <div class="w-12 rounded">
+            <a routerLink="/profile/{{post?.author.id}}">
+              <img src="{{resourceUrl}}/{{post?.author?.avatarPath}}" loading="lazy"/>
+            </a>
+          </div>
+        </div>
         <a class="link no-underline" routerLink="/profile/{{post?.author.id}}">
           {{post?.author.username}}
         </a>

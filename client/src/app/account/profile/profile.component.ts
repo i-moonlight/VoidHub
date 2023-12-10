@@ -6,6 +6,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
 import { User } from 'src/shared/models/user.model';
 import { Roles } from 'src/shared/roles.enum';
 import { AdminService } from 'src/app/forum/admin/services/admin.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -13,6 +14,7 @@ import { AdminService } from 'src/app/forum/admin/services/admin.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnDestroy {
+  resourceUrl = environment.resourceURL;
 
   user: User = null;
   profile: any = null;

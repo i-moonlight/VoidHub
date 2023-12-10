@@ -49,6 +49,11 @@
   border: 0;
 }
 
+// fix lines before and after embed(figure) tag
+.media.ck-widget, .image.ck-widget, .ck-widget {
+  outline: none !important;
+}
+
 .link {
   @apply text-cyan-200 hover:text-accent-focus
 }

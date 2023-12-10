@@ -1,8 +1,9 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from 'src/shared/models/user.model';
 import { PostService } from '../../services/post.service';
 import { Roles } from 'src/shared/roles.enum';
 import Editor from 'ckeditor5/build/ckeditor';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-post',
@@ -11,6 +12,7 @@ import Editor from 'ckeditor5/build/ckeditor';
 })
 export class PostElementComponent {
   editor = Editor as {create: any}
+  resourceUrl = environment.resourceURL;
 
   @Input()
   post;

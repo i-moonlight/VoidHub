@@ -5,5 +5,5 @@ export class LastTopic {
   public title: string;
   public updatedAt: Date;
 
-  public User: User;
+  public user: User;
 }

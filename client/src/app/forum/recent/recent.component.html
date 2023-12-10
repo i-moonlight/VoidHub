@@ -5,19 +5,31 @@
       <div *ngFor="let topic of topics" class="mb-2">
         <div class="bg-neutral rounded-md">
           <div class="px-8">
-            <div class="flex flex-col border-b-2 border-secondary-content py-2">
-              <a routerLink="/forum/topic/{{topic.id}}" class="link no-underline text-xl">
-                {{topic.title}}
-              </a>
-              <div class="text-sm text-secondary-content">
-                <div>
-                  Posted: {{topic.post.createdAt | date: 'medium'}}
+            <div class="flex flex-row border-b-2 border-secondary-content py-2">
+              <div class="my-auto me-2">
+                <div class="avatar mt-2">
+                  <div class="w-12 rounded">
+                    <a routerLink="/profile/{{topic.post.author.id}}">
+                      <img src="{{resourceUrl}}/{{topic.post.author.avatarPath}}" loading="lazy">
+                    </a>
+                  </div>
                 </div>
-                <a class="link no-underline" routerLink="/profile/{{topic.post.author.id}}">
-                  <span class="text-secondary-content">Author:</span> {{topic.post.author.username}}
+              </div>
+              <div class="flex flex-col">
+                <a routerLink="/forum/topic/{{topic.id}}" class="link no-underline text-xl">
+                  {{topic.title}}
                 </a>
+                <div class="text-sm text-secondary-content">
+                  <div>
+                    Posted: {{topic.post.createdAt | date: 'medium'}}
+                  </div>
+                  <a class="link no-underline" routerLink="/profile/{{topic.post.author.id}}">
+                    <span class="text-secondary-content">Author:</span> {{topic.post.author.username}}
+                  </a>
+                </div>
               </div>
             </div>
+
             <div class="flex flex-col">
               <div class="grow">
                 <ckeditor [ngModel]="topic.post.content | reducePost:200:11" [editor]="editor" [config]="{toolbar: []}" [disabled]="true" class="ck-viewer">

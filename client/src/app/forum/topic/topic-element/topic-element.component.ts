@@ -4,6 +4,7 @@ import { PinnedIconComponent } from '../../shared/pinned-icon/pinned-icon.compon
 import { ClosedIconComponent } from '../../shared/closed-icon/closed-icon.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-topic-element',
@@ -20,4 +21,6 @@ import { RouterModule } from '@angular/router';
 export class TopicElementComponent {
   @Input()
   topic;
+
+  resourceUrl = environment.resourceURL;
 }

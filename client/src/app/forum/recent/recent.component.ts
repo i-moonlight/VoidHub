@@ -4,6 +4,7 @@ import { TopicService } from '../services/topic.service';
 import Editor from 'ckeditor5/build/ckeditor';
 import { LimitterService } from 'src/app/limitter/limitter.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-recent',
@@ -11,8 +12,8 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   styleUrls: ['./recent.component.css']
 })
 export class RecentComponent implements OnInit, OnDestroy {
-
   editor = Editor as {create: any}
+  resourceUrl = environment.resourceURL;
 
   private _firstLoadTime: Date = new Date();
   offset = new Offset(0, 5);
