@@ -8,8 +8,9 @@ import { canActivateSelf } from "./self.guard";
 import { AdminComponentsModule } from "../forum/admin/admin-components.module";
 import { BanMenuComponent } from "../forum/admin/ban-menu/ban-menu.component";
 import { RoleMenuComponent } from "../forum/admin/role-menu/role-menu.component";
-import { canActivateAdmin } from "../forum/admin/admin.guard";
+import { canActivateAdmin, canActivateModer } from "../forum/admin/role.guard";
 import { ErrorMessageListComponent } from "../error-message-list/error-message-list.component";
+import { RenameMenuComponent } from "../forum/admin/rename-menu/rename-menu.component";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ErrorMessageListComponent } from "../error-message-list/error-message-l
       {path: ':id', component: ProfileComponent, children: [
         {path: 'ban-menu', component: BanMenuComponent, canActivate: [canActivateAdmin]},
         {path: 'role-menu', component: RoleMenuComponent, canActivate: [canActivateAdmin]},
+        {path: 'rename-menu', component: RenameMenuComponent, canActivate: [canActivateModer]},
       ]},
     ])
   ],

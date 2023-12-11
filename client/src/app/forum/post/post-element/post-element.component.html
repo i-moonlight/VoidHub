@@ -3,7 +3,7 @@
   [ngClass]="{
     'hidden': editMode
   }">
-    <div class="w-36 px-5 py-5 text-center border-e border-secondary-content">
+    <div class="flex-none w-36 px-5 py-5 text-center border-e border-secondary-content">
       <div class="flex flex-col items-center">
         <div class="avatar">
           <div class="w-12 rounded">
@@ -34,8 +34,8 @@
       </div>
     </div>
 
-    <div class="flex flex-col">
-      <div class="ps-8 pe-8 grow">
+    <div class="flex flex-col overflow-auto">
+      <div class="mx-8 grow">
         <ckeditor [ngModel]="post.content" [editor]="editor"  [config]="{toolbar: []}" [disabled]="true" class="ck-viewer"></ckeditor>
       </div>
       <div class="flex flex-row">

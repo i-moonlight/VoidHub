@@ -40,7 +40,7 @@ export class BanMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.userIdBlocked = this.adminService.userIdBlocked;
-    this.userId = this.adminService.userId;
+    this.userId = this.adminService.user.id + '';
   }
 
   onBanSubmit(form: NgForm) {
@@ -66,12 +66,14 @@ export class BanMenuComponent implements OnInit {
 
     data.expiresAt = new Date(new Date(currentUtc).getTime() + new Date(banTime).getTime()).toISOString();
 
-    console.log(data)
     this.banService.banUser(data)
       .subscribe({
         next: _ => {
-          form.reset();
+          //set values to default
+          form.controls['reason'].setValue('');
+          form.controls['reason'].setErrors(null);
           this.currentDate = new Date();
+
           this.toastr.success("User banned")
         },
         error: errs => {

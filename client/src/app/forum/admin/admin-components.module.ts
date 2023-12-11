@@ -7,12 +7,16 @@ import { BanService } from "./services/ban.service";
 import { ErrorMessageListComponent } from "src/app/error-message-list/error-message-list.component";
 import { AdminPanelComponent } from "./admin-panel/admin-panel.component";
 import { AccountService } from "../services/account.service";
+import { DefaultAvatarComponent } from "./default-avatar/default-avatar.component";
+import { RenameMenuComponent } from "./rename-menu/rename-menu.component";
 
 @NgModule({
   declarations: [
     BanMenuComponent,
     RoleMenuComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    DefaultAvatarComponent,
+    RenameMenuComponent,
   ],
   imports: [
     SharedModule,
@@ -26,7 +30,9 @@ import { AccountService } from "../services/account.service";
   exports: [
     BanMenuComponent,
     RoleMenuComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    DefaultAvatarComponent,
+    RenameMenuComponent,
   ]
 })
 export class AdminComponentsModule {}

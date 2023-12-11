@@ -42,12 +42,13 @@
         Total topics: {{profile.topicsCount}}
       </div>
 
-      <app-admin-panel
-        class="mt-5"
-        *ngIf="user && (user.role == roles.ADMIN || user.role == roles.MODER)"
-        [skipRouting]="true"
-        [blockUserId]="true">
-      </app-admin-panel>
+      <div class="flex flex-row my-auto mt-5" *ngIf="user && (user.role == roles.ADMIN || user.role == roles.MODER)">
+        <app-admin-panel
+          [skipRouting]="true"
+          [blockUserId]="true">
+        </app-admin-panel>
+        <app-default-avatar [accountId]="profile.id"></app-default-avatar>
+      </div>
 
       <div class="w-fit">
         <router-outlet>

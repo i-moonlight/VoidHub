@@ -58,11 +58,10 @@ export class ProfileComponent implements OnDestroy {
       return;
 
     this.userId = newId;
-    this.adminService.userId = this.userId;
 
     this.accountService.getAccount(this.userId)
       .subscribe((user: any) => {
-        console.log(user);
+        this.adminService.user = user;
         this.profile = user;
       });
   };
@@ -70,5 +69,6 @@ export class ProfileComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();
+    this.adminService.user = null;
   }
 }

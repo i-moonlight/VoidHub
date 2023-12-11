@@ -68,6 +68,27 @@ namespace ForumApi.Controllers
             return Ok();
         }
 
+        [HttpPatch("{id}/avatar-default")]
+        [Authorize(Roles = $"{Role.Admin},{Role.Moder}")]
+        [BanFilter]
+        public async Task<IActionResult> AvatarToDefault(int id)
+        {
+            await _accountService.UpdateImg(id, _imageOptions.AvatarDefault);
+            return Ok();
+        }
+
+        [HttpPatch("{id}/rename")]
+        [Authorize(Roles = $"{Role.Admin},{Role.Moder}")]
+        [BanFilter]
+        public async Task<IActionResult> RenameAccount(int id, [FromBody] AccountDto accountDto)
+        {
+            var validator = new AccountDtoAdminUsernameValidator();
+            await validator.ValidateAndThrowAsync(accountDto);
+
+            await _accountService.Update(id, User.GetId(), accountDto);
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
         [Authorize(Roles = Role.Admin)]
         [BanFilter]

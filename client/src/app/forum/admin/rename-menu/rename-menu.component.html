@@ -1,0 +1,48 @@
+<div class="flex flex-col">
+  <app-error-message-list [messages]="errorMessages"></app-error-message-list>
+
+  <form #renameForm="ngForm" (ngSubmit)="onSubmit(renameForm)">
+    <div class="form-control">
+      <input
+        type="number"
+        name="accountId"
+        id="accountId"
+        placeholder="user id"
+        class="input-sm bg-neutral input input-bordered"
+        [ngClass]="{
+          'input-error': renameForm.controls['accountId']?.touched && renameForm.controls['accountId'].invalid,
+          'btn-disabled': userIdBlocked
+        }"
+        [ngModel]="userId"
+        required
+        autocomplete="on"
+      />
+    </div>
+    <div class="mt-2 form-control">
+      <input
+        type="text"
+        class="input-sm bg-neutral input min-h-min h-8"
+        id="username"
+        name="username"
+        placeholder="new username"
+        [ngClass]="{
+          'input-error': renameForm.controls['username']?.touched && renameForm.controls['username'].invalid,
+          'select-bordered': !(renameForm.controls['username']?.touched && renameForm.controls['username'].invalid)
+        }"
+        [ngModel]="username"
+        required
+      />
+    </div>
+
+    <div class="mt-2 flex flex-row">
+      <app-limit-loader [limit]="1">
+        <button class="btn btn-success min-h-fit h-8">
+          Save
+        </button>
+        <button type="button" class="ms-3 btn btn-error min-h-fit  h-8" (click)="onCancelClick()">
+          Cancel
+        </button>
+      </app-limit-loader>
+    </div>
+  </form>
+</div>

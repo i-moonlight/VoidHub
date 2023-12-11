@@ -61,7 +61,7 @@ export class SettingsComponent implements OnDestroy {
       return;
     }
 
-    this.accountService.updAccount(data, this.user.avatarPath).subscribe({
+    this.accountService.updAccount(data).subscribe({
       next: (user: User) => {
         this.toastr.success('Account updated successfully');
         this.authService.updateUser(user);
@@ -97,8 +97,7 @@ export class SettingsComponent implements OnDestroy {
 
     let formData = new FormData();
     formData.append('img', this.fileToUpload);
-    this.accountService.updAvatar(formData).subscribe({
-
+    this.accountService.updAvatar(formData, this.user.avatarPath).subscribe({
       next: (event: HttpEvent<User>) => {
         if(event.type == 1) {
           this.avatarProgress = Math.round(100 * event.loaded / event.total);

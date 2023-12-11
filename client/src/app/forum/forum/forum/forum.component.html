@@ -43,7 +43,7 @@
           </div>
         </div>
 
-        <div (click)="toggleNewTopic()" *ngIf="!showNewTopic" class="me-6 btn btn-neutral w-fit min-h-fit h-8">
+        <div (click)="toggleNewTopic()" *ngIf="!showNewTopic && !forum.isClosed" class="me-6 btn btn-neutral w-fit min-h-fit h-8">
           New topic
         </div>
       </div>

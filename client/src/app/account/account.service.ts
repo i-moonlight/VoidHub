@@ -13,16 +13,15 @@ export class AccountService {
     return this.client.get(this.baseURL + '/' + id);
   }
 
-  updAccount(data: any, currentAvatarPath: string) {
-    return this.client.patch(this.baseURL, data, {
-      params: {
-        currentPath: currentAvatarPath
-      }
-    });
+  updAccount(data: any) {
+    return this.client.patch(this.baseURL, data);
   }
 
-  updAvatar(data: FormData) {
+  updAvatar(data: FormData, currentAvatarPath: string) {
     return this.client.patch(`${this.baseURL}/avatar`, data, {
+      params: {
+        currentPath: currentAvatarPath
+      },
       reportProgress: true,
       responseType: 'json',
       observe: 'events'

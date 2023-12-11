@@ -29,7 +29,7 @@ export class RoleMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.userIdBlocked = this.adminService.userIdBlocked;
-    this.userId = this.adminService.userId;
+    this.userId = this.adminService.user.id + '';
   }
 
   onSubmit(form: NgForm) {
@@ -56,5 +56,4 @@ export class RoleMenuComponent implements OnInit {
   onCancelClick() {
     this.adminService.cancelClicked.next();
   }
-
 }

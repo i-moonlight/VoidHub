@@ -5,8 +5,9 @@ import { SharedModule } from "src/shared/shared.module";
 import { RouterModule } from "@angular/router";
 import { BanMenuComponent } from "./ban-menu/ban-menu.component";
 import { RoleMenuComponent } from "./role-menu/role-menu.component";
-import { canActivateAdmin } from './admin.guard';
+import { canActivateAdmin } from './role.guard';
 import { AdminService } from './services/admin.service';
+import { RenameMenuComponent } from './rename-menu/rename-menu.component';
 
 @NgModule({
     declarations: [],
@@ -17,6 +18,7 @@ import { AdminService } from './services/admin.service';
         {path: "", canActivate: [canActivateAdmin], component: AdminPanelComponent, children: [
           {path:'ban-menu', component: BanMenuComponent},
           {path:'role-menu', component: RoleMenuComponent},
+          {path: 'rename-menu', component: RenameMenuComponent},
         ]}
       ])
     ],

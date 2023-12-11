@@ -5,7 +5,7 @@
         <div class="flex flex-col">
           <div class="flex flex-row">
             <a routerLink="/forum/topic/{{topic.id}}" class="link link-hover font-semibold grow">
-              {{topic.title}}
+              {{topic.title | truncate}}
             </a>
             <div *ngIf="topic.isPinned">
               <app-pinned-icon></app-pinned-icon>

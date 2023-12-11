@@ -31,6 +31,7 @@ import { CommentsComponent } from './post/comments/comments.component';
 import { AccountService } from "./services/account.service";
 import { RecentComponent } from "./recent/recent.component";
 import { ReducePost } from "./recent/reduce-post.pipe";
+import { TruncatePipe } from "src/shared/truncate.pipe";
 
 @NgModule({
   providers: [
@@ -69,6 +70,7 @@ import { ReducePost } from "./recent/reduce-post.pipe";
     PinnedIconComponent,
     ClosedIconComponent,
     ReducePost,
+    TruncatePipe,
     RouterModule.forChild([
         {path: '', component: MainComponent, children: [
           {path: '', redirectTo: 'sections', pathMatch: 'full'},

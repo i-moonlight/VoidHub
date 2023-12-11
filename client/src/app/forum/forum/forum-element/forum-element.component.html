@@ -1,7 +1,7 @@
 <div class="group">
   <div class="flex flex-row items-center my-2">
     <div class="basis-8/12 h-full">
-      <a routerLink="/forum/{{forum.id}}" class="link link-hover no-underline">
+      <a routerLink="/forum/{{forum.id}}" class="link link-hover no-underline text-lg">
         {{forum.title}}
       </a>
     </div>
@@ -31,7 +31,7 @@
             <a class="link link-hover no-underline"
               routerLink="/forum/topic/{{forum.lastTopic.id}}"
             >
-              {{forum.lastTopic.title}}
+              {{forum.lastTopic.title | truncate}}
             </a>
           </div>
           <div>

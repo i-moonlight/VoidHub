@@ -5,7 +5,10 @@
     </div>
     <div class="btn btn-neutral min-h-fit h-8 ms-3" routerLink="role-menu" *ngIf="user?.role == roles.ADMIN">
       Role menu
-   </div>
+    </div>
+    <div class="btn btn-neutral min-h-fit h-8 ms-3" routerLink="rename-menu" *ngIf="user?.role == roles.MODER || user?.role == roles.ADMIN">
+      Rename menu
+    </div>
   </div>
   <div class="w-fit" *ngIf="!skipRouting">
     <router-outlet></router-outlet>

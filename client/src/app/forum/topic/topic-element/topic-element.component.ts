@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { Topic } from '../../models/topic.model';
 import { PinnedIconComponent } from '../../shared/pinned-icon/pinned-icon.component';
 import { ClosedIconComponent } from '../../shared/closed-icon/closed-icon.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { TruncatePipe } from 'src/shared/truncate.pipe';
 
 @Component({
   selector: 'app-topic-element',
@@ -16,6 +16,7 @@ import { environment } from 'src/environments/environment';
     PinnedIconComponent,
     ClosedIconComponent,
     RouterModule,
+    TruncatePipe
   ]
 })
 export class TopicElementComponent {

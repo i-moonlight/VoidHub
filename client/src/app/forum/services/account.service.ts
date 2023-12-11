@@ -15,4 +15,12 @@ export class AccountService {
       role: role
     });
   }
+
+  updateUsername(id, data) {
+    return this.http.patch(`${this.baseURL}/${id}/rename`, data);
+  }
+
+  defaultAvatar(id) {
+    return this.http.patch(`${this.baseURL}/${id}/avatar-default`, null);
+  }
 }
