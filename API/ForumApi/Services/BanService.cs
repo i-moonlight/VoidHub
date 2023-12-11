@@ -95,7 +95,7 @@ namespace ForumApi.Services
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("Moderator not found");
 
             var activeBans = await _rep.Ban.Value
-                .FindByCondition(b => b.AccountId == accountId && b.IsActive == true, true)
+                .FindByCondition(b => b.AccountId == accountId && b.IsActive && b.ExpiresAt > DateTime.UtcNow, true)
                 .ToListAsync();
 
             if(!activeBans.Any()) 
@@ -106,7 +106,10 @@ namespace ForumApi.Services
 
             _rep.Ban.Value.DeleteMany(activeBans);
             foreach(var ban in activeBans)
+            {
                 ban.ModeratorId = moderId;
+                ban.UpdatedAt = DateTime.UtcNow;
+            }
 
             await _rep.Save();
         }

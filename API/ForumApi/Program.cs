@@ -90,6 +90,14 @@ builder.Services.AddCors(options =>
     name : frontCorsPolicy, 
     policy => 
     {
+
+      var clients = builder.Configuration.GetSection("Clients").Get<List<string>>();
+
+      if(clients != null && clients.Any())
+      foreach(var client in clients) {
+        policy.WithOrigins(client);
+      }
+
       policy.WithOrigins("http://localhost:4200")
             .WithOrigins("https://localhost:4200")
             .AllowAnyHeader()

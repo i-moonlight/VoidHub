@@ -117,6 +117,13 @@ namespace ForumApi.Services
 
         public async Task<Topic> Create(int authorId, TopicNew topicDto)
         {
+            var forum = await _rep.Forum.Value
+                .FindByCondition(f => f.Id == topicDto.ForumId)
+                .FirstOrDefaultAsync() ?? throw new NotFoundException("Forum not found");
+
+            if(forum.IsClosed)
+                throw new BadRequestException("Forum is closed");
+
             var topic = _mapper.Map<Topic>(topicDto);
             topic.AccountId = authorId;
 

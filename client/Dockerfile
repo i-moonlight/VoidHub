@@ -12,7 +12,7 @@ COPY . .
 COPY ./src/environments/environment.docker.ts ./src/environments/environment.ts
 
 # My pc is like potato, so change parameter it depends on your pc :D
-RUN export NODE_OPTIONS="--max-old-space-size=512"
+RUN export NODE_OPTIONS="--max-old-space-size=1024"
 
 WORKDIR /usr/src/app/ckeditor5
 RUN npm install
@@ -25,4 +25,4 @@ ENV NODE_ENV production
 
 EXPOSE 4200
 
-CMD ng serve --host=0.0.0.0 --configuration production
+CMD ng serve --host=0.0.0.0 --disable-host-check --configuration production

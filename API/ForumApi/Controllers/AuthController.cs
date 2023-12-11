@@ -1,5 +1,4 @@
 using ForumApi.DTO.Auth;
-using ForumApi.Services;
 using ForumApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,16 +6,8 @@ namespace ForumApi.Controllers
 {
     [ApiController]
     [Route("api/v1/auth")]
-    public class AuthController : ControllerBase
+    public class AuthController(IAuthService _authService) : ControllerBase
     {
-        private readonly IAuthService _authService;
-
-        public AuthController(
-            IAuthService authService
-        )
-        {
-            _authService = authService;
-        }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(Register dto) 

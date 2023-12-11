@@ -12,12 +12,12 @@
   </div>
   <div class="flex flex-col items-center text-2xl" *ngIf="!(authService.user$ | async)">
     Not have account yet?
-    <div routerLink="/register">
+    <a routerLink="/register">
       <a class="link link-hover">Sign up</a> to create account
-    </div>
+    </a>
     or
-    <div routerLink="/login">
+    <a routerLink="/login">
       <a class="link link-hover">Login</a> to your account
-    </div>
+    </a>
   </div>
 </div>
