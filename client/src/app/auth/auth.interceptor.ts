@@ -13,8 +13,12 @@ export class AuthInterceptor {
     next: HttpHandler
   ) {
     const accessToken = localStorage.getItem('access-token');
-    if(!accessToken)
+    if(!accessToken && !localStorage.getItem('refresh-token')) {
+      if(localStorage.getItem('user'))
+        this.handleLogout();
+
       return next.handle(req);
+    }
 
     let modifiedReq = req.clone({
       headers: req.headers.append('Authorization', 'Bearer ' + accessToken)
@@ -26,7 +30,7 @@ export class AuthInterceptor {
         if(err instanceof HttpErrorResponse && err.status === 401) {
           localStorage.removeItem('access-token');
           if(!localStorage.getItem('refresh-token')) {
-            this.authService.logout();
+            this.handleLogout();
             return throwError(err);
           }
 
@@ -35,7 +39,7 @@ export class AuthInterceptor {
               const accessToken = localStorage.getItem('access-token');
 
               if (!accessToken) {
-                this.authService.logout();
+                this.handleLogout();
                 return next.handle(req);
               }
 
@@ -47,8 +51,7 @@ export class AuthInterceptor {
             }),
             catchError((err) => {
               if(err instanceof HttpErrorResponse && err.status == 401) {
-                this.toastr.error("Your session has expired. Please login again.");
-                this.authService.logout();
+                this.handleLogout();
               }
 
               return throwError(err);
@@ -59,5 +62,10 @@ export class AuthInterceptor {
         }
       })
     );
+  }
+
+  handleLogout() {
+    this.toastr.error("Your session has expired. Please login again.");
+    this.authService.logout();
   }
 }
