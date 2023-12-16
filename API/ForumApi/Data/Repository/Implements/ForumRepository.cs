@@ -11,7 +11,7 @@ namespace ForumApi.Data.Repository.Implements
 
         public override void Delete(Forum entity)
         {
-            entity.DeletedAt = System.DateTime.Now;
+            entity.DeletedAt = DateTime.UtcNow;
         }
 
         public override void DeleteMany(IEnumerable<Forum> entities)
