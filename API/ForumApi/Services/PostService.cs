@@ -26,6 +26,13 @@ namespace ForumApi.Services
 
         public async Task<Post> Create(int accountId, PostDto postDto)
         {
+            var topicEntity = await _rep.Topic.Value
+                .FindByCondition(t => t.Id == postDto.TopicId)
+                .FirstOrDefaultAsync() ?? throw new NotFoundException("Topic not found");
+
+            if(topicEntity.IsClosed)
+                throw new BadRequestException("Topic is closed");
+
             var post = _mapper.Map<Post>(postDto);
             post.AccountId = accountId;
 
