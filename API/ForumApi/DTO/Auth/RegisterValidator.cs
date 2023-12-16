@@ -21,6 +21,8 @@ namespace ForumApi.DTO.Auth
             RuleFor(r => r.LoginName)
                 .NotEmpty()
                 .WithMessage("Login name must not be empty")
+                .Matches(@"^[a-zA-Z]+$")
+                .WithMessage("Username can only contain letters")
                 .Length(3, 32)
                 .WithMessage("Login name must be between 3 and 20 characters");
 
