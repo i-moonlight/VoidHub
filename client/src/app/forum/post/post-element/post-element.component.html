@@ -75,6 +75,7 @@
         [user]="user"
         [commentsCount]="post.commentsCount"
         [depth]="depth + 1"
+        [isTopicClosed]="isTopicClosed"
         (onCommentsCounterUpdated)="updateCommentsCounter($event)"
         (onClose)="toggleCommentsMode()"
       ></app-comments>

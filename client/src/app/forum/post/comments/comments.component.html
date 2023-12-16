@@ -7,6 +7,7 @@
         [user]="user"
         [depth]="depth"
         [enableComments]="depth < depthLimit"
+        [isTopicClosed]="isTopicClosed"
         (onDelete)="onPostDelete($event)"
       >
       </app-post>
@@ -20,7 +21,7 @@
       </app-limit-loader>
     </div>
   </app-limit-loader>
-  <div class="mt-1" *ngIf="user">
+  <div class="mt-1" *ngIf="user && !isTopicClosed">
     <app-post-editor
       [ancestorId]="postId"
       [topicId]="topicId"

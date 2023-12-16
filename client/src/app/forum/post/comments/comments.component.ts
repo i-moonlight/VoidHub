@@ -27,6 +27,9 @@ export class CommentsComponent implements OnInit {
   depth = 1;
   depthLimit = env.commenthDepthLimit;
 
+  @Input()
+  isTopicClosed: boolean = false;
+
   @Output()
   onCommentsCounterUpdated = new EventEmitter<number>();
 

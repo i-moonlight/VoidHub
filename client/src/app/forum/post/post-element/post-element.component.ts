@@ -27,6 +27,9 @@ export class PostElementComponent {
   enableComments: boolean = true;
 
   @Input()
+  isTopicClosed: boolean = false;
+
+  @Input()
   depth = 1;
 
   roles = Roles;
