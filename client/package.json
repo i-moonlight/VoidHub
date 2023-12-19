@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "prod": "ng build --configuration production && gulp compress"
   },
   "private": true,
   "dependencies": {
@@ -41,6 +42,8 @@
     "autoprefixer": "^10.4.15",
     "ckeditor5": "^40.0.0",
     "daisyui": "^3.6.4",
+    "gulp": "^4.0.2",
+    "gulp-gzip": "^1.4.2",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
